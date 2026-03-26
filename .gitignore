@@ -1,0 +1,17 @@
+# VS Code
+.vscode/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# node_modules（必要に応じて）
+# node_modules/
+
+# 環境ファイル
+.env
+.env.local
