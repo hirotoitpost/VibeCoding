@@ -2,24 +2,32 @@
  * SQLite Database Initialization
  * 
  * テーブル作成とスキーマ定義
+ * シングルトン db インスタンスを管理
  */
 
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'database.db');
+let dbInstance = null;
 
 /**
- * データベースコネクション取得
+ * データベースコネクション取得（シングルトン）
  */
 const getDatabase = () => {
   return new Promise((resolve, reject) => {
+    if (dbInstance) {
+      resolve(dbInstance);
+      return;
+    }
+
     const db = new sqlite3.Database(DB_PATH, (err) => {
       if (err) {
         console.error('❌ Database connection failed:', err);
         reject(err);
       } else {
-        resolve(db);
+        dbInstance = db;
+        resolve(dbInstance);
       }
     });
   });
@@ -70,8 +78,6 @@ const initializeDatabase = async () => {
       });
     });
 
-    // 正常にクローズ
-    db.close();
     console.log('✅ Database initialization complete');
 
   } catch (error) {
@@ -81,21 +87,23 @@ const initializeDatabase = async () => {
 };
 
 /**
- * 実行用ヘルパー関数
+ * 実行用ヘルパー関数（シングルトン db を使用）
  */
-const runAsync = (db, sql, params = []) => {
+const runAsync = async (sql, params = []) => {
+  const db = await getDatabase();
   return new Promise((resolve, reject) => {
-    db.run(sql, params, (err) => {
+    db.run(sql, params, function(err) {
       if (err) reject(err);
-      else resolve();
+      else resolve({ lastID: this.lastID, changes: this.changes });
     });
   });
 };
 
 /**
- * 取得用ヘルパー関数
+ * 取得用ヘルパー関数（シングルトン db を使用）
  */
-const getAsync = (db, sql, params = []) => {
+const getAsync = async (sql, params = []) => {
+  const db = await getDatabase();
   return new Promise((resolve, reject) => {
     db.get(sql, params, (err, row) => {
       if (err) reject(err);
@@ -105,15 +113,56 @@ const getAsync = (db, sql, params = []) => {
 };
 
 /**
- * 一覧取得用ヘルパー関数
+ * 一覧取得用ヘルパー関数（シングルトン db を使用）
  */
-const allAsync = (db, sql, params = []) => {
+const allAsync = async (sql, params = []) => {
+  const db = await getDatabase();
   return new Promise((resolve, reject) => {
     db.all(sql, params, (err, rows) => {
       if (err) reject(err);
-      else resolve(rows);
+      else resolve(rows || []);
     });
   });
+};
+
+/**
+ * サンプルデータ初期化
+ * 既存データがない場合のみ挿入
+ */
+const seedDatabase = async () => {
+  try {
+    const count = await getAsync('SELECT COUNT(*) as count FROM transactions');
+    if (count.count > 0) {
+      console.log('ℹ️  Database already has data. Skipping seed.');
+      return;
+    }
+
+    const sampleData = [
+      { date: '2026-03-01', category: 'food', amount: 1200, description: 'Lunch' },
+      { date: '2026-03-01', category: 'transport', amount: 500, description: 'Gas' },
+      { date: '2026-03-02', category: 'entertainment', amount: 3000, description: 'Movie tickets' },
+      { date: '2026-03-02', category: 'utilities', amount: 8000, description: 'Electricity bill' },
+      { date: '2026-03-03', category: 'food', amount: 800, description: 'Breakfast' },
+      { date: '2026-03-03', category: 'food', amount: 950, description: 'Dinner' },
+      { date: '2026-03-04', category: 'transport', amount: 600, description: 'Parking' },
+      { date: '2026-03-04', category: 'other', amount: 2500, description: 'Books' },
+      { date: '2026-03-05', category: 'utilities', amount: 3500, description: 'Water bill' },
+      { date: '2026-03-05', category: 'food', amount: 1500, description: 'Restaurant' }
+    ];
+
+    for (const item of sampleData) {
+      await runAsync(
+        `INSERT INTO transactions (date, category, amount, description, created_at, updated_at)
+         VALUES (?, ?, ?, ?, datetime('now'), datetime('now'))`,
+        [item.date, item.category, item.amount, item.description]
+      );
+    }
+
+    console.log(`✅ Seeded ${sampleData.length} sample transactions`);
+  } catch (error) {
+    console.error('⚠️  Seed data error:', error.message);
+    // Don't throw, just warn - this shouldn't block server startup
+  }
 };
 
 module.exports = {
@@ -122,5 +171,6 @@ module.exports = {
   runAsync,
   getAsync,
   allAsync,
+  seedDatabase,
   DB_PATH
 };

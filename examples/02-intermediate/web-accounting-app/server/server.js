@@ -11,7 +11,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 require('dotenv').config();
 
-const { initializeDatabase } = require('./db');
+const { initializeDatabase, seedDatabase } = require('./db');
 
 const app = express();
 const PORT = process.env.SERVER_PORT || 5000;
@@ -41,9 +41,19 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// API ルート（後続ステップで実装予定）
-// app.use('/api/transactions', require('./routes/transactions'));
-// app.use('/api/summary', require('./routes/summary'));
+// API ルート
+const transactionRoutes = require('./routes/transactions');
+app.use('/api/transactions', transactionRoutes);
+
+// 404 ハンドラー
+app.use((req, res) => {
+  res.status(404).json({
+    error: 'Not Found',
+    path: req.path,
+    method: req.method,
+    message: `The endpoint ${req.method} ${req.path} does not exist`
+  });
+});
 
 // ===========================
 // エラーハンドリング
@@ -67,14 +77,21 @@ const startServer = async () => {
     await initializeDatabase();
     console.log('✅ SQLite database initialized');
 
+    // サンプルデータを seed
+    await seedDatabase();
+
     // サーバー起動
     app.listen(PORT, () => {
       console.log(`\n🚀 Server running on http://localhost:${PORT}`);
       console.log(`📊 Health check: http://localhost:${PORT}/health`);
-      console.log(`\n💡 API endpoints (to be implemented):`);
-      console.log(`   POST   /api/transactions`);
-      console.log(`   GET    /api/transactions`);
-      console.log(`   GET    /api/summary/monthly`);
+      console.log(`\n💡 Available API endpoints:`);
+      console.log(`   POST   /api/transactions              (Create)`);
+      console.log(`   GET    /api/transactions              (List all)`);
+      console.log(`   GET    /api/transactions/:id          (Get one)`);
+      console.log(`   PUT    /api/transactions/:id          (Update)`);
+      console.log(`   DELETE /api/transactions/:id          (Delete)`);
+      console.log(`   GET    /api/transactions/summary/monthly (Summary)`);
+      console.log(`\n📖 API Documentation available in server/README.md`);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
