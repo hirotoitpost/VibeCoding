@@ -9,9 +9,18 @@ Thumbs.db
 # Logs
 *.log
 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.coverage
+
 # node_modules（必要に応じて）
 # node_modules/
 
 # 環境ファイル
 .env
 .env.local
+
