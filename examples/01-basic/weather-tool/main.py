@@ -23,6 +23,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Optional
 from urllib.request import urlopen
+from urllib.parse import urlencode
 from urllib.error import URLError, HTTPError
 import logging
 
@@ -155,10 +156,8 @@ class WeatherFetcher:
                 "lang": os.getenv("LANGUAGE", "en"),
             }
             
-            # URLを構築
-            query_string = "&".join(
-                f"{k}={v}" for k, v in params.items()
-            )
+            # URLを構築（urlencode でパラメータを正しくエンコード）
+            query_string = urlencode(params)
             url = f"{self.base_url}?{query_string}"
             
             logger.info(f"API呼び出し: {city}")

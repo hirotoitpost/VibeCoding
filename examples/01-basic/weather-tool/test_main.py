@@ -42,6 +42,11 @@ class TestWeatherFetcher(unittest.TestCase):
         import shutil
         if self.test_cache_dir.exists():
             shutil.rmtree(self.test_cache_dir)
+        
+        # グローバルキャッシュも削除（テスト環境の分離）
+        cache_dir = Path("./cache")
+        if cache_dir.exists():
+            shutil.rmtree(cache_dir)
 
     def test_initialization_with_valid_key(self):
         """正常なAPI キーでの初期化テスト"""
@@ -104,26 +109,27 @@ class TestWeatherFetcher(unittest.TestCase):
     def test_cache_expiration(self):
         """キャッシュ有効期限切れテスト"""
         with patch.dict(os.environ, {"CACHE_DIR": str(self.test_cache_dir)}):
-            # キャッシュ有効期間を1秒に設定
-            fetcher = WeatherFetcher(self.api_key, cache_duration=1)
+            # キャッシュ有効期間を5分に設定
+            fetcher = WeatherFetcher(self.api_key, cache_duration=5)
             
             test_city = "Paris"
             test_data = {"name": "Paris", "sys": {"country": "FR"}}
             
             # キャッシュを保存
             fetcher._save_cache(test_city, test_data)
+            cache_path = fetcher._get_cache_path(test_city)
             
             # キャッシュが有効か確認
             loaded = fetcher._load_cache(test_city)
             self.assertIsNotNone(loaded)
             
-            # 1.5秒待機（キャッシュ有効期限を超える）
-            time.sleep(1.5)
+            # ファイルのmtimeを15分前（900秒前）に設定（キャッシュ有効期限5分を超える）
+            old_time = time.time() - 900
+            os.utime(cache_path, (old_time, old_time))
             
             # キャッシュが期限切れか確認
             expired = fetcher._load_cache(test_city)
             self.assertIsNone(expired)
-
     def test_cache_with_nonexistent_file(self):
         """存在しないキャッシュファイルの処理テスト"""
         with patch.dict(os.environ, {"CACHE_DIR": str(self.test_cache_dir)}):
@@ -156,11 +162,11 @@ class TestWeatherFetcher(unittest.TestCase):
             mock_urlopen.return_value.__enter__.return_value = mock_response
             
             # 1回目の fetch（API 呼び出し）
-            result1 = fetcher.fetch(test_city)
+            result1 = fetcher.fetch(test_city, use_cache=False)
             self.assertEqual(mock_urlopen.call_count, 1)
             
             # 2回目の fetch（キャッシュから読み込み）
-            result2 = fetcher.fetch(test_city)
+            result2 = fetcher.fetch(test_city, use_cache=True)
             self.assertEqual(mock_urlopen.call_count, 1)  # 呼び出し数は変わらず
             
             # 結果が同じか確認
@@ -193,7 +199,7 @@ class TestWeatherFetcher(unittest.TestCase):
         mock_urlopen.side_effect = URLError("Connection refused")
         
         with self.assertRaises(ConnectionError) as context:
-            fetcher.fetch("Tokyo")
+            fetcher.fetch("Tokyo", use_cache=False)
         
         self.assertIn("ネットワークエラー", str(context.exception))
 
@@ -210,7 +216,7 @@ class TestWeatherFetcher(unittest.TestCase):
         )
         
         with self.assertRaises(ConnectionError) as context:
-            fetcher.fetch("Tokyo")
+            fetcher.fetch("Tokyo", use_cache=False)
         
         self.assertIn("APIエラー", str(context.exception))
 
