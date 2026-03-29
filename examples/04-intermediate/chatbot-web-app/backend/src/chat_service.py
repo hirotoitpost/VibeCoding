@@ -1,8 +1,8 @@
 """
-Chat service module using Google Generative AI (Gemini) API.
-Mock responses for demonstration when API is unavailable.
+Chat service module with Mock responses.
+Provides demonstration responses for VibeCoding chatbot.
 """
-from src.config import GOOGLE_API_KEY, MAX_TOKENS, TEMPERATURE
+from src.config import MAX_TOKENS, TEMPERATURE, CHATBOT_MODE
 
 # Mock responses for testing (avoiding API version conflicts)
 MOCK_RESPONSES = {
@@ -33,30 +33,19 @@ class ChatService:
 
     def get_response(self, user_message: str, conversation_history: list = None) -> str:
         """
-        Get a response from Gemini API or mock response.
+        Get a mock response from the chatbot.
 
         Args:
             user_message: The user's input message
             conversation_history: Previous messages in the conversation
 
         Returns:
-            The AI response message
+            The chatbot response message
         """
         if conversation_history is None:
             conversation_history = []
 
-        try:
-            # Try to use actual Gemini API
-            import google.generativeai as genai
-            genai.configure(api_key=GOOGLE_API_KEY)
-            model = genai.GenerativeModel("gemini-pro")
-            
-            response = model.generate_content(user_message)
-            return response.text
-        except Exception as api_error:
-            # Fallback to mock responses for demonstration
-            print(f"⚠️ API Error (using mock response): {str(api_error)}")
-            return self._get_mock_response(user_message)
+        return self._get_mock_response(user_message)
 
     def _get_mock_response(self, user_message: str) -> str:
         """
