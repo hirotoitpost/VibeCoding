@@ -1,13 +1,41 @@
 version: '3.8'
 
 services:
+  # DNS Service (dnsmasq)
+  # 開発環境用ローカルDNS: *.local ドメインを localhost に解決
+  dnsmasq:
+    image: jpillora/dnsmasq:latest
+    container_name: web-accounting-dns
+    ports:
+      - "53:53/udp"
+    volumes:
+      - ./nginx/dnsmasq.conf:/etc/dnsmasq.conf:ro
+    networks:
+      - accounting-network
+    restart: unless-stopped
+
+  # API Gateway (nginx)
+  # ホストのポート 80 を通じてサービスをルーティング
+  # ブラウザからは http://web-accounting-app.local にアクセス
+  gateway:
+    image: nginx:alpine
+    container_name: web-accounting-gateway
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      server:
+        condition: service_healthy
+    networks:
+      - accounting-network
+    restart: unless-stopped
+
   # バックエンド (Node.js + Express + SQLite)
   server:
     image: node:18-alpine
     container_name: web-accounting-server
     working_dir: /app/server
-    ports:
-      - "5000:5000"
     environment:
       - NODE_ENV=production
       - SERVER_PORT=5000
@@ -23,16 +51,16 @@ services:
       retries: 5
     networks:
       - accounting-network
+    restart: unless-stopped
 
   # フロントエンド (React + Vite)
   client:
     image: node:18-alpine
     container_name: web-accounting-client
     working_dir: /app/client
-    ports:
-      - "5173:5173"
     environment:
-      - VITE_API_URL=http://localhost:5000
+      # API Gateway 経由でアクセス（ローカルDNS使用）
+      - VITE_API_URL=http://web-accounting-app.local/api
     volumes:
       - ./client:/app/client
       - client_node_modules:/app/client/node_modules
@@ -43,6 +71,7 @@ services:
         condition: service_healthy
     networks:
       - accounting-network
+    restart: unless-stopped
 
 volumes:
   server_node_modules:
