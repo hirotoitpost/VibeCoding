@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IoT センサーシミュレーター - ダッシュボード</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <h1>🌡️ IoT センサーシミュレーター - ダッシュボード</h1>
+            <p class="subtitle">リアルタイム温度・湿度監視システム</p>
+        </header>
+
+        <!-- ステータス -->
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="status-label">ステータス</span>
+                <span id="status" class="status-value">接続中...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">最終更新</span>
+                <span id="last-update" class="status-value">-</span>
+            </div>
+        </div>
+
+        <!-- すべてのセンサー -->
+        <section class="section">
+            <h2>📊 センサー概要</h2>
+            <div id="sensors-grid" class="sensors-grid">
+                <!-- 動的に生成 -->
+            </div>
+        </section>
+
+        <!-- グラフ -->
+        <section class="section">
+            <h2>📈 時系列グラフ</h2>
+            <div class="chart-container">
+                <canvas id="tempChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="humidityChart"></canvas>
+            </div>
+        </section>
+
+        <!-- アラーム -->
+        <section class="section">
+            <h2>🚨 最近のアラーム</h2>
+            <div id="alarms-list" class="alarms-list">
+                <p class="placeholder">アラームはありません</p>
+            </div>
+        </section>
+
+        <!-- 説明 -->
+        <section class="section">
+            <h2>ℹ️ About</h2>
+            <p>このダッシュボードは ID 011 IoT センサーシミュレーターの管理・監視インターフェースです。</p>
+            <ul>
+                <li>リアルタイムセンサーデータ表示</li>
+                <li>MQTT ブローカー連携</li>
+                <li>SQLite タイムシリーズ DB</li>
+                <li>自動アラーム生成</li>
+            </ul>
+        </section>
+
+        <!-- フッター -->
+        <footer class="footer">
+            <p>ID 011 - IoT Sensor Simulator | <span id="footer-time"></span></p>
+        </footer>
+    </div>
+
+    <!-- スクリプト -->
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>
