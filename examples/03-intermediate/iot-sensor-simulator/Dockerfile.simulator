@@ -1,0 +1,24 @@
+# Dockerfile.simulator - センサーシミュレーター用 Docker イメージ
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# システムパッケージ更新
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python パッケージインストール
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# アプリケーションコピー
+COPY . .
+
+# 環境変数
+ENV PYTHONUNBUFFERED=1
+ENV LOG_LEVEL=INFO
+
+# エントリーポイント
+ENTRYPOINT ["python", "-m", "src.simulator_main"]
