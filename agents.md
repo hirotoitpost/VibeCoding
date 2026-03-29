@@ -209,17 +209,93 @@ VideCoding/
 
 ---
 
+## 🔄 セッション間の自動引き継ぎシステム
+
+### 新規セッション開始時の AI エージェント責務
+
+**毎回、新規チャット冒頭で以下を自動実行**:
+
+```
+Step 1: 現在の進捗状況を確認
+  $ git log --oneline master -3
+  $ git branch -a | grep feature
+
+Step 2: 最新ドキュメントをスキャン
+  - SESSION_PROGRESS.md の最終セクションを確認
+  - WORK_ID_REGISTRY.md で次のID を確認
+  - APP_CANDIDATES.md で対象プロジェクト詳細確認
+
+Step 3: 自動提示（ユーザーへ）
+  💡 「Session X : ID YYY を実装します」
+  📋 対象: [プロジェクト名]
+  🛠️ 技術スタック: [言語/フレームワーク]
+  📚 参考: [ドキュメントリンク]
+  ⏱️ 推定期間: X 日
+  
+  👇 上記の内容でよろしいですか？
+```
+
+### AI エージェント自動提示テンプレート
+
+**各セッション開始時、以下を自動生成して提示**:
+
+```markdown
+# 🎯 Session X オートブリーフィング
+
+## 現在地の確認
+- **前セッション**: Session X-1 (ID XXX 完了)
+- **前回マージ**: Commit XXXXX - [PR リンク]
+- **ローカル状態**: master 最新状態確認済み
+
+## 今回の作業
+- **ID**: YYY
+- **プロジェクト**: [プロジェクト名]
+- **フェーズ**: [Phase X.Y]
+- **難易度**: [⭐⭐⭐]
+
+## 技術スタック
+- 言語: [Python / JavaScript]
+- フレームワーク: [Flask / Express / React]
+- 外部API: [OpenAI / MQTT等]
+- ローカル実行: [docker-compose / npm]
+
+## 実装内容（要件サマリー）
+- 機能 A: [説明]
+- 機能 B: [説明]
+- テスト: [XX個のテストケース想定]
+
+## 参考資料
+- 📄 [APP_CANDIDATES.md](APP_CANDIDATES.md) - プロジェクト詳細
+- 🛠️ [GIT_WORKFLOW.md](GIT_WORKFLOW.md) - Git運用ルール
+- 💡 [DEVELOPMENT_PROCESS.md](DEVELOPMENT_PROCESS.md) - デバッグワークフロー
+
+## ワークフロー確認
+1. ✅ ブランチ作成: feature/YYY_[title]
+2. ✅ コード実装 + テスト
+3. ✅ git add & commit
+4. ✅ git push & PR 作成（GitHub Web UI）
+5. ⏳ ユーザーが PR マージ
+6. ✅ SESSION_PROGRESS.md 更新と master push
+
+---
+
+**👇 質問や変更指示をお願いします**
+```
+
+---
+
 ## クイックスタート
 
 ### 🚀 新規セッション開始
 
 ```
-1. このファイル（agents.md）を確認
-2. [LEARNING_PATH.md](LEARNING_PATH.md) から今のフェーズ確認
-3. [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md) から次のID確認
-4. ブランチ作成: git checkout -b feature/[ID]_[タイトル]
-5. コード実装
-6. [SESSION_PROGRESS.md](SESSION_PROGRESS.md) と [GIT_WORKFLOW.md](GIT_WORKFLOW.md) に従ってコミット・PR
+1. AI が「オートブリーフィング」を自動提示
+2. ユーザーが内容確認・変更指示
+3. AI が git status/log を確認して詳細構成を提示
+4. ユーザーが「着手OK」と返答
+5. ブランチ作成: git checkout -b feature/[ID]_[タイトル]
+6. コード実装
+7. [GIT_WORKFLOW.md](GIT_WORKFLOW.md) に従ってコミット・PR
 ```
 
 ### 🐛 デバッグに詰まった
@@ -323,31 +399,69 @@ cp .env.example .env
 
 ---
 
-## 最新コミット
+## 🎯 次のセッション予告
 
+### Session 9: ID 011 実装（IoT センサーシミュレーター）
+
+**プロジェクト**: 2B - IoT センサーシミュレーター（フェーズ 3.2）
+
+**要件**:
 ```
-dca43d2 docs(Session 7): ID 009 完全完成記録を更新
-a438785 chore(ID 009): テスト・検証インフラ完全統合
-02373e1 Merge pull request #5 from hirotoitpost/feature/009_web家計簿テスト検証
+Python + MQTT ブローカーで温度・湿度センサーをシミュレーション
+- リアルタイムデータ取得・保存
+- ダッシュボード表示
+- アラーム機能
+
+技術スタック:
+- 言語: Python
+- ブローカー: paho-mqtt
+- DB: SQLite or InfluxDB
+- 可視化: Web UI or Grafana
+
+推定期間: 4-6日
 ```
 
-詳細は [SESSION_PROGRESS.md](SESSION_PROGRESS.md)#セッション-7 参照
+**前準備**:
+- [ ] OpenAI API キー確認（チャットボットで使用予定）
+- [ ] Python 環境確認（.venv 有効化）
+- [ ] 参考: [APP_CANDIDATES.md](APP_CANDIDATES.md#候補-2b-iot-センサーシミュレーター推奨)
+
+**参考資料**:
+- [Vibe Coding 指示設計](docs/vibe_coding_instruction_design.md)
+- [DEVELOPMENT_PROCESS.md](DEVELOPMENT_PROCESS.md)
 
 ---
 
-## 関連リンク
+### Session 10（予定）: ID 012 実装（シンプルなチャットボット Web アプリ）
 
-### 学習リソース
-- [Vibe Coding理論](docs/vibe_coding_theory.md)
-- [指示設計フレームワーク](docs/vibe_coding_instruction_design.md)
+**プロジェクト**: 2C - チャットボット Web アプリ（フェーズ 3.2）
 
-### プロジェクト参考
-- [天気情報ツール](examples/01-basic/weather-tool/)
-- [Web家計簿アプリ](examples/02-intermediate/web-accounting-app/)
+**要件**:
+```
+React + Flask + OpenAI GPT API で Web チャットボット実装
+- ユーザー入力受付
+- AI API 連携
+- 応答表示
 
-### ユーティリティ
-- [セットアップガイド](SETUP.md)
-- [VS Code ワークスペース](VideCoding.code-workspace)
+フロントエンド: React
+バックエンド: Flask
+AI API: OpenAI GPT-3.5 Turbo
+
+推定期間: 2-4日
+```
+
+---
+
+## コミット履歴（最新）
+
+```
+5391cbc (HEAD -> master, origin/master) docs(Session 8): AI エージェント運用ルール セクション追加
+07fcf01 docs(Session 8): ID 010 PR #6 マージ完了を記録
+cfb0c82 Merge pull request #6 from hirotoitpost/feature/010_dns_api_gateway
+4e64865 feat(ID 010): Docker DNS + API Gateway 統合
+```
+
+詳細は [SESSION_PROGRESS.md](SESSION_PROGRESS.md) 参照
 
 ---
 
@@ -359,5 +473,5 @@ a438785 chore(ID 009): テスト・検証インフラ完全統合
 
 ---
 
-**🎯 次のセッション**: ID 010 実装開始（Session 8）
+**🎯 次のセッション**: Session 9 - ID 011 実装開始
 
