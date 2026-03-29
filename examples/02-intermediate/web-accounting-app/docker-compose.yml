@@ -32,7 +32,7 @@ services:
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_URL=http://server:5000
+      - VITE_API_URL=http://localhost:5000
     volumes:
       - ./client:/app/client
       - client_node_modules:/app/client/node_modules
