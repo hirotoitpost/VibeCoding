@@ -42,9 +42,10 @@ PR タイトル:
 | 007 | 指示設計ワークショップ（Vibe Coding パターン体系化） | ✅完了 | PR #2 (0bca384) | S4 | docs/vibe_coding_instruction_design.md (600行) |
 | 008 | フェーズ3.2.A 中級プロジェクト（Web家計簿） | ✅完了 | PR #4 (378d8b2) | S6 | Backend API + Frontend React + 6,149行追加 |
 | 009 | フェーズ3.2.A.3 テスト・検証 | ✅完了 | PR #5 (02373e1) | S7 | Frontend 20/20テスト + E2E + Docker検証 + a438785 |
-| 010 | フェーズ3.2.B / 新規プロジェクト | ⏳未開始 | - | - | 次作業 |
+| 010 | フェーズ3.2.B / DNS + API Gateway 統合 | ✅完了 | PR #6 (cfb0c82) | S8 | Nginx Gateway + dnsmasq DNS |
+| 011 | フェーズ3.3 または 新規プロジェクト | ⏳未開始 | - | - | 次作業 |      
 
-**次に発行するID**: 011
+**次に発行するID**: 012
 
 ---
 

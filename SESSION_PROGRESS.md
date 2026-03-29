@@ -150,10 +150,81 @@
 
 ---
 
+## セッション 8 (2026-03-29)
+- **タスク**: ID 010 フェーズ 3.2.B - Docker DNS + API Gateway 統合 (実装 + PR 準備)
+
+**実装完了項目** (feature/010_dns_api_gateway ブランチ):
+
+- ✅ Nginx API Gateway 実装 (nginx/nginx.conf)
+  - リバースプロキシ: /api/* → backend_server (5000)
+  - フロントエンド: / → frontend_dev (5173)
+  - ヘルスチェック: /health エンドポイント
+  - Vite HMR 対応（WebSocket ホットリロード）
+
+- ✅ dnsmasq DNS サービス (nginx/dnsmasq.conf)
+  - *.local ドメイン解決（127.0.0.1）
+  - 複数サブドメイン設定
+  - アップストリーム DNS 設定
+
+- ✅ Docker Compose 拡張 (docker-compose.yml)
+  - 新規サービス: gateway (nginx), dnsmasq
+  - Client VITE_API_URL: http://web-accounting-app.local/api
+  - accounting-network (bridge) 統合
+
+- ✅ 検証・テスト実施
+  - 4コンテナ全起動 ✅
+  - API Gateway ルーティング ✅
+  - ドキュメント作成 (ID_010_DNS_GATEWAY_GUIDE.md)
+
+**Commit**: 4e64865 (feat(ID 010): Docker DNS + API Gateway 統合)
+
+**付加作業** (master ブランチ):
+
+- ✅ AI エージェント運用ルール文書化
+  - agents.md に「🤖 AI エージェント運用ルール」セクション追加
+  - Git workflow の厳密化（feature → PR → Merge）
+  - Commit: af9ab49 (docs: AI エージェント運用ルール明記)
+
+- ⚠️ **違反の発見と修正**
+  - 違反: feature/010 を直接 master に `git merge` してしまった
+  - マージコミット: af314e8
+  - 対応: `git revert af314e8` で取り消し
+  - Revert commit: bc638af
+
+**現在の状態** (2026-03-29 修正後):
+
+| 項目 | 状態 |
+|------|------|
+| feature/010_dns_api_gateway | ✅ 実装完了 (commit: 4e64865) |
+| master | ✅ revert 完了 (commit: bc638af) |
+| PR #6 | ✅ **マージ完了** (cfb0c82) |
+
+**統計** (ID 010 実装):
+- Nginx configuration lines: 73 (nginx.conf)
+- dnsmasq configuration lines: 27 (dnsmasq.conf)
+- Docker Compose services: 4 (dnsmasq + gateway 追加)
+- API endpoints tested: 2 (/api, /health)
+- Documentation lines: 232 (ID_010_DNS_GATEWAY_GUIDE.md)
+- Total additions: 366 lines + 5 modifications
+
+**Status**: ✅ **ID 010 完全完成** - PR #6 マージ完了 (cfb0c82)
+
+---
+
+**実装ハイライト**:
+- ✨ Docker ネットワーク通信の最適化（service name resolution）
+- ✨ Nginx リバースプロキシ設計（本番環境応用可能）
+- ✨ ローカル DNS インフラ（*.local ドメイン）
+- ✨ Vite HMR ホットリロード対応（WebSocket 透過）
+
+**Status**: ✅ ID 010 完全完成 & Phase 3.2.B 開始
+
+---
+
 ## 次のセッション計画
 
 **優先度 HIGH**:
-- [ ] ID 010: フェーズ 3.2.B 中級プロジェクト（拡張機能または新プロジェクト）
+- [ ] ID 011: フェーズ 3.3 テスト戦略拡張（統合テスト・負荷テスト）
 - [ ] セットアップスクリプト実装（PowerShell / Bash）
 
 **優先度 MEDIUM**:
@@ -166,5 +237,6 @@
 
 ---
 
-**最終更新**: 2026年3月29日（セッション7 完了 + ドキュメント分割）  
+**最終更新**: 2026年3月29日（セッション8 完了 + ID 010 確定）  
 **管理者**: VideCoding Learning Project AI Agent
+
