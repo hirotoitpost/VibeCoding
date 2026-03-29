@@ -1,0 +1,31 @@
+# Dockerfile.webapp - Flask Web アプリケーション用 Docker イメージ
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# システムパッケージ更新
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python パッケージインストール
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# アプリケーションコピー
+COPY . .
+
+# 環境変数
+ENV PYTHONUNBUFFERED=1
+ENV FLASK_APP=web/app.py
+ENV FLASK_ENV=development
+
+# ログディレクトリ作成
+RUN mkdir -p logs
+
+# ポート公開
+EXPOSE 5000
+
+# エントリーポイント
+CMD ["python", "web/app.py"]

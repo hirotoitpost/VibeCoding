@@ -1,0 +1,46 @@
+# Python パッケージ依存関係 - ID 011 IoT センサーシミュレーター
+
+## MQTT & IoT
+paho-mqtt==1.6.1              # MQTT ブローカー通信
+
+## Web Framework
+Flask==3.0.0                  # Web フレームワーク
+Flask-CORS==4.0.0             # CORS サポート
+Flask-SQLAlchemy==3.1.1       # SQLAlchemy 統合
+
+## Database
+SQLAlchemy==2.0.23            # ORM
+psycopg2-binary==2.9.9        # PostgreSQL ドライバ（オプション）
+
+## Data Processing
+pandas==2.1.3                 # データ分析・操作
+numpy==1.26.2                 # 数値計算
+
+## Testing
+pytest==7.4.3                 # テストフレームワーク
+pytest-cov==4.1.0             # カバレッジ測定
+pytest-asyncio==0.21.1        # 非同期テスト
+
+## Utilities
+python-dotenv==1.0.0          # 環境変数管理
+requests==2.31.0              # HTTP クライアント
+pytz==2023.3                  # タイムゾーン管理
+
+## Development
+black==23.11.0                # コードフォーマッター
+flake8==6.1.0                 # Lint ツール
+mypy==1.7.0                   # 静的型チェック
+
+# Note:
+# - paho-mqtt 既知: Python 3.12 での動作確認
+# - Flask 3.0.0: セキュリティupdate含む
+# - SQLAlchemy 2.0: ORM の主要バージョン
+#
+# インストール:
+#   pip install -r requirements.txt
+#
+# 仮想環境での実行（推奨）:
+#   python -m venv .venv
+#   source .venv/bin/activate  # Linux/Mac
+#   .\.venv\Scripts\Activate.ps1  # Windows PowerShell
+#   pip install -r requirements.txt
