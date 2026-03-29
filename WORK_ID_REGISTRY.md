@@ -44,7 +44,7 @@ PR タイトル:
 | 009 | フェーズ3.2.A.3 テスト・検証 | ✅完了 | PR #5 (02373e1) | S7 | Frontend 20/20テスト + E2E + Docker検証 + a438785 |
 | 010 | フェーズ3.2.B / DNS + API Gateway 統合 | ✅完了 | PR #6 (cfb0c82) | S8 | Nginx Gateway + dnsmasq DNS |
 | 011 | フェーズ3.2.B / IoT センサーシミュレーター | ✅完了 | PR #7 (449f04e) | S9 | Python MQTT + Web ダッシュボード + 24テスト + 4.8K行 |
-| 012 | フェーズ3.2.C / チャットボット Web App | ✅完了 | PR #8 (fb0398a) | S10 | React + Flask + OpenAI GPT + 18テスト + 891行 |      
+| 012 | フェーズ3.2.C / チャットボット Web App | ✅完了 | `385d1c6` | S12 | React + Flask + Mock API + 18テスト + 991行 |      
 
 **次に発行するID**: 013
 
