@@ -6,12 +6,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# OpenAI API Configuration
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if not OPENAI_API_KEY:
-    raise ValueError("OPENAI_API_KEY environment variable not set")
+# Google Generative AI (Gemini) Configuration
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+if not GOOGLE_API_KEY:
+    raise ValueError("GOOGLE_API_KEY environment variable not set")
 
-OPENAI_MODEL = "gpt-3.5-turbo"
 MAX_TOKENS = 2048
 TEMPERATURE = 0.7
 

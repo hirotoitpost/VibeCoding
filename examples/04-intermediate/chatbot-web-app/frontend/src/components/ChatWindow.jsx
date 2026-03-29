@@ -40,7 +40,7 @@ export default function ChatWindow() {
     setIsLoading(true);
 
     try {
-      // Call backend API
+      // Call backend API via proxy
       const response = await axios.post('/api/chat', {
         message: userMessage,
         conversation_history: messages
