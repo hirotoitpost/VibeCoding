@@ -381,7 +381,7 @@ Step 3: 自動提示（ユーザーへ）
 
 ### 🚨 重要：正確なリポジトリ名
 
-**正式名**: `VideCoding`（**「コ」段**）
+**正式名**: `VibeCoding`（**「ビ」段**）
 
 ⚠️ **誤り易い**: `VideoCoding`（「オ」段）× 誤り
 
@@ -395,23 +395,23 @@ https://github.com/hirotoitpost/VibeCoding
 
 ```powershell
 # VS Code ワークスペース
-D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\VibeCoding.code-workspace
+D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\VibeCoding.code-workspace
 
 # Python 仮想環境
-D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\.venv
+D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\.venv
 
 # examples パス（正確）
-D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\examples\
+D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\examples\
 
 # ローカルリポジトリ確認
-cd "D:\ProjectPool2\hirotoitpost\GitHub\VideCoding"
+cd "D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding"
 git status
 ```
 
 ### プロジェクトパス（examples/）
 
 ```
-D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\examples\
+D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\examples\
 ├── 01-basic/weather-tool/
 ├── 02-intermediate/web-accounting-app/
 ├── 03-intermediate/iot-sensor-simulator/
@@ -433,10 +433,10 @@ cp .env.example .env
 **毎セッション開始時に実行**:
 ```powershell
 # 1. 正確なパス確認
-Test-Path "D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\.git"
+Test-Path "D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\.git"
 
 # 2. リポジトリ状態確認
-cd "D:\ProjectPool2\hirotoitpost\GitHub\VideCoding"
+cd "D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding"
 git log --oneline -1
 
 # 3. 現在のブランチ確認
@@ -446,7 +446,7 @@ git branch -a | findstr feature
 **起動コマンド（テンプレート）**:
 ```powershell
 # 常にこのパスを使う
-cd "D:\ProjectPool2\hirotoitpost\GitHub\VideCoding"
+cd "D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding"
 
 # feature ブランチ作成
 git checkout -b feature/[ID]_[title]

@@ -24,7 +24,7 @@
 ```powershell
 # リポジトリをクローン
 git clone https://github.com/hirotoitpost/VibeCoding.git
-cd VideCoding
+cd VibeCoding
 
 # セットアップスクリプト実行
 ./scripts/setup-dev-env.ps1
@@ -37,7 +37,7 @@ code .
 ```bash
 # リポジトリをクローン
 git clone https://github.com/hirotoitpost/VibeCoding.git
-cd VideCoding
+cd VibeCoding
 
 # セットアップスクリプト実行
 bash scripts/setup-linux.sh
@@ -53,7 +53,7 @@ code .
 ### ステップ 1: リポジトリのクローン
 ```bash
 git clone https://github.com/hirotoitpost/VibeCoding.git
-cd VideCoding
+cd VibeCoding
 ```
 
 ### ステップ 2: 環境ファイルの準備

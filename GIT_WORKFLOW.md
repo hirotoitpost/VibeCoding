@@ -1,6 +1,6 @@
 # Git/GitHub ワークフロー
 
-本ドキュメントは、VideoCoding プロジェクトにおける Git/GitHub の運用ガイドです。
+本ドキュメントは、VibeCoding プロジェクトにおける Git/GitHub の運用ガイドです。
 
 詳細なマージ競合解消手順は [MERGE_CONFLICT_GUIDE.md](MERGE_CONFLICT_GUIDE.md) を参照。
 

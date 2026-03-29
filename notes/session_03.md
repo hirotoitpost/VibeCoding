@@ -1,7 +1,7 @@
 # セッション 3 - フェーズ3.1 基礎プロジェクト実装
 
 **開始日**: 2026-03-28  
-**開始者**: VideCoding Learning Project AI Agent  
+**開始者**: VibeCoding Learning Project AI Agent  
 **目標**: ID 005 - 天気情報取得ツール（基礎プロジェクト）の実装
 
 ---
@@ -166,5 +166,5 @@ refs #005 天気情報取得ツール実装
 
 ---
 
-**作成者**: VideCoding Learning Project AI Agent  
+**作成者**: VibeCoding Learning Project AI Agent  
 **最終更新**: 2026-03-28 (ID 006 完了)

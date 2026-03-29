@@ -7,7 +7,7 @@
 
 ## ユーザーの要件（整理版）
 
-### VideCoding の定義（最終確認）
+### VibeCoding の定義（最終確認）
 - **本質**: 自然言語指示 → AI実装のパラダイム
 - **ツール**: Cursor, Claude Code, GitHub Copilot 等
 - **学習目標**: AI で何ができるか、何ができないかの線引きを把握
@@ -288,7 +288,7 @@ refs #004 agents.md を更新（進捗記録、作業ID管理）
 
 ---
 
-**作成者**: VideCoding Learning Project AI Agent  
+**作成者**: VibeCoding Learning Project AI Agent  
 **最終更新**: 2026-03-28 (ID 004 フェーズ2 理論学習完了)
 
 
