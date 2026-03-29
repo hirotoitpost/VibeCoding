@@ -1,5 +1,10 @@
 # VideCoding 学習プロジェクト - AIエージェント作業ガイド
 
+> **最終更新**: 2026年3月29日（ドキュメント分割リファクタリング完成）  
+> **ステータス**: Phase 3.2.A 完了、Phase 3.2.B 開始予定
+
+---
+
 ## プロジェクト概要
 
 ### 目的
@@ -13,490 +18,242 @@
 ### 学習の哲学
 > **「AIに任せられることを見極める」** — 開発環境、ランタイム、SDKについて、どこまで無知でいられるか？
 
-### 開始日
-- 2026年3月26日
-- 環境: Windows, VS Code, Git
-
----
-
-## 開発・デバッグプロセス
-
-> ⚠️ **詳細は別ドキュメント参照**: このセクションは [DEVELOPMENT_PROCESS.md](DEVELOPMENT_PROCESS.md) に移行しました。
->
-> **内容**: 6ステップのトラブルシューティングワークフロー、エラー分類、AI 指示パターン、Vibe Coding での推奨指示方法
-
-詳しくは [DEVELOPMENT_PROCESS.md](DEVELOPMENT_PROCESS.md) をご覧ください。
-
----
-
-## Git/GitHub ワークフロー
-
-> ⚠️ **詳細は別ドキュメント参照**: このセクションは [GIT_WORKFLOW.md](GIT_WORKFLOW.md) に移行しました。
->
-> **内容**: ブランチ戦略、コミットメッセージ書式、PR 投稿・マージ・後処理、作業進捗記録
-
-詳しくは [GIT_WORKFLOW.md](GIT_WORKFLOW.md) をご覧ください。
+### プロジェクト情報
+- **開始日**: 2026年3月26日
+- **環境**: Windows, VS Code, Git
+- **技術スタック**: Python, JavaScript/Node.js, Docker, React, Express
+- **進捗**: **Phase 3.2.A 完了** ✅（ID 001-009 すべてマージ完了）
 
 ---
 
 ## 学習フェーズ（4段階）
 
-### 📋 フェーズ1: 基礎理解 ✅ (2026-03-26 完了)
-**目標**: 環境構築、プロセス理解
+| フェーズ | タイトル | ステータス | 目標 |
+|---------|---------|----------|------|
+| **フェーズ1** | 基礎理解 | ✅完了 | 環境構築、プロセス理解 |
+| **フェーズ2** | 理論学習 | ✅完了 | VideCoding基本概念、ベストプラクティス |
+| **フェーズ3** | 実装（段階的） | 🔄進行中 | 複数の小規模アプリケーション開発 |
+| **フェーズ4** | 成果物化 | ⏳予定 | ナレッジシェア（スライド+動画） |
 
-- [x] Gitリポジトリ初期化
-- [x] ディレクトリ構造構築
-- [x] agents.md作成
-- [x] ビジョン定義（2026-03-28）
-
----
-
-### 🎯 フェーズ2: 理論学習 (2026-03-28 開始予定)
-**目標**: VideCodingの基本概念、ツール、ベストプラクティス理解
-
-詳細は `LEARNING_PATH.md` を参照
-
-**進捗状況**: 未開始
+詳細は [LEARNING_PATH.md](LEARNING_PATH.md) を参照
 
 ---
 
-### 💻 フェーズ3: 実装（段階的）
-**目標**: 複数の小規模アプリケーション開発
-
-詳細は `APP_CANDIDATES.md` を参照
-
-**フェーズ3の進捗**: 未開始
-
----
-
-### 📚 フェーズ4: 成果物化・ナレッジシェア
-**目標**: 学習内容をスライドと動画で体系化・配信
-
-詳細は `LEARNING_PATH.md` フェーズ4を参照
-
-**フェーズ4の進捗**: 未開始
-
----
-
-## ファイル構成（更新版）
+## プロジェクト構成
 
 ```
 VideCoding/
-├── README.md                      # プロジェクト概要
-├── agents.md                      # このファイル（AIエージェント作業ガイド）
-├── SETUP.md                       # 開発環境セットアップ手順
-├── LEARNING_PATH.md               # 詳細なラーニングパス
-├── APP_CANDIDATES.md              # アプリ候補の詳細説明
+├── 📋 ドキュメント
+│   ├── agents.md ..................... このファイル（コアガイド）
+│   ├── README.md ..................... GitHub用概要
+│   ├── SETUP.md ..................... 開発環境セットアップ
+│   │
+│   └── 📚 ドキュメント体系
+│       ├── SESSION_PROGRESS.md ....... セッション進捗記録（S1-S7+）
+│       ├── WORK_ID_REGISTRY.md ...... 作業ID管理・発行履歴
+│       ├── COMPLIANCE_SECURITY.md ... ハウスキーピング・セキュリティ
+│       ├── DOCUMENTATION_STRATEGY.md  ドキュメント管理戦略
+│       │
+│       ├── DEVELOPMENT_PROCESS.md ... デバッグワークフロー（6ステップ）
+│       ├── GIT_WORKFLOW.md ........... Git/GitHub運用ガイド
+│       ├── MERGE_CONFLICT_GUIDE.md .. 競合解消プロセス
+│       ├── LEARNING_PATH.md ......... ラーニングロードマップ
+│       ├── APP_CANDIDATES.md ........ プロジェクト候補
+│       │
+│       └── 📖 理論・ガイド
+│           ├── docs/vibe_coding_theory.md
+│           ├── docs/vibe_coding_instruction_design.md
+│           └── docs/vibe_coding_guide.md
 │
-├── docs/                          # ドキュメント
-│   ├── vibe_coding_instruction_design.md # 指示設計パターン・ガイド
-│   ├── vibe_coding_theory.md      # 理論学習記録
-│   ├── vibe_coding_guide.md       # 実装ガイド
-│   └── vibe_coding_slide_outline.md # スライド構成（最終）
+├── 🧪 プロジェクト
+│   ├── examples/01-basic/weather-tool/ ......... ✅ Phase 3.1（Python）
+│   └── examples/02-intermediate/web-accounting-app/  ✅ Phase 3.2.A（Python+React）
 │
-├── notes/                         # 学習ノート・セッション記録
-│   ├── session_01.md              # セッション1
-│   ├── session_02.md              # セッション2
-│   └── ...
+├── 🔧 ユーティリティ
+│   ├── scripts/ ........................... セットアップスクリプト
+│   └── .env.example ....................... 環境変数テンプレート
 │
-├── examples/                      # サンプルコード
-│   ├── 01-basic/                  # フェーズ3.1
-│   │   └── weather-tool/
-│   │       ├── main.py
-│   │       ├── test_main.py
-│   │       ├── requirements.txt
-│   │       ├── .env.example
-│   │       ├── README.md
-│   │       └── TROUBLESHOOTING.md # ← トラブルシューティングガイド
-│   ├── 02-beginner/               # フェーズ3.2
-│   ├── 03-intermediate/           # フェーズ3.3
-│   └── 04-advanced/               # フェーズ3.4
-│
-├── scripts/                       # セットアップスクリプト
-│   ├── setup-dev-env.ps1          # 開発環境初期化（PowerShell）
-│   ├── setup-linux.sh             # 開発環境初期化（Linux/Mac）
-│   └── ...
-│
-├── .env.example                   # 環境変数テンプレート
-├── .gitignore                     # Git除外設定
-└── VideCoding.code-workspace      # VS Code ワークスペース設定
+└── ⚙️ Configuration
+    ├── .gitignore .......................... Git除外設定
+    └── VideCoding.code-workspace .......... VS Code設定
 ```
 
 ---
 
-## コンプライアンス・セキュリティチェックリスト
+## 主要ドキュメント一覧
 
-### 個人情報保護
-- [ ] 個人名、メールアドレスの混入確認
-- [ ] 内部URLの露出確認
-- [ ] 機密情報の混入監視
+### 📌 **実行ガイド** — 日常的に参照
 
-### ライセンス確認
-- [ ] 使用ライブラリのライセンス確認
-- [ ] OSS利用時のライセンス互換性確認
-- [ ] LICENSE.md の作成・管理
+| ドキュメント | 対象 | 用途 |
+|------------|------|------|
+| [DEVELOPMENT_PROCESS.md](DEVELOPMENT_PROCESS.md) | デバッグに行き詰まった時 | 6ステップワークフロー、AI指示パターン |
+| [GIT_WORKFLOW.md](GIT_WORKFLOW.md) | Git/GitHub作業 | ブランチ戦略、コミット規約、PR手順 |
+| [MERGE_CONFLICT_GUIDE.md](MERGE_CONFLICT_GUIDE.md) | マージ競合発生時 | 7ステップ競合解消、トラブルシューティング |
 
-### セキュリティ
-- [x] API キーの .env ファイル化
-- [x] 環境変数の機密性確認
-- [x] .env ファイルの .gitignore 設定
-- [ ] シークレット管理の設計
+### 📚 **計画・ロードマップ** — フェーズ開始時
 
-### セットアップ自動化
-- [ ] セットアップスクリプトの包括性
-- [ ] 環境差分への対応
-- [ ] エラーハンドリング
+| ドキュメント | タイミング | 内容 |
+|------------|----------|------|
+| [LEARNING_PATH.md](LEARNING_PATH.md) | 各フェーズ開始時 | フェーズ目標、マイルストーン、実装要件 |
+| [APP_CANDIDATES.md](APP_CANDIDATES.md) | フェーズ開始時 | プロジェクト候補、技術スタック、要件 |
 
----
+### 📊 **進捗・管理** — セッション完了時
 
-## マージ競合解消プロセス
+| ドキュメント | 更新頻度 | 内容 |
+|------------|---------|------|
+| [SESSION_PROGRESS.md](SESSION_PROGRESS.md) | 各セッション終了時 | セッション進捗、完了項目、統計 |
+| [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md) | 作業完了時 | Work ID発行履歴、統計、次のID計画 |
 
-> ⚠️ **詳細は別ドキュメント参照**: このセクションは [MERGE_CONFLICT_GUIDE.md](MERGE_CONFLICT_GUIDE.md) に移行しました。
->
-> **内容**: 7ステップの競合解消プロセス、Session 4 での実際的なケーススタディ、トラブルシューティング、ベストプラクティス
+### 🔒 **ポリシー・戦略** — 参考資料
 
-詳しくは [MERGE_CONFLICT_GUIDE.md](MERGE_CONFLICT_GUIDE.md) をご覧ください。
+| ドキュメント | 確認タイミング | 内容 |
+|------------|-------------|------|
+| [COMPLIANCE_SECURITY.md](COMPLIANCE_SECURITY.md) | 定期レビュー（セッション開始時） | セキュリティ・コンプライアンスチェックリスト |
+| [DOCUMENTATION_STRATEGY.md](DOCUMENTATION_STRATEGY.md) | 新規ドキュメント追加時 | ドキュメント管理、モジュール化戦略 |
 
----
+### 📖 **理論・参考** — 実装中の参照
 
-## 作業ID（チケット番号）の管理
-
-### 運用ルール
-- **形式**: 3桁の連番（001, 002, 003...）
-- **割り当て**: AI エージェントが順次発行
-- **記録方法**: 下記の「作業ID発行履歴」に記載
-- **用途**: ブランチ名、コミットメッセージ、PR タイトルに使用
-
-### 作業ID発行履歴
-
-| ID | 作業内容 | ステータス | PR/Commit | 備考 |
-|----|---------|-----------|----------|------|
-| 001 | プロジェクト初期化 | ✅完了 | cf5dced | セッション1 |
-| 002 | ラーニングパス・ロードマップ定義 | ✅完了 | 93b4f60 | セッション2 |
-| 003 | Git/GitHub ワークフロー追加 | ✅完了 | bf27c1f | セッション2 (続) |
-| 004 | フェーズ2 理論学習 | ✅完了 | PR #3 (408856b) | セッション2 完了 → PR #3 マージ完了 |
-| 005 | フェーズ3.1 基礎プロジェクト（天気情報ツール） | ✅完了 | PR #1 (b9bb217) | セッション3 → PR #1 マージ完了 |
-| 006 | トラブルシューティング文書化・プロセス標準化 | ✅完了 | 86d2146 | セッション3 → PR #1 に含む |
-| 007 | 指示設計ワークショップ（Vibe Coding パターン体系化） | ✅完了 | PR #2 (0bca384) | セッション4 → PR #2 マージ完了 |
-| 008 | フェーズ3.2.A 中級プロジェクト（Web家計簿） | ✅完了 | PR #4 (378d8b2) | セッション6 - Backend + Frontend 実装完了 → PR #4 マージ完了 |
-| 009 | フェーズ3.2.A.3 テスト・検証 | ✅完了 | PR #5 (予定) | セッション7 - Frontend テスト 20/20✅ + E2E + Docker検証 - 92ec197 |
-
-**次に発行するID**: 010
+| ドキュメント | トピック | 行数 |
+|------------|---------|------|
+| [docs/vibe_coding_theory.md](docs/vibe_coding_theory.md) | Vibe Coding理論、指示設計哲学 | 250+ |
+| [docs/vibe_coding_instruction_design.md](docs/vibe_coding_instruction_design.md) | 5段階フレームワーク、パターン集 | 600+ |
 
 ---
 
-## ドキュメント管理戦略（Session 4 で確立）
+## クイックスタート
 
-### 📚 モジュール化による agents.md のスケーラビリティ確保
-
-**背景**: agents.md は Session 4 時点で 607 行に達し、単一ファイルでの管理が困難になってきました。
-
-**解決策**: 関数ドメイン別にドキュメント を分割する「モジュール化戦略」を採用
-
-### ファイル構成の原則
-
-| ファイル | 役割 | 行数 | 対象 | 更新頻度 |
-|---------|------|------|------|---------|
-| **agents.md** | 要 (Core Guide) | ~350 | プロジェクト概要、ビジョン、ファイル構成、進捗記録 | 各セッション |
-| **DEVELOPMENT_PROCESS.md** | デバッグ・実装 | ~70 | 6ステップ デバッグワークフロー、AI 指示パターン | 問題発生時 |
-| **GIT_WORKFLOW.md** | Git/GitHub 運用 | ~180 | ブランチ戦略、コミット規約、PR 手順、GitHub CLI トラブル | 各セッション |
-| **MERGE_CONFLICT_GUIDE.md** | 競合解決 | ~200 | 7ステップ 競合解消プロセス、トラブルシューティング | 競合発生時 |
-| **LEARNING_PATH.md** | 学習ロードマップ | ~100 | フェーズ定義、各フェーズのマイルストーン | 各フェーズ完了時 |
-| **APP_CANDIDATES.md** | プロジェクト候補 | ~80 | フェーズ別のアプリケーション案、技術スタック | フェーズ開始時 |
-
-### 参照関係図
+### 🚀 新規セッション開始
 
 ```
-agents.md (Core Guide)
-├─ 参照 → DEVELOPMENT_PROCESS.md (デバッグ workflow)
-├─ 参照 → GIT_WORKFLOW.md (Git/GitHub workflow)
-├─ 参照 → MERGE_CONFLICT_GUIDE.md (競合解消)
-├─ 参照 → LEARNING_PATH.md (学習ロードマップ)
-└─ 参照 → APP_CANDIDATES.md (プロジェクト候補)
+1. このファイル（agents.md）を確認
+2. [LEARNING_PATH.md](LEARNING_PATH.md) から今のフェーズ確認
+3. [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md) から次のID確認
+4. ブランチ作成: git checkout -b feature/[ID]_[タイトル]
+5. コード実装
+6. [SESSION_PROGRESS.md](SESSION_PROGRESS.md) と [GIT_WORKFLOW.md](GIT_WORKFLOW.md) に従ってコミット・PR
 ```
 
-**クロスリファレンス規約**:
-- 各ドキュメントは他のドキュメントの関連箇所を `[ファイル名](ファイル名.md)` 形式でリンク
-- 共通内容（作業ID、進捗記録など）を重複させない
-- 読者がドキュメント間を横断しやすい構成
+### 🐛 デバッグに詰まった
 
-### 拡張戦略（今後）
+```
+1. [DEVELOPMENT_PROCESS.md](DEVELOPMENT_PROCESS.md) の6ステップワークフローを実行
+2. [APP_CANDIDATES.md](APP_CANDIDATES.md) のプロジェクト別TROUBLESHOOTING参照
+3. [GIT_WORKFLOW.md](GIT_WORKFLOW.md) で既知のGitトラブル確認
+```
 
-**Phase 3.2 以降で予定される新規ドキュメント** (各テーマ 100-200 行):
-- `TESTING_STRATEGY.md`: テスト設計・実行・レポーティング
-- `DEPLOYMENT_GUIDE.md`: デプロイメント プロセス・環境管理
-- `TROUBLESHOOTING_LIBRARY.md`: 既知問題・解決策集（各プロジェクトの TROUBLESHOOTING.md にも相互参照）
+### 📖 AI指示パターンを学び直したい
 
-**更新ルール**:
-1. 新機能・プロセスが追加される度に関連ドキュメントをアップデート
-2. 行数が 400 行を超えたら分割を検討
-3. 各 PR/セッションで agents.md の「進捗記録」を最新化
+```
+→ [docs/vibe_coding_instruction_design.md](docs/vibe_coding_instruction_design.md) 参照
+→ [DEVELOPMENT_PROCESS.md](DEVELOPMENT_PROCESS.md) の「AI指示パターン」セクション
+```
 
 ---
 
-## 進捗記録
+## 現在のプロジェクト進捗
 
-### セッション 1 (2026-03-26)
-- **タスク**: プロジェクト初期化
-- **完了項目**:
-  - Gitリポジトリ初期化 ✅
-  - ディレクトリ構造構築 ✅
-  - 初期ドキュメント作成 ✅
-  - Commit: `cf5dced`
+### 完了作業（ID 001-009）
 
-### セッション 2 (2026-03-28)
-- **タスク**: ビジョン・ロードマップ定義、ドキュメント拡張、理論学習開始
-- **完了項目**:
-  - agents.md 大幅拡張 (フェーズ定義、チェックリスト、Git/GitHub ワークフロー) ✅ - Commit: `bf27c1f` (ID 003)
-  - LEARNING_PATH.md 作成 ✅
-  - APP_CANDIDATES.md 作成 ✅
-  - SETUP.md 作成 ✅ - Commit: `93b4f60` (ID 002)
-  - docs/vibe_coding_theory.md 作成 ✅ - Commit: `a31f06f` (ID 004)
-  - docs/tool_usage_guide.md 作成 ✅ - Commit: `cc0f339` (ID 004)
-  - Push 実行完了
-- **進行中**:
-  - ID 005: フェーズ3.1 基礎プロジェクト実装（次ステップ）
+| Phase | ID | 内容 | ステータス |
+|-------|----|----|-----------|
+| **1** | 001 | プロジェクト初期化 | ✅ PR #3 |
+| **2** | 002 | ラーニングパス定義 | ✅ PR #3 |
+|  | 003 | Git/GitHub ワークフロー | ✅ PR #3 |
+|  | 004 | 理論学習（Vibe Coding） | ✅ PR #3 |
+| **3.1** | 005 | 天気情報ツール（Python） | ✅ PR #1 |
+|  | 006 | トラブルシューティング文書化 | ✅ PR #1 |
+| **2.3** | 007 | 指示設計ワークショップ | ✅ PR #2 |
+| **3.2.A** | 008 | Web家計簿（Backend+Frontend） | ✅ PR #4 |
+|  | 009 | テスト・検証（Frontend+E2E+Docker） | ✅ PR #5 |
 
-### セッション 3 (2026-03-28 続き)
-- **タスク**: ID 005・006 実装と トラブルシューティング文書化
-- **完了項目**:
-  - ID 005: 天気情報ツール実装 ✅
-    - OpenWeatherMap API 連携
-    - キャッシング機能（5分有効期限）
-    - 14 個のテストケース
-    - Commit: `7980dfb`, `6e97698`, `a056fef`
-  - ID 006: トラブルシューティング文書化 ✅
-    - 3 つのエラーケース分析と解決策
-    - 6ステップ デバッグワークフロー追加
-    - agents.md に「開発・デバッグプロセス」セクション追記
-    - Commits: `86d2146`, `92337c3`, `33c1173`
+### 次のステップ
 
-### セッション 4 (2026-03-28 続き)
-- **タスク**: ID 007 指示設計ワークショップ & ドキュメント管理戦略実装
-- **完了項目**:
-  - ID 007: Vibe Coding 指示設計パターン体系化 ✅
-    - `docs/vibe_coding_instruction_design.md` 作成（600 行）
-    - 5 段階指示設計フレームワーク
-    - 4 パターン集 + ベストプラクティス + アンチパターン
-    - AI エージェント協働のコツ
-    - Commit: `6bc9f9a` (docs/vibe_coding_instruction_design.md)
-    - PR #2 作成・マージ完了（0bca384）
-  
-  - ドキュメント管理戦略実装 ✅
-    - agents.md の行数削減（607行 → 284行、53% 削減）
-    - DEVELOPMENT_PROCESS.md 作成（70行）- デバッグ・実装ワークフロー
-    - GIT_WORKFLOW.md 作成（180行） - Git/GitHub 実務運用ガイド
-      - **新規セクション**: PR 本文更新時のトラブルシューティング
-      - GitHub CLI GraphQL 廃止問題と REST API 解決策を記載
-    - MERGE_CONFLICT_GUIDE.md 作成（200行） - 7ステップ競合解消プロセス
-    - agents.md に「ドキュメント管理戦略」セクション追加
-    - Commit: `9df8168` (ドキュメント管理戦略実装)
-    - notes/session_04.md 作成
-  
-  - GitHub CLI 既知問題解決 ✅
-    - 問題: `gh pr edit --body` で GraphQL エラー
-    - 解決: REST API 経由での動的更新（`gh api repos/hirotoitpost/VideCoding/pulls/2 -X PATCH`）
-    - ドキュメント化: GIT_WORKFLOW.md の専用セクションに記載
+- **ID 010**: フェーズ 3.2.B（Web家計簿拡張 or 新規プロジェクト）— Session 8 で実装予定
 
-### セッション 5 (2026-03-28 完了処理)
-- **タスク**: PR #2 マージと最終整理
-- **完了項目**:
-  - PR #2 マージ完了（コミット: 0bca384） ✅
-  - ローカルブランチ削除（feature/007_指示設計ワークショップ） ✅
-  - 一時ファイル削除（pr2_body.md） ✅
-  - master 同期完了 ✅
+詳細は [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md) と [SESSION_PROGRESS.md](SESSION_PROGRESS.md) を参照
 
 ---
 
-## 🎯 Phase 2 総完成状況
+## ドキュメント管理戦略
 
-| ID | 作業内容 | ステータス | 成果物 |
-|---|---------|-----------|------|
-| 001 | プロジェクト初期化 | ✅ PR #3 | Gitリポジトリ、ディレクトリ構造 |
-| 002 | ラーニングパス定義 | ✅ PR #3 | LEARNING_PATH.md, APP_CANDIDATES.md |
-| 003 | Git/GitHub ワークフロー | ✅ PR #3 | agents.md セクション（現在は外部化） |
-| 004 | フェーズ2 理論学習 | ✅ PR #3 | docs/vibe_coding_theory.md（266行）, tool_usage_guide.md |
-| 005 | フェーズ3.1 基礎プロジェクト | ✅ PR #1 | examples/01-basic/weather-tool（実装+テスト） |
-| 006 | トラブルシューティング文書化 | ✅ PR #1 | TROUBLESHOOTING.md, デバッグプロセス |
-| 007 | 指示設計ワークショップ | ✅ PR #2 | docs/vibe_coding_instruction_design.md（600行）+ ドキュメント管理戦略 |
+### 目標
+- **agents.md**: 150-200行（コアガイド）
+- **各運用ドキュメント**: 100-200行（単一目的化）
+- **理論・参考**: 250-600行（深掘り可）
 
-**Phase 2 完全完成**: ✅ 2026年3月28日
+### 原則
+1. **モジュール化** — 1ドキュメント 1ドメイン
+2. **スケーラビリティ** — 400行超過で分割検討
+3. **参照統一** — クロスリファレンスで整合性確保
+4. **頻度対応** — 更新頻度に応じたTier分割
 
----
-
-## 次のアクション
-
-**🎉 Phase 2 完全完成** (2026年3月28日)
-1. ✅ ID 001-007: すべてのタスク完了
-2. ✅ PR #1, #2, #3: すべてマージ完了
-3. ✅ ドキュメント管理戦略: 確立・実装完了
-
-**優先度**: HIGH
-- [ ] ID 008: フェーズ3.2 中級プロジェクト選定・実装（次セッション開始）
-- [ ] セットアップスクリプト実装（PowerShell / Bash）
-
-**優先度**: MEDIUM
-- [ ] TESTING_STRATEGY.md: テスト設計・実行・レポーティング
-- [ ] DEPLOYMENT_GUIDE.md: デプロイメント プロセス・環境管理
-
-**優先度**: LOW
-- [ ] フェーズ4: スライド・動画コンテンツ制作
-- [ ] TROUBLESHOOTING_LIBRARY.md: 既知問題・解決策集
+詳細は [DOCUMENTATION_STRATEGY.md](DOCUMENTATION_STRATEGY.md) 参照
 
 ---
 
-### セッション 6 (2026-03-29 完了)
-- **タスク**: ID 008 フェーズ 3.2.A Web 家計簿アプリ - フルスタック実装
-- **完了項目**:
-  - ✅ Git リポジトリ構造修復（VideCoding フォルダ二重化問題解決）
-  - ✅ ID 008 プロジェクトスキャフォルド作成 (17 ファイル, 2,013 行) - Commit: 3ad5f59
-  - ✅ バックエンド CRUD API 実装完成
-    - 6 API エンドポイント (POST, GET, PUT, DELETE, Summary)
-    - 入力検証ミドルウェア
-    - 20/20 テスト成功 (76.96% カバレッジ)
-    - SQLite シングルトン db 管理
-    - Commit: 9de9f0a (19 ファイル, 4,160 行追加)
-  - ✅ フロントエンド React 実装完成
-    - Dashboard.jsx: 取引一覧、フィルター、集計、削除機能
-    - TransactionForm.jsx: フォーム作成・編集、検証、成功メッセージ
-    - App.jsx: ページ管理、API 統合
-    - App.css: 完全なレスポンシブ設計 (500+ 行)
-    - Commit: ee02fba (4 ファイル, 992 行追加)
-  - ✅ PR #4 作成・マージ完了 (378d8b2, 3 commits, 6,149 行追加)
+## キーファイル・パス
 
-- **統計**:
-  - 総コミット数: 3
-  - 総行数追加: 6,149
-  - ファイル数: 23
-  - テスト成功率: 100%
-  - コードカバレッジ: 76.96%
-  - API エンドポイント: 6
-  - React コンポーネント: 4
+### リポジトリ
 
-- **Status**: ✅ Session 6 完成
+```
+https://github.com/hirotoitpost/VideCoding
+```
+
+### 開発環境
+```powershell
+# VS Code ワークスペース
+D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\VideCoding.code-workspace
+
+# Python 仮想環境
+D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\.venv
+```
+
+### 環境構築
+```bash
+# .env.example をコピーして設定
+cp .env.example .env
+# OPENWEATHERMAP_API_KEY を入力
+```
+
+詳細は [SETUP.md](SETUP.md) 参照
 
 ---
 
-### セッション 7 (2026-03-29 完了)
-- **タスク**: ID 009 フェーズ 3.2.A.3 テスト・検証完成
-- **完了項目**:
-  - ✅ Frontend Component Testing (React Testing Library)
-    - 3 test suites: App.test.jsx, Dashboard.test.jsx, TransactionForm.test.jsx
-    - 20/20 total tests成功
-    - Setup: Vitest + @testing-library/react + jsdom
-    - Commit: 92ec197 (Frontend test fixes)
-  - ✅ E2E Integration Tests (Cypress)
-    - 14 test scenarios covering complete user flows
-    - Tests include: dashboard load, add/edit/delete, filtering, validation
-    - Config: cypress.config.js with baseUrl & viewport settings
-    - Support: Custom Cypress commands for API testing
-  - ✅ Docker Compose Validation
-    - validate-docker-compose.ps1 (Windows)
-    - validate-docker-compose.sh (Unix/Mac)
-    - 7 validation steps: build, startup, health, env, network, volumes, cleanup
-  - ✅ Documentation
-    - TESTING_AND_VALIDATION.md (comprehensive guide, 400+ lines)
-    - Root package.json with unified test scripts
-    - Complete troubleshooting section included
-  - ✅ PR #5 created & merged (コミット: 02373e1)
-  - ✅ クリーンアップ & 最終コミット
-    - テンポラリファイル（*.txt）削除
-    - 残りのテスト・検証ファイルをステージ・コミット
-    - コミット: a438785 - chore(ID 009): テスト・検証インフラ完全統合
+## 最新コミット
 
-- **実装ファイル** (最終):
-  - `client/src/App.test.jsx` (68 lines)
-  - `client/src/Dashboard.test.jsx` (120 lines)
-  - `client/src/TransactionForm.test.jsx` (150 lines)
-  - `client/src/setupTests.js` (25 lines) ✅ Commit: a438785
-  - `client/package.json` (updated with testing libs)
-  - `client/vite.config.js` (updated with test config)
-  - `cypress.config.js` (30 lines) ✅ Commit: a438785
-  - `cypress/e2e/accounting-app.cy.js` (220 lines) ✅ Commit: a438785
-  - `cypress/support/e2e.js` (35 lines) ✅ Commit: a438785
-  - `validate-docker-compose.ps1` (120 lines) ✅ Commit: a438785
-  - `validate-docker-compose.sh` (130 lines) ✅ Commit: a438785
-  - `package.json` (root level, new file with unified test scripts) ✅ Commit: a438785
-  - `TESTING_AND_VALIDATION.md` (400+ lines comprehensive guide) ✅ Commit: a438785
+```
+dca43d2 docs(Session 7): ID 009 完全完成記録を更新
+a438785 chore(ID 009): テスト・検証インフラ完全統合
+02373e1 Merge pull request #5 from hirotoitpost/feature/009_web家計簿テスト検証
+```
 
-- **統計** (確定):
-  - Frontend test files: 3
-  - Frontend total test cases: 20 ✅
-  - E2E test scenarios: 14
-  - Docker validation steps: 7 (× 2 platform)
-  - Documentation lines: 400+
-  - Configuration files: 2
-  - Validation scripts: 2
-  - 最終コミット: 8 files changed, 916 insertions(+)
-
-- **Status**: ✅ ID 009 完全完成 & リポジトリ統合完了
+詳細は [SESSION_PROGRESS.md](SESSION_PROGRESS.md)#セッション-7 参照
 
 ---
 
-**最終更新**: 2026年3月29日（セッション7 完了 + コミット a438785）  
-**作成・管理**: VideCoding Learning Project AI Agent
+## 関連リンク
+
+### 学習リソース
+- [Vibe Coding理論](docs/vibe_coding_theory.md)
+- [指示設計フレームワーク](docs/vibe_coding_instruction_design.md)
+
+### プロジェクト参考
+- [天気情報ツール](examples/01-basic/weather-tool/)
+- [Web家計簿アプリ](examples/02-intermediate/web-accounting-app/)
+
+### ユーティリティ
+- [セットアップガイド](SETUP.md)
+- [VS Code ワークスペース](VideCoding.code-workspace)
 
 ---
 
-### セッション 3 アップデート (2026-03-28)
+## Contact & Support
 
-#### 実施内容
-- ID 005: 天気情報取得ツール実装完了
-- URL エンコーディングバグ修正（Commit: a056fef）
-- requirements.txt に pytest 追加
-- テストスイート全14テスト成功
-- **ID 006**: トラブルシューティングドキュメント作成完了
-  - [examples/01-basic/weather-tool/TROUBLESHOOTING.md](examples/01-basic/weather-tool/TROUBLESHOOTING.md) 作成
-  - AGENTS.md に「開発・デバッグプロセス」セクション追加
-
-#### 学習成果
-- URL エンコーディングの正しい実装方法
-- pytest 依存関係管理
-- テスト環境の独立性確保（tearDown 強化）
-- トラブルシューティングドキュメント化プロセス
-
-#### 次フェーズ
-- ID 007: 指示設計ワークショップ（フェーズ2.3）
-- 実装を通じた Vibe Coding パターン整理
+**プロジェクト管理**: AI Agent（GitHub Copilot）  
+**リポジトリ**: https://github.com/hirotoitpost/VideCoding  
+**最終更新**: 2026年3月29日
 
 ---
 
-### セッション 4 アップデート (2026-03-28)
+**🎯 次のセッション**: ID 010 実装開始（Session 8）
 
-#### 実施内容
-- **ID 007**: 指示設計ワークショップ実装完了
-  - docs/vibe_coding_instruction_design.md 作成（600行）
-  - 8セクション構成：理論 + 5段階フレームワーク + パターン + ベストプラクティス
-  - Commit: 6bc9f9a, c8fb070
-  
-- **PR #3 (ID 004) マージ完了**
-  - フェーズ２理論学習・Vibe Coding パターン体系化
-  - docs/vibe_coding_theory.md + docs/tool_usage_guide.md
-  - マージコミット: 408856b
-
-- **P R #2 (ID 007) 作成・競合解決**
-  - 指示設計ワークショップ出力
-  - agents.md マージ競合（work ID table）を解決
-  - notes/session_03.md マージ競合を解決
-
-#### 学習成果
-- 5段階指示設計フレームワーク（ユースケース定義→要件抽出→制約明示→エッジケース→検証戦略）
-- パターン化による AI 指示の再利用可能性向上
-- マージ競合のベストプラクティス（rebase + 手動統合）
-- PR 複数同時並行管理
-
-#### 進捗サマリー
-
-| フェーズ | ステータス | 備考 |
-|---------|----------|------|
-| フェーズ 1-2 完了 | ✅ | 理論・ロードマップ・パターン体系化完成 |
-| フェーズ 3.1 完了 | ✅ PR #1 マージ | 天気情報ツール実装・テスト・ドキュメント |
-| フェーズ 2.3 実装完了 | ⏳ PR #2 待機 | 指示設計パターン・ワークショップ完成 |
-| フェーズ 3.2 開始予定 | ⏸ | 次セッション予定（ID 008） |
-
-#### 次のアクション
-1. ✅ ID 004: PR #3 マージ完了
-2. ✅ ID 007: PR #2 マージ完了
-3. ✅ ID 008: フェーズ 3.2.A 実装完了 (PR #4 マージ)
-4. ✅ ID 009: フェーズ 3.2.A.3 テスト・検証完成（コミット: a438785）
-5. [ ] ID 010: フェーズ 3.2.B 開始予定
