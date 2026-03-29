@@ -1,0 +1,9 @@
+{
+  "name": "chatbot-backend",
+  "version": "1.0.0",
+  "description": "Flask backend for chatbot web app",
+  "scripts": {
+    "start": "python server.py",
+    "dev": "python server.py"
+  }
+}
