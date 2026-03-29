@@ -246,6 +246,204 @@ curl "http://localhost:5000/api/readings?limit=5" | jq
 - [ ] ヘルスチェック エンドポイント監視
 - [ ] セキュリティパッチが適用されている
 
+## Docker Compose による初回セットアップ・トラブル
+
+### 問題: Mosquitto コンテナが unhealthy で起動しない
+
+**症状**: `dependency failed to start: container iot_mosquitto is unhealthy`
+
+**原因**:
+- Mosquitto 設定ファイル (`mosquitto/config/mosquitto.conf`) が存在しない
+-HealthCheck の条件が厳しすぎる
+
+**解決方法**:
+
+1. Mosquitto 設定ファイルを作成:
+```bash
+mkdir -p mosquitto/config
+cat > mosquitto/config/mosquitto.conf << 'EOF'
+# Mosquitto Configuration
+listener 1883
+protocol mqtt
+
+listener 9001
+protocol websockets
+
+allow_anonymous true
+
+log_dest file /mosquitto/log/mosquitto.log
+log_dest stdout
+log_type all
+log_timestamp true
+
+persistence true
+persistence_location /mosquitto/data/
+
+max_queued_messages 1000
+message_size_limit 0
+EOF
+```
+
+2. docker-compose.yml の healthcheck を削除するか緩和:
+```yaml
+# ❌ 削除推奨（Docker Compose でのシンプル起動より重要）
+# healthcheck:
+#   test: ["CMD", "mosquitto_sub", "-h", "localhost", "-t", "test"]
+#   interval: 30s
+#   timeout: 10s
+#   retries: 3
+
+# ✅ 修正: depends_on を単純化
+depends_on:
+  - mosquitto  # ← service_healthy 条件を削除
+```
+
+---
+
+### 問題: Flask Web App (webapp) コンテナが起動しない・Restarting を繰り返す
+
+**症状**: 
+- `ModuleNotFoundError: No module named 'src'`
+- `Restarting (1) Less than a second ago`
+- ログに `Error: Got unexpected extra arguments` が表示される
+
+**原因**:
+- web/app.py がプロジェクトルートではなくサブディレクトリにあり、Python import パスが解決できない
+- Docker イメージがキャッシュを保持している
+- Dockerfile の CMD/ENTRYPOINT 設定が誤っている
+
+**解決方法**:
+
+1. **web/app.py の先頭に import パス設定を追加**:
+```python
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import logging
+import json
+from datetime import datetime, timedelta
+from flask import Flask, render_template, jsonify, request
+from flask_cors import CORS
+
+from src.config import get_config
+from src.database import Database
+```
+
+2. **Dockerfile.webapp を修正** (flask run ではなく python で実行):
+```dockerfile
+# ❌ 誤り
+ENTRYPOINT ["flask", "run", "--host=0.0.0.0"]
+
+# ✅ 修正
+CMD ["python", "web/app.py"]
+```
+
+3. **docker-compose.yml を修正**:
+```yaml
+webapp:
+  ...
+  depends_on:
+    - mosquitto  # ← service_healthy 条件を削除
+  command: ["python", "web/app.py"]  # ← 明示的に指定
+```
+
+4. **Docker イメージキャッシュをリセット**:
+```bash
+# 完全リセット
+docker-compose down -v
+docker-compose build --no-cache
+docker-compose up -d
+
+# または個別にリビルド
+docker-compose build --no-cache webapp
+docker-compose restart webapp
+```
+
+5. **ログを確認**:
+```bash
+docker logs iot_webapp           # 最新ログ
+docker-compose logs -f webapp    # リアルタイム
+```
+
+---
+
+### 問題: .env ファイルが存在しない
+
+**症状**: センサー設定やアラーム閾値がデフォルト値にならない
+
+**原因**: `.env.example` から `.env` ファイルにコピーされていない
+
+**解決方法**:
+
+```bash
+# .env ファイルを作成
+cp .env.example .env
+
+# 必要に応じて編集（MQTT パラメータ等）
+cat .env
+```
+
+---
+
+### 問題: Docker Compose build が前のイメージを使い続ける
+
+**症状**: 
+- コードを修正しても変更が反映されない
+- `CACHED [2/7] WORKDIR /app` が表示される
+
+**原因**: Docker ビルドキャッシュが有効なため
+
+**解決方法**:
+
+```bash
+# キャッシュを無視してビルド
+docker-compose build --no-cache
+
+# または全削除して再ビルド
+docker image prune -a
+docker-compose build --no-cache
+docker-compose up -d
+```
+
+---
+
+## セットアップ正常性チェックリスト
+
+セットアップを確認するために、以下の手順を実行してください：
+
+- [ ] Docker Compose ですべてのコンテナが `Up` 状態
+  ```bash
+  docker-compose ps
+  # すべてが "Up" 状態で表示される
+  ```
+
+- [ ] Flask Web App がポート 5000 でリッスン
+  ```bash
+  curl http://localhost:5000
+  # HTML ダッシュボードが返される
+  ```
+
+- [ ] MQTT ブローカーがポート 1883 でリッスン
+  ```bash
+  # テストメッセージを送信
+  echo "test-message" | mosquitto_pub -h localhost -t "test"
+  
+  # テストメッセージを受信
+  mosquitto_sub -h localhost -t "test" -W 1
+  ```
+
+- [ ] センサーデータが生成されている
+  ```bash
+  curl http://localhost:5000/api/sensors | jq
+  # JSON で最新センサー値が表示される
+  ```
+
+- [ ] ダッシュボードにアクセス可能
+  ```
+  http://localhost:5000
+  ```
+
 ---
 
 **問題が解決しない場合**: ステータスコードとエラーメッセージ全文を記録して保存してください。

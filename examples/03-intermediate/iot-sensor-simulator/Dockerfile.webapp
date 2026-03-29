@@ -28,4 +28,4 @@ RUN mkdir -p logs
 EXPOSE 5000
 
 # エントリーポイント
-ENTRYPOINT ["flask", "run", "--host=0.0.0.0"]
+CMD ["python", "web/app.py"]

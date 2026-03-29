@@ -24,11 +24,6 @@ services:
     networks:
       - iot-network
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "mosquitto_sub", "-h", "localhost", "-t", "test"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   # ============================================================
   # センサーシミュレーター（バックグラウンド）
@@ -49,8 +44,7 @@ services:
       - HUMIDITY_MAX=95
       - LOG_LEVEL=INFO
     depends_on:
-      mosquitto:
-        condition: service_healthy
+      - mosquitto
     volumes:
       - .:/app
       - /app/__pycache__
@@ -80,15 +74,14 @@ services:
       - SECRET_KEY=dev-secret-key-change-in-production
       - LOG_LEVEL=INFO
     depends_on:
-      mosquitto:
-        condition: service_healthy
+      - mosquitto
     volumes:
       - .:/app
       - /app/__pycache__
     networks:
       - iot-network
     restart: unless-stopped
-    command: ["python", "-m", "flask", "run", "--host=0.0.0.0"]
+    command: ["python", "web/app.py"]
 
 networks:
   iot-network:
