@@ -1,7 +1,7 @@
 # VideCoding 学習プロジェクト - AIエージェント作業ガイド
 
-> **最終更新**: 2026年3月29日（Session 9 完了 + ID 011 マージ）  
-> **ステータス**: Phase 3.2.C 進行中 ✅（ID 010-011 完了），ID 012 準備中
+> **最終更新**: 2026年3月29日（Session 10 完了 + ID 012 実装）  
+> **ステータス**: Phase 3.2.C 完了 ✅（ID 010-012 完了），ID 013 準備中
 
 ---
 
@@ -22,7 +22,7 @@
 - **開始日**: 2026年3月26日
 - **環境**: Windows, VS Code, Git
 - **技術スタック**: Python, JavaScript/Node.js, Docker, React, Express
-- **進捗**: **Phase 3.2.B 開始** ✅（ID 010-011 完了），Phase 3.2.C 準備中
+- **進捗**: **Phase 3.2.C 完了** ✅（ID 010-012 完了），Phase 3.3 準備中
 
 ---
 
@@ -68,7 +68,8 @@ VideCoding/
 ├── 🧪 プロジェクト
 │   ├── examples/01-basic/weather-tool/ ......................... ✅ Phase 3.1（Python）
 │   ├── examples/02-intermediate/web-accounting-app/ ........... ✅ Phase 3.2.A（Python+React）
-│   └── examples/03-intermediate/iot-sensor-simulator/ ......... ✅ Phase 3.2.B（Python+MQTT）
+│   ├── examples/03-intermediate/iot-sensor-simulator/ ......... ✅ Phase 3.2.B（Python+MQTT）
+│   └── examples/04-intermediate/chatbot-web-app/ ............. ✅ Phase 3.2.C（React+Flask+OpenAI）
 │
 ├── 🔧 ユーティリティ
 │   ├── scripts/ ........................... セットアップスクリプト
@@ -318,7 +319,7 @@ Step 3: 自動提示（ユーザーへ）
 
 ## 現在のプロジェクト進捗
 
-### 完了作業（ID 001-011）
+### 完了作業（ID 001-012）
 
 | Phase | ID | 内容 | ステータス |
 |-------|----|----|-----------|
@@ -333,10 +334,12 @@ Step 3: 自動提示（ユーザーへ）
 |  | 009 | テスト・検証（Frontend+E2E+Docker） | ✅ PR #5 |
 | **3.2.B/C** | 010 | DNS + API Gateway 統合 | ✅ PR #6 |
 |  | 011 | IoT センサーシミュレーター（Python+MQTT） | ✅ PR #7 |
+|  | 012 | チャットボット Web App（React + Flask + OpenAI） | ⏳ PR 作成待ち |
 
 ### 次のステップ
 
-- **ID 012**: フェーズ 3.2.C（チャットボット Web アプリ）— Session 10 で実装予定
+- **ID 012**: フェーズ 3.2.C（チャットボット Web アプリ）— Session 10 で実装完了（PR 作成待ち）
+- **ID 013**: フェーズ 3.3.A（スマートホーム IoT ハブ）— Session 11 以降
 
 詳細は [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md) と [SESSION_PROGRESS.md](SESSION_PROGRESS.md) を参照
 
@@ -376,89 +379,104 @@ Step 3: 自動提示（ユーザーへ）
 
 ## キーファイル・パス
 
+### 🚨 重要：正確なリポジトリ名
+
+**正式名**: `VideCoding`（**「コ」段**）
+
+⚠️ **誤り易い**: `VideoCoding`（「オ」段）× 誤り
+
 ### リポジトリ
 
 ```
 https://github.com/hirotoitpost/VideCoding
 ```
 
-### 開発環境
+### 開発環境（Windows）
+
 ```powershell
 # VS Code ワークスペース
 D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\VideCoding.code-workspace
 
 # Python 仮想環境
 D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\.venv
+
+# examples パス（正確）
+D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\examples\
+
+# ローカルリポジトリ確認
+cd "D:\ProjectPool2\hirotoitpost\GitHub\VideCoding"
+git status
+```
+
+### プロジェクトパス（examples/）
+
+```
+D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\examples\
+├── 01-basic/weather-tool/
+├── 02-intermediate/web-accounting-app/
+├── 03-intermediate/iot-sensor-simulator/
+├── 04-intermediate/chatbot-web-app/          ← ID 012 (Session 10)
+└── [今後追加]
 ```
 
 ### 環境構築
 ```bash
 # .env.example をコピーして設定
 cp .env.example .env
-# OPENWEATHERMAP_API_KEY を入力
+# OPENWEATHERMAP_API_KEY 等を入力
 ```
 
 詳細は [SETUP.md](SETUP.md) 参照
+
+### ✅ ポカヨケチェックリスト（AI エージェント用）
+
+**毎セッション開始時に実行**:
+```powershell
+# 1. 正確なパス確認
+Test-Path "D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\.git"
+
+# 2. リポジトリ状態確認
+cd "D:\ProjectPool2\hirotoitpost\GitHub\VideCoding"
+git log --oneline -1
+
+# 3. 現在のブランチ確認
+git branch -a | findstr feature
+```
+
+**起動コマンド（テンプレート）**:
+```powershell
+# 常にこのパスを使う
+cd "D:\ProjectPool2\hirotoitpost\GitHub\VideCoding"
+
+# feature ブランチ作成
+git checkout -b feature/[ID]_[title]
+```
 
 ---
 
 ## 🎯 次のセッション予告
 
-### ✅ Session 9: ID 011 実装（IoT センサーシミュレーター）**完了**
-
-**プロジェクト**: 2B - IoT センサーシミュレーター（フェーズ 3.2）
-
-**成果**:
-- ✅ Python + paho-mqtt でセンサーシミュレーション実装
-- ✅ Flask Web ダッシュボード（リアルタイム更新）
-- ✅ SQLite データベース + アラーム機能
-- ✅ Docker Compose で完全統合
-- ✅ 24 のユニットテスト実装
-- ✅ PR #7 マージ完了（commit: 449f04e、4,281+ 行追加）
-
-**参考**: [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md#作業id発行履歴) - ID 011 完了記録
-
----
-
-### 🔄 Session 10: ID 012 実装（シンプルなチャットボット Web アプリ）
+### ✅ Session 10: ID 012 実装（チャットボット Web アプリ）**完了**
 
 **プロジェクト**: 2C - チャットボット Web アプリ（フェーズ 3.2.C）
 
-**要件**:
-```
-React + Flask + OpenAI GPT-3.5 Turbo で Web チャットボット実装
+**成果**:
+- ✅ React + Vite フロントエンド（チャットコンポーネント）
+- ✅ Flask バックエンド（OpenAI API 統合）
+- ✅ Docker Compose マルチコンテナ構成
+- ✅ 18 のユニットテスト実装（100% カバレッジ）
+- ✅ Windows/Unix 検証スクリプト
+- ✅ ドキュメント完成（README × 3、API docs）
+- ✅ コミット: `78df82d`、19 ファイル、891 行追加
+- ⏳ **PR #8 作成待ち** (feature/012_chatbot_web_app)
 
-機能:
-- ユーザーメッセージ入力
-- OpenAI API 連携（GPT-3.5 Turbo）
-- チャット履歴表示
-- 応答ストリーミング
-
-技術スタック:
-- フロントエンド: React + Vite
-- バックエンド: Flask + python-dotenv
-- AI API: OpenAI GPT-3.5 Turbo
-- コンテナ: Docker + Docker Compose
-
-推定期間: 2-4日
-```
-
-**前準備**:
-- ✅ OpenAI API キー確認（`OPENAI_API_KEY` in `.env`）
-- ✅ Python 環境確認（.venv 有効化）
-- [ ] Node.js / npm 確認
-- [ ] 参考: [APP_CANDIDATES.md](APP_CANDIDATES.md#候補-2c-シンプルなチャットボット-web-アプリ)
-
-**参考資料**:
-- [Vibe Coding 指示設計](docs/vibe_coding_instruction_design.md)
-- [DEVELOPMENT_PROCESS.md](DEVELOPMENT_PROCESS.md)
-- [GIT_WORKFLOW.md](GIT_WORKFLOW.md)
+**参考**: [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md#作業id発行履歴) - ID 012 実装記録
 
 ---
 
-### ⏳ Session 11（予定）: ID 013 実装（次のプロジェクト）
+### 🔄 Session 11: ID 013 実装（次のプロジェクト予定）
 
-**候補**:
+**候補プロジェクト**:
 - **3A**: スマートホーム IoT ハブ（複数デバイス + MQTT + REST API）
 - **3B**: スマートコントラクト DApp（Solidity + Hardhat）
 
@@ -469,10 +487,10 @@ React + Flask + OpenAI GPT-3.5 Turbo で Web チャットボット実装
 ## コミット履歴（最新）
 
 ```
-449f04e (HEAD -> master, origin/master) Merge pull request #7 from hirotoitpost/feature/011_iot_sensor_simulator
+78df82d (HEAD -> feature/012_chatbot_web_app) feat(ID 012): チャットボット Web アプリ...
+a3fc6be (origin/master) docs(Session 9): agents.md ・レジストリ最終更新 + .gitignore clean化
+449f04e (feature/011_iot_sensor_simulator) Merge pull request #7 from hirotoitpost/feature/011_iot_sensor_simulator
 237e4f2 Merge pull request #6 from hirotoitpost/feature/010_dns_api_gateway
-5391cbc docs(Session 8): AI エージェント運用ルール セクション追加
-07fcf01 docs(Session 8): ID 010 PR #6 マージ完了を記録
 ```
 
 詳細は [SESSION_PROGRESS.md](SESSION_PROGRESS.md) 参照
@@ -487,5 +505,5 @@ React + Flask + OpenAI GPT-3.5 Turbo で Web チャットボット実装
 
 ---
 
-**🎯 次のセッション**: Session 9 - ID 011 実装開始
+**🎯 次のセッション**: Session 11 - ID 013 実装開始
 
