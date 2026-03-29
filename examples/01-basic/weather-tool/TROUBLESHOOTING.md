@@ -308,6 +308,6 @@ Ran 14 tests in 0.020s
 
 ---
 
-**作成者**: VideCoding Learning Project AI Agent  
+**作成者**: VibeCoding Learning Project AI Agent  
 **対応 ID**: 005（フェーズ3.1 基礎プロジェクト）  
 **更新日**: 2026-03-28

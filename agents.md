@@ -1,4 +1,4 @@
-# VideCoding 学習プロジェクト - AIエージェント作業ガイド
+# VibeCoding 学習プロジェクト - AIエージェント作業ガイド
 
 > **最終更新**: 2026年3月29日（Session 10 完了 + ID 012 実装）  
 > **ステータス**: Phase 3.2.C 完了 ✅（ID 010-012 完了），ID 013 準備中
@@ -31,7 +31,7 @@
 | フェーズ | タイトル | ステータス | 目標 |
 |---------|---------|----------|------|
 | **フェーズ1** | 基礎理解 | ✅完了 | 環境構築、プロセス理解 |
-| **フェーズ2** | 理論学習 | ✅完了 | VideCoding基本概念、ベストプラクティス |
+| **フェーズ2** | 理論学習 | ✅完了 | VibeCoding基本概念、ベストプラクティス |
 | **フェーズ3** | 実装（段階的） | 🔄進行中 | 複数の小規模アプリケーション開発 |
 | **フェーズ4** | 成果物化 | ⏳予定 | ナレッジシェア（スライド+動画） |
 
@@ -42,7 +42,7 @@
 ## プロジェクト構成
 
 ```
-VideCoding/
+VibeCoding/
 ├── 📋 ドキュメント
 │   ├── agents.md ..................... このファイル（コアガイド）
 │   ├── README.md ..................... GitHub用概要
@@ -77,7 +77,7 @@ VideCoding/
 │
 └── ⚙️ Configuration
     ├── .gitignore .......................... Git除外設定
-    └── VideCoding.code-workspace .......... VS Code設定
+    └── VibeCoding.code-workspace .......... VS Code設定
 ```
 
 ---
@@ -395,7 +395,7 @@ https://github.com/hirotoitpost/VibeCoding
 
 ```powershell
 # VS Code ワークスペース
-D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\VideCoding.code-workspace
+D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\VibeCoding.code-workspace
 
 # Python 仮想環境
 D:\ProjectPool2\hirotoitpost\GitHub\VideCoding\.venv

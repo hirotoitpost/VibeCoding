@@ -212,6 +212,6 @@ python -m pytest test_main.py -v
 
 MIT License - 個人学習用に自由に使用・改変できます
 
-**作成者**: VideCoding Learning Project  
+**作成者**: VibeCoding Learning Project  
 **作成日**: 2026-03-28  
 **バージョン**: 1.0.0

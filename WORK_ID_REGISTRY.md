@@ -1,4 +1,4 @@
-# 作業ID（Work ID）レジストリ - VideCoding Project
+# 作業ID（Work ID）レジストリ - VibeCoding Project
 
 > **参照**: [agents.md](agents.md) - コアガイド、[SESSION_PROGRESS.md](SESSION_PROGRESS.md) - セッション進捗記録
 
@@ -146,4 +146,4 @@ a438785 chore(ID 009): テスト・検証インフラ完全統合
 ---
 
 **最終更新**: 2026年3月29日 (Session 9 完了 - ID 011 完全実装 + PR #7 マージ完了)  
-**管理者**: VideCoding Learning Project AI Agent
+**管理者**: VibeCoding Learning Project AI Agent

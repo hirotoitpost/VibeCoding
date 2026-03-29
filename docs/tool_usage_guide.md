@@ -458,4 +458,4 @@ Step 6: テスト・デプロイ
 
 **版**: 1.0  
 **最終更新**: 2026年3月28日  
-**作成**: VideCoding Learning Project
+**作成**: VibeCoding Learning Project

@@ -77,7 +77,7 @@ function App() {
 
       {/* Footer */}
       <footer className="footer">
-        <p>🚀 Web 家計簿 v1.0 | VideCoding Learning Project</p>
+        <p>🚀 Web 家計簿 v1.0 | VibeCoding Learning Project</p>
       </footer>
     </div>
   )

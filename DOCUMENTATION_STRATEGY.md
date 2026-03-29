@@ -1,4 +1,4 @@
-# ドキュメント管理戦略 - VideCoding Project
+# ドキュメント管理戦略 - VibeCoding Project
 
 > **背景**: agents.md は 607行に達し、単一ファイル管理が困難になったため、モジュール化戦略を採用。
 
@@ -6,7 +6,7 @@
 
 ## 概要
 
-VideCoding プロジェクトのドキュメントは、以下の原則に基づいてモジュール化・管理されています。
+VibeCoding プロジェクトのドキュメントは、以下の原則に基づいてモジュール化・管理されています。
 
 ### コンセプト
 - **モジュール化**: 関数ドメイン別にドキュメントを分離
@@ -482,4 +482,4 @@ DOCUMENTATION_STRATEGY.md: 225行 (新規) ✅
 
 **最終更新**: 2026年3月29日（ドキュメント分割リファクタリング完成）  
 **次回監視**: Session 8 セッション終了時  
-**管理者**: VideCoding Learning Project AI Agent
+**管理者**: VibeCoding Learning Project AI Agent

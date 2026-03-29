@@ -1,7 +1,7 @@
 # src/__init__.py - IoT センサーシミュレーター パッケージ
 
 __version__ = "1.0.0"
-__author__ = "VideCoding AI Agent"
+__author__ = "VibeCoding AI Agent"
 __description__ = "IoT Sensor Simulator - MQTT based temperature/humidity monitoring"
 
 # パッケージレベルのインポート

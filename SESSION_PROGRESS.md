@@ -1,4 +1,4 @@
-# セッション進捗記録 - VideCoding Learning Project
+# セッション進捗記録 - VibeCoding Learning Project
 
 > **参照**: 詳細は [agents.md](agents.md) を参照してください。
 
@@ -323,5 +323,5 @@
 ---
 
 **最終更新**: 2026年3月29日（Session 9 完了 + PR #7 マージ完了 + ID 011 確定）  
-**管理者**: VideCoding Learning Project AI Agent
+**管理者**: VibeCoding Learning Project AI Agent
 

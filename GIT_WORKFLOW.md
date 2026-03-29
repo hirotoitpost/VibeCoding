@@ -128,7 +128,7 @@ EOF
 
 # REST API 経由で更新（GraphQL の classic projects 問題を回避）
 $body = Get-Content pr_body.md -Raw
-gh api repos/hirotoitpost/VideCoding/pulls/2 -X PATCH -f body=`"$body`"
+gh api repos/hirotoitpost/VibeCoding/pulls/2 -X PATCH -f body=`"$body`"
 ```
 
 **ベストプラクティス**:

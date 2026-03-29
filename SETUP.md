@@ -24,7 +24,7 @@
 ```powershell
 # リポジトリをクローン
 git clone https://github.com/hirotoitpost/VibeCoding.git
-cd VibeCoding
+cd VideCoding
 
 # セットアップスクリプト実行
 ./scripts/setup-dev-env.ps1
@@ -37,7 +37,7 @@ code .
 ```bash
 # リポジトリをクローン
 git clone https://github.com/hirotoitpost/VibeCoding.git
-cd VibeCoding
+cd VideCoding
 
 # セットアップスクリプト実行
 bash scripts/setup-linux.sh
@@ -53,7 +53,7 @@ code .
 ### ステップ 1: リポジトリのクローン
 ```bash
 git clone https://github.com/hirotoitpost/VibeCoding.git
-cd VibeCoding
+cd VideCoding
 ```
 
 ### ステップ 2: 環境ファイルの準備
@@ -157,7 +157,7 @@ PYTHON_PATH=/usr/bin/python3
 NODE_PATH=/usr/local/bin/node
 
 # プロジェクト設定
-PROJECT_NAME=VideCoding
+PROJECT_NAME=VibeCoding
 DEBUG_MODE=false
 ```
 
@@ -178,8 +178,8 @@ open -a "Visual Studio Code" .
 
 ### ワークスペース設定の確認
 ```bash
-# VideCoding.code-workspace を VS Code で開く
-code VideCoding.code-workspace
+# VibeCoding.code-workspace を VS Code で開く
+code VibeCoding.code-workspace
 ```
 
 ---
