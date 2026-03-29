@@ -186,8 +186,23 @@ VideCoding/
 2. **スケーラビリティ** — 400行超過で分割検討
 3. **参照統一** — クロスリファレンスで整合性確保
 4. **頻度対応** — 更新頻度に応じたTier分割
+5. **監視・保守** — 定期的なリファクタリングで肥大化防止
 
 詳細は [DOCUMENTATION_STRATEGY.md](DOCUMENTATION_STRATEGY.md) 参照
+
+### 📊 ドキュメント監視・リファクタリング
+
+**定期チェック**:
+- **各セッション終了時**: 全ドキュメント行数集計
+- **警告基準**: 200行超 (400行で即座に分割)
+- **Mini リファクタリング**: セッション後（小規模整理）
+- **Medium リファクタリング**: フェーズ完了ごと（分割・統合）
+
+**最新リファクタリング**: Session 7 完了時（2026年3月29日）
+- agents.md: 400行 → 190行（52.5%削減 ✅）
+- 新規4ドキュメント追加（SESSION_PROGRESS, WORK_ID_REGISTRY, COMPLIANCE_SECURITY, DOCUMENTATION_STRATEGY）
+
+→ [DOCUMENTATION_STRATEGY.md#-定期リファクタリング計画](DOCUMENTATION_STRATEGY.md#-定期リファクタリング計画) で詳細確認
 
 ---
 
