@@ -24,3 +24,6 @@ __pycache__/
 .env
 .env.local
 
+
+# MQTT Broker runtime data
+**/mosquitto/data/*.db

@@ -1,7 +1,7 @@
 # VideCoding 学習プロジェクト - AIエージェント作業ガイド
 
-> **最終更新**: 2026年3月29日（ドキュメント分割リファクタリング完成）  
-> **ステータス**: Phase 3.2.A 完了、Phase 3.2.B 開始予定
+> **最終更新**: 2026年3月29日（Session 9 完了 + ID 011 マージ）  
+> **ステータス**: Phase 3.2.C 進行中 ✅（ID 010-011 完了），ID 012 準備中
 
 ---
 
@@ -22,7 +22,7 @@
 - **開始日**: 2026年3月26日
 - **環境**: Windows, VS Code, Git
 - **技術スタック**: Python, JavaScript/Node.js, Docker, React, Express
-- **進捗**: **Phase 3.2.A 完了** ✅（ID 001-009 すべてマージ完了）
+- **進捗**: **Phase 3.2.B 開始** ✅（ID 010-011 完了），Phase 3.2.C 準備中
 
 ---
 
@@ -49,7 +49,7 @@ VideCoding/
 │   ├── SETUP.md ..................... 開発環境セットアップ
 │   │
 │   └── 📚 ドキュメント体系
-│       ├── SESSION_PROGRESS.md ....... セッション進捗記録（S1-S7+）
+│       ├── SESSION_PROGRESS.md ....... セッション進捗記録（S1-S9）
 │       ├── WORK_ID_REGISTRY.md ...... 作業ID管理・発行履歴
 │       ├── COMPLIANCE_SECURITY.md ... ハウスキーピング・セキュリティ
 │       ├── DOCUMENTATION_STRATEGY.md  ドキュメント管理戦略
@@ -66,8 +66,9 @@ VideCoding/
 │           └── docs/vibe_coding_guide.md
 │
 ├── 🧪 プロジェクト
-│   ├── examples/01-basic/weather-tool/ ......... ✅ Phase 3.1（Python）
-│   └── examples/02-intermediate/web-accounting-app/  ✅ Phase 3.2.A（Python+React）
+│   ├── examples/01-basic/weather-tool/ ......................... ✅ Phase 3.1（Python）
+│   ├── examples/02-intermediate/web-accounting-app/ ........... ✅ Phase 3.2.A（Python+React）
+│   └── examples/03-intermediate/iot-sensor-simulator/ ......... ✅ Phase 3.2.B（Python+MQTT）
 │
 ├── 🔧 ユーティリティ
 │   ├── scripts/ ........................... セットアップスクリプト
@@ -317,7 +318,7 @@ Step 3: 自動提示（ユーザーへ）
 
 ## 現在のプロジェクト進捗
 
-### 完了作業（ID 001-009）
+### 完了作業（ID 001-011）
 
 | Phase | ID | 内容 | ステータス |
 |-------|----|----|-----------|
@@ -330,10 +331,12 @@ Step 3: 自動提示（ユーザーへ）
 | **2.3** | 007 | 指示設計ワークショップ | ✅ PR #2 |
 | **3.2.A** | 008 | Web家計簿（Backend+Frontend） | ✅ PR #4 |
 |  | 009 | テスト・検証（Frontend+E2E+Docker） | ✅ PR #5 |
+| **3.2.B/C** | 010 | DNS + API Gateway 統合 | ✅ PR #6 |
+|  | 011 | IoT センサーシミュレーター（Python+MQTT） | ✅ PR #7 |
 
 ### 次のステップ
 
-- **ID 010**: フェーズ 3.2.B（Web家計簿拡張 or 新規プロジェクト）— Session 8 で実装予定
+- **ID 012**: フェーズ 3.2.C（チャットボット Web アプリ）— Session 10 で実装予定
 
 詳細は [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md) と [SESSION_PROGRESS.md](SESSION_PROGRESS.md) を参照
 
@@ -401,64 +404,75 @@ cp .env.example .env
 
 ## 🎯 次のセッション予告
 
-### Session 9: ID 011 実装（IoT センサーシミュレーター）
+### ✅ Session 9: ID 011 実装（IoT センサーシミュレーター）**完了**
 
 **プロジェクト**: 2B - IoT センサーシミュレーター（フェーズ 3.2）
 
+**成果**:
+- ✅ Python + paho-mqtt でセンサーシミュレーション実装
+- ✅ Flask Web ダッシュボード（リアルタイム更新）
+- ✅ SQLite データベース + アラーム機能
+- ✅ Docker Compose で完全統合
+- ✅ 24 のユニットテスト実装
+- ✅ PR #7 マージ完了（commit: 449f04e、4,281+ 行追加）
+
+**参考**: [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md#作業id発行履歴) - ID 011 完了記録
+
+---
+
+### 🔄 Session 10: ID 012 実装（シンプルなチャットボット Web アプリ）
+
+**プロジェクト**: 2C - チャットボット Web アプリ（フェーズ 3.2.C）
+
 **要件**:
 ```
-Python + MQTT ブローカーで温度・湿度センサーをシミュレーション
-- リアルタイムデータ取得・保存
-- ダッシュボード表示
-- アラーム機能
+React + Flask + OpenAI GPT-3.5 Turbo で Web チャットボット実装
+
+機能:
+- ユーザーメッセージ入力
+- OpenAI API 連携（GPT-3.5 Turbo）
+- チャット履歴表示
+- 応答ストリーミング
 
 技術スタック:
-- 言語: Python
-- ブローカー: paho-mqtt
-- DB: SQLite or InfluxDB
-- 可視化: Web UI or Grafana
+- フロントエンド: React + Vite
+- バックエンド: Flask + python-dotenv
+- AI API: OpenAI GPT-3.5 Turbo
+- コンテナ: Docker + Docker Compose
 
-推定期間: 4-6日
+推定期間: 2-4日
 ```
 
 **前準備**:
-- [ ] OpenAI API キー確認（チャットボットで使用予定）
-- [ ] Python 環境確認（.venv 有効化）
-- [ ] 参考: [APP_CANDIDATES.md](APP_CANDIDATES.md#候補-2b-iot-センサーシミュレーター推奨)
+- ✅ OpenAI API キー確認（`OPENAI_API_KEY` in `.env`）
+- ✅ Python 環境確認（.venv 有効化）
+- [ ] Node.js / npm 確認
+- [ ] 参考: [APP_CANDIDATES.md](APP_CANDIDATES.md#候補-2c-シンプルなチャットボット-web-アプリ)
 
 **参考資料**:
 - [Vibe Coding 指示設計](docs/vibe_coding_instruction_design.md)
 - [DEVELOPMENT_PROCESS.md](DEVELOPMENT_PROCESS.md)
+- [GIT_WORKFLOW.md](GIT_WORKFLOW.md)
 
 ---
 
-### Session 10（予定）: ID 012 実装（シンプルなチャットボット Web アプリ）
+### ⏳ Session 11（予定）: ID 013 実装（次のプロジェクト）
 
-**プロジェクト**: 2C - チャットボット Web アプリ（フェーズ 3.2）
+**候補**:
+- **3A**: スマートホーム IoT ハブ（複数デバイス + MQTT + REST API）
+- **3B**: スマートコントラクト DApp（Solidity + Hardhat）
 
-**要件**:
-```
-React + Flask + OpenAI GPT API で Web チャットボット実装
-- ユーザー入力受付
-- AI API 連携
-- 応答表示
-
-フロントエンド: React
-バックエンド: Flask
-AI API: OpenAI GPT-3.5 Turbo
-
-推定期間: 2-4日
-```
+詳細は [APP_CANDIDATES.md](APP_CANDIDATES.md#フェーズ33-中級プロジェクト候補難易度-) 参照
 
 ---
 
 ## コミット履歴（最新）
 
 ```
-5391cbc (HEAD -> master, origin/master) docs(Session 8): AI エージェント運用ルール セクション追加
+449f04e (HEAD -> master, origin/master) Merge pull request #7 from hirotoitpost/feature/011_iot_sensor_simulator
+237e4f2 Merge pull request #6 from hirotoitpost/feature/010_dns_api_gateway
+5391cbc docs(Session 8): AI エージェント運用ルール セクション追加
 07fcf01 docs(Session 8): ID 010 PR #6 マージ完了を記録
-cfb0c82 Merge pull request #6 from hirotoitpost/feature/010_dns_api_gateway
-4e64865 feat(ID 010): Docker DNS + API Gateway 統合
 ```
 
 詳細は [SESSION_PROGRESS.md](SESSION_PROGRESS.md) 参照
