@@ -398,6 +398,36 @@
 
 ---
 
+### 🔒 セキュリティ・ポータビリティ改善（追加作業）
+
+**実施内容**:
+- ✅ agents.md: 個人PCパス 8箇所 → `<WORKSPACE_ROOT>` プレースホルダーに置換
+  * VS Code ワークスペースパス
+  * Python 仮想環境パス
+  * examples ディレクトリパス
+  * git コマンド例 内のパス（3箇所）
+  * ポカヨケチェックリスト内のTest-Path コマンド
+
+- ✅ .gitignore: coverage/ フォルダと *.xml を自動生成ファイル除外リストに追加
+  * `coverage/`: テストカバレッジレポート生成フォルダ
+  * `*.xml`: clover.xml など自動生成の XML レポート
+
+- ✅ git rm --cached: coverage フォルダをバージョン管理から削除
+  * 16ファイル削除（clover.xml, coverage-final.json, lcov-report/ 配下）
+  * リポジトリサイズ: 3,269 行削減
+
+**Commit**: 364bfbd (chore: 個人PCパス削除 + coverage/フォルダを.gitignoreから除外)
+
+**改善効果**:
+✅ セキュリティ: 個人PCのパス情報がドキュメントから削除
+✅ ポータビリティ: 他のユーザー環境でも直接利用可能
+✅ リポジトリ整理: 自動生成ファイルが git に追跡されなくなる
+✅ リポジトリサイズ: 3KB 削減
+
+**Status**: ✅ **セキュリティ・ポータビリティ改善完了** - master に記録
+
+---
+
 ## 次のセッション計画
 
 **優先度 HIGH**:
