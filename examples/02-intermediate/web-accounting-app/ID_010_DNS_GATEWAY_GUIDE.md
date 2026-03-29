@@ -172,6 +172,60 @@ docker-compose down --volumes
 docker-compose up -d
 ```
 
+### Vite ブラウザ自動開き エラー（xdg-open）
+**エラー例**:
+```
+error: cannot open display
+error: no protocol specified
+```
+
+**原因**: Vite が Docker コンテナ内でブラウザを起動しようとするが、表示環境がない
+
+**解決方法**: `vite.config.js` で自動ブラウザ開き機能を無効化
+```javascript
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    open: false,  // ← これを追加
+    host: '0.0.0.0',  // クライアントから接続可能に
+  },
+})
+```
+
+**参照**: [web-accounting-app/client/vite.config.js](client/vite.config.js#L15)
+
+---
+
+### API 接続問題（クライアント環境変数）
+**エラー例**:
+```
+GET http://server:5000/api/... net::ERR_NAME_NOT_RESOLVED
+```
+
+**原因**: ブラウザ（クライアント側）が Docker internal hostname `server:5000` を解決できない
+
+**解決方法**: 環境に応じて `VITE_API_URL` を設定
+
+| 環境 | VITE_API_URL | 説明 |
+|-----|-------------|------|
+| **Docker Compose（Pattern B - Gateway）** | `http://web-accounting-app.local/api` | Nginx Gateway + dnsmasq 経由 |
+| **Docker Compose（Pattern A - 直接）** | `http://localhost:5000` | ブラウザホスト上の localhost |
+| **localhost（開発時）** | `http://localhost:5000` | Node.js 開発サーバー直接接続 |
+
+**実装例**:
+```yaml
+# docker-compose.yml
+services:
+  client:
+    environment:
+      - VITE_API_URL=http://web-accounting-app.local/api  # ← パターンBの場合
+
+# または Pattern A の場合:
+      - VITE_API_URL=http://localhost:5000  # ← ホストからの直接接続
+```
+
+**参照**: [docker-compose.yml#L63](docker-compose.yml#L63)
+
 ---
 
 ## 📖 本番環境への応用

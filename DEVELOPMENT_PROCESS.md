@@ -70,6 +70,25 @@
 | プロジェクト | ドキュメント | 主な問題 |
 |-----------|-----------|--------|
 | 天気情報取得ツール | [TROUBLESHOOTING.md](examples/01-basic/weather-tool/TROUBLESHOOTING.md) | URL エンコーディング、依存関係、テスト環境独立性 |
+| Web 家計簿 | [ID_010_DNS_GATEWAY_GUIDE.md - Troubleshooting](examples/02-intermediate/web-accounting-app/ID_010_DNS_GATEWAY_GUIDE.md#-トラブルシューティング) | xdg-open エラー（Vite）、API 接続問題（VITE_API_URL） |
+
+### 具体例: Session 8 - Docker + Vite トラブルシューティング
+
+**Issue 1: xdg-open エラー**
+```
+Error: cannot open display
+```
+**原因**: Vite が Docker コンテナ内でブラウザを起動しようとしたが、表示環境がない  
+**修正**: `vite.config.js` で `open: false` を設定  
+**学習ポイント**: Docker の UI 無しコンテナではブラウザ自動起動は不可  
+
+**Issue 2: API 接続失敗**
+```
+GET http://server:5000/api/... net::ERR_NAME_NOT_RESOLVED
+```
+**原因**: ブラウザがコンテナ内部の hostname `server:5000` を解決できない  
+**修正**: `docker-compose.yml` で `VITE_API_URL=localhost:5000` に変更  
+**学習ポイント**: Docker internal network と host network は別。クライアントは host network からアクセス  
 
 ## 💡 Vibe Coding でのデバッグ時のエージェント指示
 
