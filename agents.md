@@ -395,23 +395,23 @@ https://github.com/hirotoitpost/VibeCoding
 
 ```powershell
 # VS Code ワークスペース
-D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\VibeCoding.code-workspace
+<WORKSPACE_ROOT>\VibeCoding.code-workspace
 
 # Python 仮想環境
-D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\.venv
+<WORKSPACE_ROOT>\.venv
 
 # examples パス（正確）
-D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\examples\
+<WORKSPACE_ROOT>\examples\
 
 # ローカルリポジトリ確認
-cd "D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding"
+cd "<WORKSPACE_ROOT>"
 git status
 ```
 
 ### プロジェクトパス（examples/）
 
 ```
-D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\examples\
+<WORKSPACE_ROOT>\examples\
 ├── 01-basic/weather-tool/
 ├── 02-intermediate/web-accounting-app/
 ├── 03-intermediate/iot-sensor-simulator/
@@ -433,10 +433,10 @@ cp .env.example .env
 **毎セッション開始時に実行**:
 ```powershell
 # 1. 正確なパス確認
-Test-Path "D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\.git"
+Test-Path "<WORKSPACE_ROOT>\.git"
 
 # 2. リポジトリ状態確認
-cd "D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding"
+cd "<WORKSPACE_ROOT>"
 git log --oneline -1
 
 # 3. 現在のブランチ確認
@@ -446,7 +446,7 @@ git branch -a | findstr feature
 **起動コマンド（テンプレート）**:
 ```powershell
 # 常にこのパスを使う
-cd "D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding"
+cd "<WORKSPACE_ROOT>"
 
 # feature ブランチ作成
 git checkout -b feature/[ID]_[title]
