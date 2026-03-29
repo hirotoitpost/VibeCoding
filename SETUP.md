@@ -1,7 +1,7 @@
 # 開発環境セットアップ ガイド
 
 ## 概要
-このドキュメントは、VideCoding プロジェクトの開発環境構築手順を説明します。  
+このドキュメントは、VibeCoding プロジェクトの開発環境構築手順を説明します。  
 自動セットアップスクリプトと手動セットアップの2つの方法を提供します。
 
 ---
@@ -23,8 +23,8 @@
 ### Windows（PowerShell）
 ```powershell
 # リポジトリをクローン
-git clone https://github.com/hirotoitpost/VideCoding.git
-cd VideCoding
+git clone https://github.com/hirotoitpost/VibeCoding.git
+cd VibeCoding
 
 # セットアップスクリプト実行
 ./scripts/setup-dev-env.ps1
@@ -36,8 +36,8 @@ code .
 ### Linux/macOS（Bash）
 ```bash
 # リポジトリをクローン
-git clone https://github.com/hirotoitpost/VideCoding.git
-cd VideCoding
+git clone https://github.com/hirotoitpost/VibeCoding.git
+cd VibeCoding
 
 # セットアップスクリプト実行
 bash scripts/setup-linux.sh
@@ -52,8 +52,8 @@ code .
 
 ### ステップ 1: リポジトリのクローン
 ```bash
-git clone https://github.com/hirotoitpost/VideCoding.git
-cd VideCoding
+git clone https://github.com/hirotoitpost/VibeCoding.git
+cd VibeCoding
 ```
 
 ### ステップ 2: 環境ファイルの準備

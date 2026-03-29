@@ -183,7 +183,7 @@ pytest tests/ -v
 
 1. **GitHub Web UI で以下 URL にアクセス**:
    ```
-   https://github.com/hirotoitpost/VideCoding/pull/new/feature/011_iot_sensor_simulator
+   https://github.com/hirotoitpost/VibeCoding/pull/new/feature/011_iot_sensor_simulator
    ```
 
 2. **PR タイトル (Title)** に以下を入力:

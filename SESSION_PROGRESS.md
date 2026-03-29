@@ -284,7 +284,7 @@
 ### PR #7 マージ完了
 
 **Merge Information**:
-- PR URL: https://github.com/hirotoitpost/VideCoding/pull/7
+- PR URL: https://github.com/hirotoitpost/VibeCoding/pull/7
 - Merge Commit: 449f04e
 - Merged at: 2026-03-29
 - Files added: 26 files, 4,281 lines (+additions)

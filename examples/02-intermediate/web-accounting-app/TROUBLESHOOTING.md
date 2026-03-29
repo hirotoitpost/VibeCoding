@@ -444,7 +444,7 @@ SELECT * FROM transactions;  # データ確認
 
 問題が解決しない場合：
 
-1. [GitHub Issues](https://github.com/hirotoitpost/VideoCoding/issues)
+1. [GitHub Issues](https://github.com/hirotoitpost/VibeCoding/issues)
 2. ローカルで再現可能なテストケース作成
 3. エラーログ・スクリーンショット添付
 
