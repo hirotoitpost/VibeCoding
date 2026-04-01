@@ -37,8 +37,7 @@ GOOGLE_API_KEY=your-api-key-here
 ### **2️⃣ バックエンド起動**
 
 ```powershell
-$backend = "d:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\examples\04-intermediate\chatbot-web-app\backend"
-cd $backend
+cd .\backend
 python -m venv .venv
 .\.venv\Scripts\Activate
 pip install -r requirements.txt
@@ -52,8 +51,7 @@ python server.py
 ### **3️⃣ フロントエンド起動**（別ターミナル）
 
 ```powershell
-$frontend = "d:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\examples\04-intermediate\chatbot-web-app\frontend"
-cd $frontend
+cd .\frontend
 npm install
 npm run dev
 ```
