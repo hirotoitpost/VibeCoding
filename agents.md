@@ -138,14 +138,14 @@ VibeCoding/
    - PR の説明文（body）に実装内容・検証内容を記載
 
 3. **ドキュメント・レジストリの更新**
-   - master ブランチで SESSION_PROGRESS.md, WORK_ID_REGISTRY.md を更新
+   - main ブランチで SESSION_PROGRESS.md, WORK_ID_REGISTRY.md を更新
    - `git add` と `git commit` でコミット
-   - `git push origin master` で Push
+   - `git push origin main` で Push
 
 #### ❌ 禁止事項（AI エージェント がしてはいけないこと）
-- ❌ feature ブランチを master に `git merge` する
+- ❌ feature ブランチを main に `git merge` する
 - ❌ PR を自分で Approve / Merge する
-- ❌ `git push origin master` を直接実行（ドキュメント更新以外）
+- ❌ `git push origin main` を直接実行（ドキュメント更新以外）
 - ❌ PR のレビューコメントに返信（ユーザーの承認待ち）
 
 ### ユーザーの責務
@@ -154,10 +154,10 @@ VibeCoding/
 1. GitHub Web UI で PR の変更内容を確認
 2. テスト、コードレビュー実施
 3. 問題なければ **Approve & Merge** ボタンをクリック
-4. ローカルで `git pull origin master` して同期
+4. ローカルで `git pull origin main` して同期
 
 #### ✅ マージ後の確認
-- ローカル master が最新状態か確認
+- ローカル main が最新状態か確認
 - 必要に応じてコンテナテスト・動作確認
 
 ### Git ワークフロー（図解）
@@ -184,25 +184,25 @@ VibeCoding/
 │    → ✅ Approve & Merge                                    │
 │                                                             │
 │ 4. ローカル同期                                             │
-│    $ git pull origin master                                │
+│    $ git pull origin main                                  │
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
 │ AI エージェント 最終処理                                   │
 ├─────────────────────────────────────────────────────────────┤
 │ 5. ドキュメント更新（必要に応じて）                         │
-│    - SESSION_PROGRESS.md を master で編集                   │
-│    - WORK_ID_REGISTRY.md を master で編集                   │
+│    - SESSION_PROGRESS.md を main で編集                     │
+│    - WORK_ID_REGISTRY.md を main で編集                     │
 │    $ git add . && git commit -m "docs(Session X): ..."    │
-│    $ git push origin master                                │
+│    $ git push origin main                                  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ### 違反時の対応
 
 **違反が発生した場合**:
-- AI エージェント が feature を master に直接マージしてしまった場合
-- マージコミットが origin/master に Push されてしまった場合
+- AI エージェント が feature を main に直接マージしてしまった場合
+- マージコミットが origin/main に Push されてしまった場合
 
 **対応**:
 1. ユーザーに即座に報告
@@ -219,12 +219,12 @@ VibeCoding/
 
 ```
 Step 1: 現在の進捗状況を確認
-  $ git log --oneline master -3
+  $ git log --oneline main -3
   $ git branch -a | grep feature
 
 Step 2: 最新ドキュメントをスキャン
-  - SESSION_PROGRESS.md の最終セクションを確認
-  - WORK_ID_REGISTRY.md で次のID を確認
+  - main ブランチで SESSION_PROGRESS.md の最終セクションを確認
+  - main ブランチで WORK_ID_REGISTRY.md で次のID を確認
   - APP_CANDIDATES.md で対象プロジェクト詳細確認
 
 Step 3: 自動提示（ユーザーへ）
@@ -247,7 +247,7 @@ Step 3: 自動提示（ユーザーへ）
 ## 現在地の確認
 - **前セッション**: Session X-1 (ID XXX 完了)
 - **前回マージ**: Commit XXXXX - [PR リンク]
-- **ローカル状態**: master 最新状態確認済み
+- **ローカル状態**: main 最新状態確認済み
 
 ## 今回の作業
 - **ID**: YYY
@@ -487,8 +487,8 @@ git checkout -b feature/[ID]_[title]
 ## コミット履歴（最新）
 
 ```
-385d1c6 (HEAD -> master) feat(ID 012): チャットボット Web App - Mock レスポンス完全実装完了 + google-genai 対応テスト
-a3fc6be (origin/master) docs(Session 9): agents.md ・レジストリ最終更新 + .gitignore clean化
+385d1c6 (HEAD -> main) feat(ID 012): チャットボット Web App - Mock レスポンス完全実装完了 + google-genai 対応テスト
+a3fc6be (origin/main) docs(Session 9): agents.md ・レジストリ最終更新 + .gitignore clean化
 449f04e (feature/011_iot_sensor_simulator) Merge pull request #7 from hirotoitpost/feature/011_iot_sensor_simulator
 237e4f2 Merge pull request #6 from hirotoitpost/feature/010_dns_api_gateway
 ```

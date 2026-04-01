@@ -25,10 +25,10 @@ feature/作業ID_主な作業内容のタイトル
 ```bash
 # デフォルトブランチを最新に
 git fetch origin
-git checkout master
-git pull origin master
+git checkout main
+git pull origin main
 
-# 作業ブランチを master から生成
+# 作業ブランチを main から生成
 git checkout -b feature/作業ID_タイトル
 ```
 

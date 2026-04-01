@@ -11,14 +11,14 @@
 ### 競合が発生した理由
 
 ```
-master ブランチ状態（初期）
+main ブランチ状態（初期）
 ├─ agents.md （作業ID テーブル: ID 001-002）
 
-PR #1: feature/005 → master
+PR #1: feature/005 → main
 ├─ agents.md を更新（ID 003-006 を追加）
 └─ マージ完了 ✅
 
-PR #2: feature/007 → master（PR #1 マージ前に作成）
+PR #2: feature/007 → main（PR #1 マージ前に作成）
 ├─ agents.md を更新（ID 003-008 を追加）
 └─ マージ時に競合 ⚠️
 
@@ -45,13 +45,13 @@ git checkout feature/007_指示設計ワークショップ
 
 **方法 A: マージの場合**
 ```bash
-git merge origin/master --no-commit
+git merge origin/main --no-commit
 git status  # 競合ファイルを確認
 ```
 
 **方法 B: リベースの場合（推奨 - 線形履歴）**
 ```bash
-git rebase origin/master
+git rebase origin/main
 # 競合が表示される
 ```
 
@@ -69,7 +69,7 @@ error: could not apply 6bc9f9a...
 
 ```
 <<<<<<< HEAD
-（マージ先の内容 - origin/master）
+（マージ先の内容 - origin/main）
 
 =======
 （マージ元の内容 - feature/007）
