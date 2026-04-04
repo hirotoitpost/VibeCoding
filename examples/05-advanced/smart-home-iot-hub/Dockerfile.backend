@@ -1,0 +1,26 @@
+# =============================================================================
+# Dockerfile for Node.js Express Backend API
+# =============================================================================
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY backend/package.json .
+
+# Install dependencies
+RUN npm install
+
+# Copy backend code
+COPY backend .
+
+# Expose API port
+EXPOSE 5000
+
+# Health check
+HEALTHCHECK --interval=10s --timeout=5s --retries=5 \
+  CMD node -e "require('http').get('http://localhost:5000/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
+
+# Start API server
+CMD ["npm", "start"]

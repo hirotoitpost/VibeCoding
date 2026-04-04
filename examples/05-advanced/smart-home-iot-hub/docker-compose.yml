@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  # ============================================================================
+  # MQTT Broker - Mosquitto
+  # ============================================================================
+  mqtt:
+    image: eclipse-mosquitto:2.0
+    container_name: smart-home-mqtt
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mqtt_data:/mosquitto/data
+      - mqtt_logs:/mosquitto/log
+    networks:
+      - smart-home-network
+    healthcheck:
+      test: ["CMD", "mosquitto_pub", "-h", "localhost", "-p", "1883", "-t", "test", "-m", "test"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================================================
+  # Python Device Simulator
+  # ============================================================================
+  simulator:
+    build:
+      context: .
+      dockerfile: Dockerfile.simulator
+    container_name: smart-home-simulator
+    depends_on:
+      mqtt:
+        condition: service_healthy
+    environment:
+      - MQTT_BROKER=mqtt
+      - MQTT_PORT=1883
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./simulator:/app/simulator
+    networks:
+      - smart-home-network
+    restart: unless-stopped
+
+  # ============================================================================
+  # Express API Server
+  # ============================================================================
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: smart-home-api
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mqtt
+    environment:
+      - NODE_ENV=development
+      - MQTT_BROKER=mqtt
+      - MQTT_PORT=1883
+      - DB_PATH=/app/data/smart_home.db
+      - API_PORT=5000
+    volumes:
+      - ./backend:/app
+      - api_data:/app/data
+    networks:
+      - smart-home-network
+    restart: unless-stopped
+
+  # ============================================================================
+  # React Frontend (Vite Dev Server)
+  # ============================================================================
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: smart-home-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    environment:
+      - VITE_API_URL=http://api:5000
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+    networks:
+      - smart-home-network
+    command: npm run dev -- --host 0.0.0.0 --port 3000
+    restart: unless-stopped
+
+# ============================================================================
+# Volumes
+# ============================================================================
+volumes:
+  mqtt_data:
+  mqtt_logs:
+  api_data:
+
+# ============================================================================
+# Networks
+# ============================================================================
+networks:
+  smart-home-network:
+    driver: bridge

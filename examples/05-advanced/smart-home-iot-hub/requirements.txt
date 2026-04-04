@@ -1,0 +1,15 @@
+# VibeCoding ID 013 - Smart Home IoT Hub (Python Dependencies)
+
+# MQTT
+paho-mqtt==1.6.1
+
+# Database
+sqlite3  # Built-in, but listed for clarity
+
+# Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-asyncio==0.21.1
+
+# Utilities
+python-dotenv==1.0.0
