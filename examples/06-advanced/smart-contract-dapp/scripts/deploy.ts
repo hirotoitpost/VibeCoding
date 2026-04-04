@@ -37,13 +37,14 @@ async function main() {
   console.log(`   Deployer Balance: ${ethers.formatEther(deployerBalance)} ${symbol}`);
 
   // Save deployment info
+  const network = await ethers.provider.getNetwork();
   const deploymentInfo = {
-    network: (await ethers.provider.getNetwork()).name,
+    network: network.name || network.chainId.toString(),
     token: {
       address: tokenAddress,
       name: name,
       symbol: symbol,
-      decimals: decimals,
+      decimals: Number(decimals),
       totalSupply: ethers.formatEther(totalSupply),
     },
     deployer: deployer.address,
