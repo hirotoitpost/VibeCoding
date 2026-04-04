@@ -132,10 +132,11 @@ VibeCoding/
    - コード実装・ドキュメント修正
    - `git add` と `git commit` で変更をコミット
 
-2. **Push と PR 作成**
-   - `git push origin feature/[ID]_[タイトル]` でリモートに Push
+2. **Push と PR 作成（コード実装・修正 PR）**
+   - `git push origin feature/[ID]_[タイトル]` または `git push origin fix/[ID]_[説明]` でリモートに Push
    - **GitHub Web UI から PR を作成**（PR URL は返す）
    - PR の説明文（body）に実装内容・検証内容を記載
+   - ユーザーが Approve & Merge
 
 3. **ドキュメント・レジストリの更新（PR ワークフロー）**
    - `git checkout -b docs/session-[X]-update` で新規ブランチ作成
@@ -524,10 +525,10 @@ git checkout -b feature/[ID]_[title]
 ## コミット履歴（最新）
 
 ```
-c4dc16b (HEAD -> main) feat(ID 014): Smart Contract DApp - ERC-20 Token Implementation with Hardhat
-81a08c7 Merge pull request #11 from hirotoitpost/feature/013_docker_api_fix
-9ad8dc5 Merge pull request #9 from hirotoitpost/feature/013_smart_home_iot_hub
-237e4f2 Merge pull request #6 from hirotoitpost/feature/010_dns_api_gateway
+2b2e3e1 (fix/014_deploy_script_fix) fix(ID 014): Deploy script - BigInt serialization fix for deployment info output
+71f27f1 (HEAD -> main, origin/main) Merge pull request #13 from hirotoitpost/docs/session-14-update
+77520e1 (origin/docs/session-14-update) docs(Session 14): ID 014 完成記録・ドキ ュメント更新 + workflow 修正
+364a548 Merge pull request #12 from hirotoitpost/feature/014_smartcontract_dapp
 ```
 
 詳細は [SESSION_PROGRESS.md](SESSION_PROGRESS.md) 参照

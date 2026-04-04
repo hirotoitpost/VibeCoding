@@ -46,7 +46,7 @@ PR タイトル:
 | 011 | フェーズ3.2.B / IoT センサーシミュレーター | ✅完了 | PR #7 (449f04e) | S9 | Python MQTT + Web ダッシュボード + 24テスト + 4.8K行 |
 | 012 | フェーズ3.2.C / チャットボット Web App | ✅完了 | `385d1c6` | S12 | React + Flask + Mock API + 18テスト + 991行 |
 | 013 | フェーズ3.3.A / スマートホーム IoT ハブ | ✅完了 | PR #9 (9ad8dc5) + PR #11 (81a08c7) | S13 | MQTT + Python + Express + React + Docker + 3,200+行 |
-| 014 | フェーズ3.3.B / スマートコントラクト DApp | ✅完了 | PR #12 (c4dc16b) | S14 | Hardhat + Solidity + ERC-20 + 14テスト + 1,200+行 |
+| 014 | フェーズ3.3.B / スマートコントラクト DApp モジュール実装 + デプロイ修正 | ✅完了 | PR #12 (c4dc16b) + PR #13 (77520e1) + PR #14 (2b2e3e1) | S14 | Hardhat + Solidity + ERC-20 + 14テスト + Fixture修正 |
 
 **次に発行するID**: 015
 
