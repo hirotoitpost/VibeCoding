@@ -734,6 +734,63 @@
 ## セッション 14 (2026-04-04)
 - **タスク**: ID 014 フェーズ 3.3.B スマートコントラクト DApp - ERC-20 トークン実装
 
+### ✅ Hardhat プロジェクト初期化
+- Hardhat 2.17.0 + TypeScript セットアップ
+- Solidity 0.8.20 コンパイラ設定
+- ethers.js v6 依存関係解決
+
+### ✅ VibeCodingToken ERC-20 実装
+- 基本機能: transfer, approve, transferFrom
+- 追加機能: ERC20Burnable, Ownable
+- 初期供給: 1,000,000 VBC (18 decimals)
+
+### ✅ ユニットテスト完成
+- 14個のテストケース (100% 通過)
+- 実行時間: 922ms
+- カテゴリ:
+  * Deployment (4 tests)
+  * Transfer (2 tests)
+  * Approve & TransferFrom (3 tests)
+  * Burn (2 tests)
+  * Access Control (3 tests)
+
+### ✅ デプロイスクリプト実装
+- scripts/deploy.ts: ローカル Hardhat ネットワーク対応
+- Sepolia testnet 環境変数対応
+- **初版**: JSON serialization エラー (BigInt)
+- **修正**: ネットワーク/decimals を事前変換
+
+### 📝 ドキュメント完成
+- README.md: プロジェクト説明 (180行)
+- SETUP_GUIDE.md: 8ステップセットアップ (400行)
+- TROUBLESHOOTING.md: 10個の error patterns (400行)
+- Total: 1,000+ 行のドキュメント
+
+### ✅ コミット履歴
+- **PR #12**: feat(ID 014) - Smart Contract DApp 実装
+  * Commit: c4dc16b
+  * Status: Merged ✅
+  
+- **PR #13**: docs(Session 14) - ドキュメント更新 + workflow 修正
+  * Commit: 77520e1
+  * Status: Merged ✅
+
+### 🔧 ローカルデプロイテスト
+- コマンド: `npx hardhat run scripts/deploy.ts --network hardhat`
+- トークンアドレス: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+- デプロイヤー残高: 10,000.0 ETH (Hardhat テスト用)
+- 初期供給配布: 1,000,000 VBC
+
+### 🐛 JSON Serialization 修正
+- **問題**: JSON.stringify() が BigInt を直列化できない
+- **修正ファイル**: scripts/deploy.ts
+- **変更**: Network 情報と decimals を事前に型変換
+- **PR #14**: fix(ID 014) - Deploy script 修正
+  * Commit: 2b2e3e1
+  * Status: Open (マージ待機中)
+
+**Status**: ✅ **ID 014 実装・テスト完全完了** - PR #12 マージ完了、PR #14 マージ待機中
+
 **実装完了項目**:
 
 ### ✅ Hardhat プロジェクト構造
