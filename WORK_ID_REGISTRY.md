@@ -44,9 +44,10 @@ PR タイトル:
 | 009 | フェーズ3.2.A.3 テスト・検証 | ✅完了 | PR #5 (02373e1) | S7 | Frontend 20/20テスト + E2E + Docker検証 + a438785 |
 | 010 | フェーズ3.2.B / DNS + API Gateway 統合 | ✅完了 | PR #6 (cfb0c82) | S8 | Nginx Gateway + dnsmasq DNS |
 | 011 | フェーズ3.2.B / IoT センサーシミュレーター | ✅完了 | PR #7 (449f04e) | S9 | Python MQTT + Web ダッシュボード + 24テスト + 4.8K行 |
-| 012 | フェーズ3.2.C / チャットボット Web App | ✅完了 | `385d1c6` | S12 | React + Flask + Mock API + 18テスト + 991行 |      
+| 012 | フェーズ3.2.C / チャットボット Web App | ✅完了 | `385d1c6` | S12 | React + Flask + Mock API + 18テスト + 991行 |
+| 013 | フェーズ3.3.A / スマートホーム IoT ハブ | ✅完了 | PR #9 (9ad8dc5) | S13 | MQTT + Python Simulator + Express API + React Dashboard + Docker + 3,057行 |
 
-**次に発行するID**: 013
+**次に発行するID**: 014
 
 ---
 
@@ -74,7 +75,11 @@ PR タイトル:
 - **フェーズ 3.2.B** → **フェーズ 3.2.C** ✅
   - ID 010: DNS + API Gateway 統合
   - ID 011: IoT センサーシミュレーター (Python MQTT + Web Dashboard)
-  - ID 012: チャットボット Web App (React + Flask + OpenAI) - 予定中
+  - ID 012: チャットボット Web App (React + Flask + OpenAI)
+
+### フェーズ 3.3: 高度なマイクロサービス
+- **フェーズ 3.3.A** ✅
+  - ID 013: スマートホーム IoT ハブ (MQTT + Python Simulator + Express API + React Dashboard)
 
 ---
 
@@ -101,10 +106,10 @@ a438785 chore(ID 009): テスト・検証インフラ完全統合
 ## 統計サマリー
 
 ### プロジェクト全体
-- **完了ID数**: 12
-- **総コミット数**: 30+ commits
-- **総行数追加**: 15,400+ lines
-- **PR数**: 8 (全マージ完了)
+- **完了ID数**: 13
+- **総コミット数**: 35+ commits
+- **総行数追加**: 18,400+ lines
+- **PR数**: 9 (全マージ完了)
 - **テスト成功率**: 100%
 
 ### 技術スタック（フェーズ別）
@@ -114,6 +119,7 @@ a438785 chore(ID 009): テスト・検証インフラ完全統合
 | 3.2.A | Python + Node.js | Express + React | Jest + Cypress | ✅ |
 | 3.2.B | Python | Flask | pytest + Cypress | ✅ |
 | 3.2.C | Python + Node.js | Flask + React | pytest + Jest | ✅ |
+| 3.3.A | Python + Node.js | Express + React | pytest | ✅ |
 
 ---
 
