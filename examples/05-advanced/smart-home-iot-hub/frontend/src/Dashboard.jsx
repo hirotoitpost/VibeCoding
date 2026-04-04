@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './Dashboard.css'
 
-function Dashboard({ devices, onDelete, apiUrl }) {
+function Dashboard({ devices, onDelete }) {
   const [deviceData, setDeviceData] = useState({})
 
   useEffect(() => {
@@ -10,7 +10,7 @@ function Dashboard({ devices, onDelete, apiUrl }) {
       const newData = {}
       for (const device of devices) {
         try {
-          const response = await fetch(`${apiUrl}/api/devices/${device.id}/data?limit=5`)
+          const response = await fetch(`/api/devices/${device.id}/data?limit=5`)
           if (response.ok) {
             const result = await response.json()
             newData[device.id] = result.data || []
@@ -27,7 +27,7 @@ function Dashboard({ devices, onDelete, apiUrl }) {
       const interval = setInterval(fetchAllData, 5000)
       return () => clearInterval(interval)
     }
-  }, [devices, apiUrl])
+  }, [devices])
 
   if (devices.length === 0) {
     return <p className="no-devices">デバイスが登録されていません</p>
