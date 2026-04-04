@@ -15,7 +15,12 @@ class SimpleMQTTClient:
         self.broker = broker
         self.port = port
         self.client_id = client_id
-        self.client = mqtt.Client(mqtt.CallbackAPIVersion.V1, client_id=client_id)
+        # Initialize client with CallbackAPIVersion if available (paho-mqtt 2.0+)
+        try:
+            self.client = mqtt.Client(mqtt.CallbackAPIVersion.V1, client_id=client_id)
+        except AttributeError:
+            # Fallback for older paho-mqtt versions
+            self.client = mqtt.Client(client_id=client_id)
         self.is_connected = False
         
         # Set callbacks

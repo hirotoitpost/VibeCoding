@@ -1,10 +1,10 @@
 # VibeCoding ID 013 - Smart Home IoT Hub (Python Dependencies)
 
 # MQTT
-paho-mqtt==1.6.1
+paho-mqtt>=2.0.0
 
 # Database
-sqlite3  # Built-in, but listed for clarity
+# sqlite3 is built-in to Python, no pip install needed
 
 # Testing
 pytest==7.4.3

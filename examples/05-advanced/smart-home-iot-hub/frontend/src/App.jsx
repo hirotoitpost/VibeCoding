@@ -13,8 +13,6 @@ function App() {
     mqtt_topic: ''
   })
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
-
   // Fetch devices on mount
   useEffect(() => {
     fetchDevices()
@@ -24,7 +22,7 @@ function App() {
 
   const fetchDevices = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/devices`)
+      const response = await fetch(`/api/devices`)
       if (!response.ok) throw new Error('Failed to fetch devices')
       const result = await response.json()
       setDevices(result.data || [])
@@ -46,7 +44,7 @@ function App() {
 
     try {
       setLoading(true)
-      const response = await fetch(`${API_URL}/api/devices`, {
+      const response = await fetch(`/api/devices`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newDevice)
@@ -73,7 +71,7 @@ function App() {
     
     try {
       setLoading(true)
-      const response = await fetch(`${API_URL}/api/devices/${id}`, {
+      const response = await fetch(`/api/devices/${id}`, {
         method: 'DELETE'
       })
       if (!response.ok) throw new Error('Failed to delete device')
@@ -144,7 +142,6 @@ function App() {
             <Dashboard
               devices={devices}
               onDelete={deleteDevice}
-              apiUrl={API_URL}
             />
           )}
         </section>
