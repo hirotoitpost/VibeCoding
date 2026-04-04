@@ -1,7 +1,7 @@
 # VibeCoding 学習プロジェクト - AIエージェント作業ガイド
 
-> **最終更新**: 2026年3月29日（Session 12 完了 + ID 012 テスト・デプロイ完成）  
-> **ステータス**: Phase 3.2.C 完了 ✅（ID 010-012 完了），ID 013 準備中
+> **最終更新**: 2026年4月4日（Session 14 完了 + ID 014 スマートコントラクト DApp 完成）  
+> **ステータス**: Phase 3.3.B 完了 ✅（ID 013-014 完了），次のプロジェクト準備中
 
 ---
 
@@ -21,8 +21,8 @@
 ### プロジェクト情報
 - **開始日**: 2026年3月26日
 - **環境**: Windows, VS Code, Git
-- **技術スタック**: Python, JavaScript/Node.js, Docker, React, Express
-- **進捗**: **Phase 3.2.C 完了** ✅（ID 010-012 完了），Phase 3.3 準備中
+- **技術スタック**: Python, JavaScript/Node.js, Docker, React, Express, Solidity, Hardhat
+- **進捗**: **Phase 3.3 進行中** ✅（ID 013-014 完了），Phase 3.3 追加プロジェクト準備中
 
 ---
 
@@ -137,15 +137,18 @@ VibeCoding/
    - **GitHub Web UI から PR を作成**（PR URL は返す）
    - PR の説明文（body）に実装内容・検証内容を記載
 
-3. **ドキュメント・レジストリの更新**
-   - main ブランチで SESSION_PROGRESS.md, WORK_ID_REGISTRY.md を更新
+3. **ドキュメント・レジストリの更新（PR ワークフロー）**
+   - `git checkout -b docs/session-[X]-update` で新規ブランチ作成
+   - SESSION_PROGRESS.md, WORK_ID_REGISTRY.md を編集
    - `git add` と `git commit` でコミット
-   - `git push origin main` で Push
+   - `git push origin docs/session-[X]-update` で Push
+   - **GitHub Web UI から PR を作成**（PR URL は返す）
+   - ユーザーが Approve & Merge
 
 #### ❌ 禁止事項（AI エージェント がしてはいけないこと）
-- ❌ feature ブランチを main に `git merge` する
+- ❌ feature/docs ブランチを main に `git merge` する
 - ❌ PR を自分で Approve / Merge する
-- ❌ `git push origin main` を直接実行（ドキュメント更新以外）
+- ❌ `git push origin main` を直接実行（すべてのケース）
 - ❌ PR のレビューコメントに返信（ユーザーの承認待ち）
 
 ### ユーザーの責務
@@ -188,13 +191,27 @@ VibeCoding/
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
-│ AI エージェント 最終処理                                   │
+│ AI エージェント 最終処理（ドキュメント更新）              │
 ├─────────────────────────────────────────────────────────────┤
-│ 5. ドキュメント更新（必要に応じて）                         │
-│    - SESSION_PROGRESS.md を main で編集                     │
-│    - WORK_ID_REGISTRY.md を main で編集                     │
+│ 5. 新規ブランチでドキュメント更新                           │
+│    $ git checkout -b docs/session-X-update                 │
+│    - SESSION_PROGRESS.md を編集                            │
+│    - WORK_ID_REGISTRY.md を編集                            │
 │    $ git add . && git commit -m "docs(Session X): ..."    │
-│    $ git push origin main                                  │
+│    $ git push origin docs/session-X-update                 │
+│    → GitHub Web UI で PR 作成                              │
+│    → PR URL を返す                                         │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│ ユーザー 処理（ドキュメント PR マージ）                   │
+├─────────────────────────────────────────────────────────────┤
+│ 6. ドキュメント PR レビュー・マージ                         │
+│    → GitHub Web UI で確認                                  │
+│    → ✅ Approve & Merge                                    │
+│                                                             │
+│ 7. ローカル同期                                             │
+│    $ git pull origin main                                  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -319,7 +336,7 @@ Step 3: 自動提示（ユーザーへ）
 
 ## 現在のプロジェクト進捗
 
-### 完了作業（ID 001-012）
+### 完了作業（ID 001-014）
 
 | Phase | ID | 内容 | ステータス |
 |-------|----|----|-----------|
@@ -335,11 +352,13 @@ Step 3: 自動提示（ユーザーへ）
 | **3.2.B/C** | 010 | DNS + API Gateway 統合 | ✅ PR #6 |
 |  | 011 | IoT センサーシミュレーター（Python+MQTT） | ✅ PR #7 |
 |  | 012 | チャットボット Web App（React + Flask + Mock API） | ✅ Session 12 完了 |
+| **3.3.A** | 013 | スマートホーム IoT ハブ（MQTT + Python + Express + React） | ✅ PR #9 + PR #11 |
+| **3.3.B** | 014 | スマートコントラクト DApp（Solidity + Hardhat + ERC-20） | ✅ PR #12 |
 
 ### 次のステップ
 
-- **ID 013**: フェーズ 3.3.A（スマートホーム IoT ハブ）— Session 13 以降
-- **ID 014**: フェーズ 3.3.B（スマートコントラクト DApp）— 予定
+- **ID 015**: フェーズ 3.3 追加プロジェクト — Session 15 以降
+- 候補: Web3 フロントエンド統合、DAO スマートコントラクト、NFT 実装等
 
 詳細は [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md) と [SESSION_PROGRESS.md](SESSION_PROGRESS.md) を参照
 
@@ -415,8 +434,9 @@ git status
 ├── 01-basic/weather-tool/
 ├── 02-intermediate/web-accounting-app/
 ├── 03-intermediate/iot-sensor-simulator/
-├── 04-intermediate/chatbot-web-app/          ← ID 012 (Session 10)
-└── [今後追加]
+├── 04-intermediate/chatbot-web-app/
+├── 05-advanced/smart-home-iot-hub/          ← ID 013 (Session 13)
+└── 06-advanced/smart-contract-dapp/         ← ID 014 (Session 14)
 ```
 
 ### 環境構築
@@ -452,33 +472,50 @@ cd "<WORKSPACE_ROOT>"
 git checkout -b feature/[ID]_[title]
 ```
 
----
-
 ## 🎯 次のセッション予告
 
-### ✅ Session 12: ID 012 テスト・デプロイ（チャットボット Web アプリ）**完了**
+### ✅ Session 13: ID 013 実装（スマートホーム IoT ハブ）**完了**
 
-**プロジェクト**: 2C - チャットボット Web アプリ（フェーズ 3.2.C）
+**プロジェクト**: 3.3.A - スマートホーム IoT ハブ（フェーズ 3.3 Advanced Projects）
 
 **成果**:
-- ✅ React + Vite フロントエンド（port 3000 動作確認）
-- ✅ Flask バックエンド（port 5000 動作確認）
-- ✅ Mock API レスポンス実装（14 キーワードパターン）
-- ✅ End-to-end チャット通信検証完了
-- ✅ Docker Compose マルチコンテナ構成
-- ✅ ドキュメント完成（SETUP_GUIDE.md, README ×3）
-- ✅ コミット: `385d1c6`、3 ファイル、9 挿入 + 25 削除
-- ✅ **Session 12 実装・検証完全完了**
+- ✅ MQTT ブローカー（Mosquitto 2.0）
+- ✅ Python デバイスシミュレーター（5ファイル、600行）
+- ✅ Express REST API（9ファイル、398行）
+- ✅ React ダッシュボード（Vite、6ファイル、556行）
+- ✅ Docker Compose（4 マイクロサービス統合）
+- ✅ ドキュメント完成（README, SETUP_GUIDE, TROUBLESHOOTING）
+- ✅ ライブテスト・修正：PR #9 + PR #11
+- ✅ **Session 13 実装・テスト・修正完全完了**
 
-**参考**: [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md#作業id発行履歴) - ID 012 完成記録
+**参考**: [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md#作業id発行履歴) - ID 013 完成記録
 
 ---
 
-### 🔄 Session 13: ID 013 実装（次のプロジェクト予定）
+### ✅ Session 14: ID 014 実装（スマートコントラクト DApp）**完了**
+
+**プロジェクト**: 3.3.B - スマートコントラクト DApp（フェーズ 3.3 Advanced Projects）
+
+**成果**:
+- ✅ Hardhat プロジェクト（TypeScript、Solidity 0.8.20）
+- ✅ VibeCodingToken ERC-20 スマートコントラクト（40行）
+- ✅ 14 ユニットテスト（100% 通過、922ms）
+- ✅ デプロイスクリプト（scripts/deploy.ts）
+- ✅ ドキュメント完成（README, SETUP_GUIDE, TROUBLESHOOTING）
+- ✅ Sepolia testnet 対応・環境設定
+- ✅ PR #12 マージ完了
+- ✅ **Session 14 実装・テスト・マージ完全完了**
+
+**参考**: [WORK_ID_REGISTRY.md](WORK_ID_REGISTRY.md#作業id発行履歴) - ID 014 完成記録
+
+---
+
+### 🔄 Session 15: ID 015 実装（次のプロジェクト予定）
 
 **候補プロジェクト**:
-- **3A**: スマートホーム IoT ハブ（複数デバイス + MQTT + REST API）
-- **3B**: スマートコントラクト DApp（Solidity + Hardhat）
+- **Web3 フロントエンド統合** (React + Web3.js × ID 014)
+- **DAO スマートコントラクト** (Open Zeppelin Governance)
+- **NFT DApp** (ERC-721 実装)
 
 詳細は [APP_CANDIDATES.md](APP_CANDIDATES.md#フェーズ33-中級プロジェクト候補難易度-) 参照
 
@@ -487,9 +524,9 @@ git checkout -b feature/[ID]_[title]
 ## コミット履歴（最新）
 
 ```
-385d1c6 (HEAD -> main) feat(ID 012): チャットボット Web App - Mock レスポンス完全実装完了 + google-genai 対応テスト
-a3fc6be (origin/main) docs(Session 9): agents.md ・レジストリ最終更新 + .gitignore clean化
-449f04e (feature/011_iot_sensor_simulator) Merge pull request #7 from hirotoitpost/feature/011_iot_sensor_simulator
+c4dc16b (HEAD -> main) feat(ID 014): Smart Contract DApp - ERC-20 Token Implementation with Hardhat
+81a08c7 Merge pull request #11 from hirotoitpost/feature/013_docker_api_fix
+9ad8dc5 Merge pull request #9 from hirotoitpost/feature/013_smart_home_iot_hub
 237e4f2 Merge pull request #6 from hirotoitpost/feature/010_dns_api_gateway
 ```
 
@@ -501,9 +538,9 @@ a3fc6be (origin/main) docs(Session 9): agents.md ・レジストリ最終更新 
 
 **プロジェクト管理**: AI Agent（GitHub Copilot）  
 **リポジトリ**: https://github.com/hirotoitpost/VibeCoding  
-**最終更新**: 2026年3月29日
+**最終更新**: 2026年4月4日
 
 ---
 
-**🎯 次のセッション**: Session 13 - ID 013 実装開始
+**🎯 次のセッション**: Session 15 - ID 015 実装開始
 
