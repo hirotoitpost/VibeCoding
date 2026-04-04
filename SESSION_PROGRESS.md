@@ -686,6 +686,222 @@
 
 ---
 
-**最終更新**: 2026年3月29日（Session 12 完了 - Mock レスポンス完成）  
+## セッション 13 (2026-04-04 続き)
+- **タスク**: ID 013 テスト・検証 + Docker API 通信修正
+
+**実施内容**:
+
+### ✅ ID 013 ライブテスト実行
+- ✅ Docker Compose 起動： `docker-compose up -d`
+- ✅ 4 マイクロサービス確認：
+  * 🟢 mqtt (Mosquitto 2.0)
+  * 🟢 simulator (Python)
+  * 🟢 api (Express @ port 5000)
+  * 🟢 frontend (React Vite @ port 3000)
+
+### 🐛 バグ発見・修正
+1. **paho-mqtt CallbackAPIVersion エラー**
+   - 原因: paho-mqtt 1.6.1 が古い API を使用
+   - 修正: paho-mqtt 1.6.1 → ≥2.0.0
+   - 対応: try-except ラッパーで両バージョン互換性確保
+
+2. **Docker node_modules コンフリクト**
+   - 原因: volume mount が npm install の結果を上書き
+   - 修正: docker-compose.yml に `/app/node_modules` 除外
+
+3. **フロントエンド API 通信失敗（CORS）**
+   - 原因: ブラウザから Docker 内部ホスト名 `api:5000` 解決失敗
+   - 修正: Vite プロキシパターン (ID 010 参照) で `/api` への相対パス使用
+
+### 📝 修正コミット
+- **PR #11**: Docker API 通信修正
+  * requirements.txt: paho-mqtt バージョン更新
+  * mqtt_client.py: CallbackAPIVersion 互換性処理
+  * docker-compose.yml: volume exclusion + API URL修正
+  * App.jsx, Dashboard.jsx: 相対パス化
+  * Commit: 81a08c7
+
+### ✅ 動作確認
+- ✅ Dashboard UI 表示: エラーなし
+- ✅ デバイス登録: 5個デバイス表示成功
+- ✅ MQTT サブスクリプション: リアルタイムデータ更新確認
+- ✅ ブラウザコンソール: 0 エラー
+
+**Status**: ✅ **ID 013 実装・テスト・修正完全完了** - PR #9 + PR #11 マージ完了
+
+---
+
+## セッション 14 (2026-04-04)
+- **タスク**: ID 014 フェーズ 3.3.B スマートコントラクト DApp - ERC-20 トークン実装
+
+**実装完了項目**:
+
+### ✅ Hardhat プロジェクト構造
+- ✅ npm 依存関係セットアップ
+  * @nomicfoundation/hardhat-toolbox@^4.0.0
+  * hardhat@^2.17.0, ethers@^6.7.1
+  * @openzeppelin/contracts@^5.0.0
+  * web3@^4.1.0, react@^18.2.0
+
+- ✅ TypeScript 設定
+  * tsconfig.json (moduleResolution: bundler, ignoreDeprecations: "6.0")
+  * hardhat.config.ts (Solidity 0.8.20, Sepolia ネットワーク)
+
+### ✅ スマートコントラクト実装
+- ✅ **VibeCodingToken.sol** (40行、効率的)
+  * ERC-20 標準実装 (OpenZeppelin)
+  * ERC20Burnable 拡張 (焼却機能)
+  * Ownable パターン (所有者制御)
+  * 初期供給：1,000,000 VBC (18 decimals)
+  * Solidity 0.8.20 対応
+
+### ✅ テストスイート (14 通過、100%)
+- ✅ Deployment テスト (4個)
+  * 名前・シンボル確認
+  * 小数点確認
+  * 初期供給検証
+  * 総供給確認
+- ✅ Transfer テスト (2個)
+  * 正常な転送
+  * 残高不足時のエラー処理
+- ✅ Approve & TransferFrom (3個)
+  * トークン承認
+  * transferFrom 動作
+  * 承認額減少確認
+- ✅ Burn テスト (2個)
+  * トークン焼却
+  * 残高減少確認
+- ✅ Access Control (3個)
+  * 所有者確認
+  * 所有権放棄
+  * 非所有者からのアクセス拒否
+
+**テスト実行結果**:
+```
+✅ 14 passing (922ms)
+  - Deployment: 4/4 ✓
+  - Transfer: 2/2 ✓
+  - Approve & TransferFrom: 3/3 ✓
+  - Burn: 2/2 ✓
+  - Access Control: 3/3 ✓
+```
+
+### ✅ デプロイメント基盤
+- ✅ **scripts/deploy.ts** (40行)
+  * Sepolia testnet 対応
+  * デプロイメント情報ログ出力
+  * ethers.js v6 API 使用
+
+### ✅ 開発環境設定
+- ✅ **hardhat.config.ts** - ネットワーク設定
+- ✅ **tsconfig.json** - TypeScript 設定
+- ✅ **.env.example** - 環境変数テンプレート
+- ✅ **.gitignore** - セキュリティ設定
+
+### ✅ ドキュメント (4ファイル、1,000+行)
+- ✅ **README.md** (180行)
+  * プロジェクト概要
+  * フィーチャー説明
+  * 要件・セットアップ・使用方法
+  * トラブルシューティング
+  
+- ✅ **SETUP_GUIDE.md** (400行)
+  * 8ステップ完全ガイド
+  * Node.js インストール～Etherscan 検証
+  * MetaMask 設定手順
+  * Sepolia フォーセット取得方法
+  * 検証チェックリスト
+  
+- ✅ **TROUBLESHOOTING.md** (400行)
+  * コンパイル・ビルドエラー集
+  * ネットワーク・RPC 問題
+  * デプロイメント問題
+  * テスト・Etherscan 検証
+  * MetaMask & Web3 互換性
+  * パフォーマンス・ガス最適化
+
+### ✅ npm スクリプト
+```json
+"scripts": {
+  "compile": "hardhat compile",
+  "test": "hardhat test",
+  "deploy": "hardhat run scripts/deploy.js --network sepolia",
+  "frontend:dev": "cd frontend && npm run dev",
+  "frontend:build": "cd frontend && npm run build"
+}
+```
+
+### ✅ コンパイル・テスト実行
+- ✅ Hardhat compile: 成功
+  * Solidity 0.8.20 ダウンロード
+  * 8個アーティファクト生成
+  * TypeScript型定義: 40個
+  * ターゲット: EVM (paris)
+
+- ✅ npm test: 全テスト通過
+  * 実行時間: 922ms
+  * テストケース: 14/14
+  * 失敗・スキップ: 0
+
+**Git コミット・PR**:
+- **Commit c4dc16b**: feat(ID 014): Smart Contract DApp - ERC-20 トークン実装
+  * 13ファイル変更、1,200+行追加
+  * Hardhat プロジェクト基盤
+  * VibeCodingToken スマートコントラクト
+  * 14個のユニットテスト
+  * 本番対応ドキュメント完備
+
+- **PR #12**: [feat(ID 014): Smart Contract DApp - ERC-20 トークン実装...](https://github.com/hirotoitpost/VibeCoding/pull/12)
+  * GitHub CLI で作成
+  * ✅ マージ完了
+  * リモートブランチ削除済み
+
+**統計** (ID 014):
+| 項目 | 数値 |
+|------|------|
+| Solidity ファイル | 1個 (40行) |
+| TypeScript ファイル | 2個 (scripts/config) |
+| テストファイル | 1個 (14テスト) |
+| ドキュメント | 4個 (1,000+行) |
+| 設定ファイル | 4個 |
+| 総ファイル数 | 13個 |
+| コード行数 | 1,200+ |
+| テスト成功率 | 100% |
+
+**主な機能構成**:
+- 🔐 ERC-20 標準準拠
+- 🔥 焼却（Burnable）機能
+- 👤 所有者制御（Ownable）
+- 🧪 包括的テストスイート
+- 📘 詳細なドキュメント
+- 🚀 Sepolia testnet 対応
+
+**Vibe Coding での学び**:
+- ✅ Solidity スマートコントラクト実装
+- ✅ OpenZeppelin ライブラリ活用
+- ✅ Hardhat 開発環境構築
+- ✅ Web3 テストフレームワーク (ethers.js)
+- ✅ TypeScript で Solidity 開発
+- ✅ testnet デプロイメントプロセス
+
+**AI が効果的に対応した領域**:
+- ERC-20 標準インターフェース実装
+- Hardhat TypeScript 設定調整
+- テストケース作成・デバッグ
+- OpenZeppelin v5.0 互換性対応
+- ドキュメント作成
+
+**AI の工夫が必要だった領域**:
+- OpenZeppelin import パス修正 (v5.0 では `/utils/` に移動)
+- Solidity pragma バージョン対応 (0.8.19 → 0.8.20)
+- Ownable constructor 引数対応
+- paho-mqtt 依存性削除ガイダンス
+
+**Status**: ✅ **ID 014 完全実装・テスト・マージ完了** - フェーズ 3.3.B 確定
+
+---
+
+**最終更新**: 2026年4月4日（Session 14 完了 - ID 014 スマートコントラクト DApp）  
 **管理者**: VibeCoding Learning Project AI Agent
+
 
