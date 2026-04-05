@@ -1165,7 +1165,7 @@ frontend/
   * Attempt 3: dRPC Public → 404 Not Found ❌
   * Attempt 4: Infura Demo → Project ID Access Denied ❌
   * **Success**: ユーザー提供 Alchemy RPC (paid API) → ✅ 動作確認
-  * **URL**: https://eth-sepolia.g.alchemy.com/v2/Xq0pcWL_M-FTEpftfv7z_
+  * **URL**: `https://eth-sepolia.g.alchemy.com/v2/[YOUR_API_KEY]` ※本番環境では実アカウントの API キーを設定
 
 - ✅ **Issue 3: デプロイメント資金不足**
   * 問題: "insufficient funds for gas * price + value"
