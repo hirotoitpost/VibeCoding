@@ -16,6 +16,12 @@ const ERC20_ABI = [
 const CONTRACT_ADDRESS = import.meta.env.VITE_TOKEN_ADDRESS || '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 const NETWORK_ID = import.meta.env.VITE_NETWORK_ID || '31337'; // Hardhat local
 
+// デバッグログ
+console.log('🔧 useWeb3 Initialization:');
+console.log('  CONTRACT_ADDRESS:', CONTRACT_ADDRESS);
+console.log('  VITE_TOKEN_ADDRESS:', import.meta.env.VITE_TOKEN_ADDRESS);
+console.log('  NETWORK_ID:', NETWORK_ID);
+
 export function useWeb3() {
   const [account, setAccount] = useState(null);
   const [balance, setBalance] = useState('0');
@@ -37,11 +43,13 @@ export function useWeb3() {
       }
 
       // アカウント要求
+      console.log('🔌 Requesting accounts from MetaMask...');
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
 
       const connectedAccount = accounts[0];
+      console.log('✅ Connected account:', connectedAccount);
       setAccount(connectedAccount);
 
       // プロバイダー初期化
@@ -53,14 +61,15 @@ export function useWeb3() {
 
       // チェーンID取得
       const network = await newProvider.getNetwork();
+      console.log('🔗 Network chainId:', network.chainId.toString());
       setChainId(network.chainId.toString());
 
       // 残高取得
       await fetchBalance(newProvider, connectedAccount);
 
     } catch (err) {
+      console.error('❌ Wallet connection error:', err);
       setError(err.message);
-      console.error('Wallet connection error:', err);
     } finally {
       setLoading(false);
     }
@@ -69,17 +78,23 @@ export function useWeb3() {
   // 残高取得
   const fetchBalance = useCallback(async (prov, acc) => {
     try {
+      console.log('📊 Fetching balance for:', acc);
+      console.log('   Contract:', CONTRACT_ADDRESS);
+      
       const contract = new ethers.Contract(CONTRACT_ADDRESS, ERC20_ABI, prov);
       const balanceRaw = await contract.balanceOf(acc);
       const decimals = await contract.decimals();
       const symbol = await contract.symbol();
 
       const balanceFormatted = ethers.formatUnits(balanceRaw, decimals);
+      console.log('✅ Balance fetched:', balanceFormatted, symbol);
+      
       setBalance(balanceFormatted);
       setTokenSymbol(symbol);
     } catch (err) {
-      console.error('Balance fetch error:', err);
-      setError('Failed to fetch balance');
+      console.error('❌ Balance fetch error:', err.message);
+      console.error('   Full error:', err);
+      setError('Failed to fetch balance: ' + err.message);
     }
   }, []);
 
