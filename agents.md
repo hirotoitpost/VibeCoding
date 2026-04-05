@@ -134,7 +134,9 @@ VibeCoding/
 
 2. **Push と PR 作成（コード実装・修正 PR）**
    - `git push origin feature/[ID]_[タイトル]` または `git push origin fix/[ID]_[説明]` でリモートに Push
-   - **GitHub Web UI から PR を作成**（PR URL は返す）
+   - **GitHub CLI または Web UI から PR を作成**（PR URL は返す）
+     - **GitHub CLI**: `gh pr create --title "PR タイトル" --body "説明文"`
+     - **Web UI**: 手動でブラウザから作成
    - PR の説明文（body）に実装内容・検証内容を記載
    - ユーザーが Approve & Merge
 
@@ -143,7 +145,9 @@ VibeCoding/
    - SESSION_PROGRESS.md, WORK_ID_REGISTRY.md を編集
    - `git add` と `git commit` でコミット
    - `git push origin docs/session-[X]-update` で Push
-   - **GitHub Web UI から PR を作成**（PR URL は返す）
+   - **GitHub CLI または Web UI から PR を作成**
+     - **GitHub CLI**: `gh pr create --title "PR タイトル" --body "説明文"`
+     - **Web UI**: 手動でブラウザから作成
    - ユーザーが Approve & Merge
 
 #### ❌ 禁止事項（AI エージェント がしてはいけないこと）
