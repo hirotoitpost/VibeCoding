@@ -1146,7 +1146,215 @@ frontend/
 
 ---
 
-**最終更新**: 2026年4月4日（Session 14 完了 - ID 014 スマートコントラクト DApp）  
+## セッション 16 (2026-04-04 続き～2026-04-05)
+- **タスク**: ID 015 フェーズ 3.3.A Web3 フロントエンド統合 - 本番テスト＋ドキュメント整備
+
+**実施内容**:
+
+### 🔄 テスト環境の選定と切り替え
+- ✅ **Issue 1: Hardhat Local テスト失敗**
+  * 問題: MetaMask 接続成功も、残高表示 0.00 VBC
+  * 原因: Hardhat Local はメモリベース ─ ブロックチェーン永続化なし
+  * 判定: スマートコントラクト開発・テスト環境としては不適
+  * 解決: **Sepolia Testnet へ切り替え** ✅
+
+### 🌐 Sepolia Testnet デプロイメント
+- ✅ **Issue 2: RPC エンドポイント選定の試行錯誤**
+  * Attempt 1: Alchemy Demo RPC → Rate Limit Error ❌
+  * Attempt 2: BlastAPI → サービス終了 ❌
+  * Attempt 3: dRPC Public → 404 Not Found ❌
+  * Attempt 4: Infura Demo → Project ID Access Denied ❌
+  * **Success**: ユーザー提供 Alchemy RPC (paid API) → ✅ 動作確認
+  * **URL**: https://eth-sepolia.g.alchemy.com/v2/Xq0pcWL_M-FTEpftfv7z_
+
+- ✅ **Issue 3: デプロイメント資金不足**
+  * 問題: "insufficient funds for gas * price + value"
+  * 原因: テストアカウント 0xCE241a... に Sepolia ETH がない
+  * 解決: ユーザーがプリマイニングで 0.1 Sepolia ETH 取得
+  * ガス消費: 0.00008 Sepolia ETH / deployment
+
+- ✅ **コントラクトデプロイ成功**
+  * Address: `0xBbe8666fF3d416Ef9a27e842F3575F76636218ff`
+  * Network: Sepolia (Chain ID: 11155111)
+  * Deploy Tx: `0x... [Gas Used: 107838]`
+  * Timestamp: 2026-04-04 (Session 16 実施)
+
+### 🔌 MetaMask 統合検証
+- ✅ **Issue 4: MetaMask アカウント選択誤り**
+  * 問題: 残高表示 0.00 VBC（期待値: 1,000,000 VBC）
+  * 原因: MetaMask に複数アカウント存在
+    - Test Account: 0xCE241a... ← デプロイヤー（正解）
+    - Imported Account 1: ← フロントエンドが接続（誤り）
+  * 解決: Test Account に手動切り替え
+  * 結果: **1,000,000.00 VBC 表示成功** ✅
+
+- ✅ **Issue 5: MetaMask ネットワーク設定誤り**
+  * 問題: "Ethereum Mainnet" が表示
+  * 原因: MetaMask ネットワークが Mainnet に設定
+  * 解決: Sepolia Testnet への手動切り替え
+  * 結果: Sepolia 確認 ✅
+
+### ✅ 機能検証テスト
+- ✅ **ウォレット接続フロー**
+  * MetaMask popup 表示確認
+  * Account 承認確認
+  * Web3 initial state 検証 ✅
+
+- ✅ **残高表示（自動更新）**
+  * 初期表示: 1,000,000 VBC
+  * 更新間隔: 5秒
+  * フォーマット: `1,000,000.00 VBC` ✅
+
+- ✅ **トークン転送テスト**
+  * ユーザー入力: 受信者 (Account 2), 金額 (100 VBC)
+  * トランザクション署名: MetaMask popup → 承認
+  * ガス消費: 0.00008 Sepolia ETH
+  * TxHash: `0x... [Success]`
+  * 確認: Account 2 残高 = 100 VBC ✅
+
+### 📝 包括トラブルシューティング統文書化
+- ✅ **TROUBLESHOOTING.md 拡張** (315行追加)
+  * 既存: 2個の簡潔なエラー記録
+  * 新規: ID 015 テスト全体を通じた 5個の主要問題
+  
+  * **Issue 1**: Hardhat Local コントラクト永続化問題
+    - 症状・原因・解決策・学習ポイント記載
+  
+  * **Issue 2**: RPC エンドポイント選定難題
+    - 4つの失敗インテグレーション例文
+    - 最終的な推奨 (Alchemy Paid API) 記載
+  
+  * **Issue 3**: デプロイメント資金不足
+    - トラブル判定フローチャート
+    - Faucet 応急処置パターン
+  
+  * **Issue 4**: MetaMask 複数アカウント混乱
+    - Account Selection 明確化
+    - Connection Reset 手順
+  
+  * **Issue 5**: MetaMask ネットワーク切り替え
+    - ネットワーク確認チェックリスト
+    - Sepolia Chain ID 確認表
+
+  * **ベストプラクティス**: 
+    - Pre-Deployment Checklist (7項目)
+    - Deployment Checklist (5項目)
+    - Troubleshooting Strategy (6ステップ)
+
+### 🌍 多言語ドキュメント化
+- ✅ **Japanese Documentation Set** (1,599行新規)
+
+  * **smart-contract-dapp/README_ja.md** (267行)
+    - プロジェクト概要（日本語）
+    - 重要機能説明
+    - クイックスタート (6ステップ)
+    - FAQ (5問)
+
+  * **smart-contract-dapp/SETUP_GUIDE_ja.md** (401行)
+    - 8ステップ詳細セットアップ
+    - MetaMask Sepolia ネットワーク設定手順
+    - RPC URL 選択ガイド
+    - Private Key 抽出手順
+    - Faucet ETH 取得方法
+
+  * **frontend/README_ja.md** (291行)
+    - Web3 フロントエンド機能説明（日本語）
+    - React + ethers.js + MetaMask アーキテクチャ
+    - コンポーネント役割説明
+    - useWeb3 hook 詳細解説
+    - ブラウザ対応表
+
+  * **frontend/SETUP_GUIDE_ja.md** (340行)
+    - npm 環境セットアップ手順
+    - ファイル構造と役割
+    - Dev Server 起動手順
+    - トークン転送テスト手順
+    - トラブルシューティング (8パターン)
+
+### 🔧 agents.md 更新
+- ✅ **GitHub CLI サポート追加**
+  * Pull Request 作成手順に GitHub CLI 使用法を追加
+  * `gh pr create` コマンドドキュメント化
+  * feature ブランチと docs ブランチの両方に対応
+  * コマンド例と注意事項記載
+
+### 📦 最終 Git コミット・PR 作成
+- **Commit 8cd6967**: docs(ID 015): Sepolia テストネット検証・トライ&エラー記録
+  * TROUBLESHOOTING.md: +315行
+  * frontend/src/hooks/useWeb3.js: +21行 (debug logging)
+  
+- **Commit ea7b62f**: docs(ID 015): 日本語版ドキュメント追加
+  * README_ja.md (267行) + SETUP_GUIDE_ja.md (401行)
+  * frontend/README_ja.md (291行) + frontend/SETUP_GUIDE_ja.md (340行)
+  * 計: 1,599行新規作成
+
+- **Commit 8da0bde**: docs(agents): GitHub CLI での PR 作成手順を追加
+  * agents.md: +6行
+
+- **Push**: `git push origin docs/session-16-id015-testing`
+  * 3 commits, 7 files changed, +1,920 lines
+
+- **GitHub CLI PR 作成**:
+  ```bash
+  gh pr create --title "Session 16: ID 015 Web3 フロントエンド統合テスト実施記録" \
+    --body "[3 commits, 7 files, comprehension test results + multilingual docs]"
+  ```
+  * ✅ **PR #18** 作成成功
+  * URL: https://github.com/hirotoitpost/VibeCoding/pull/18
+
+- **PR #18 マージ実施** (ユーザー側)
+  * ✅ GitHub Web UI でマージ完了
+  * Merge Commit: `40069d9`
+  * リモートブランチ削除済み ✅
+
+### 📊 統計（ID 015 テスト・ドキュメント化フェーズ）
+| 項目 | 数値 |
+|------|------|
+| テスト実施期間 | 2026-04-04～04-05 |
+| テストシナリオ数 | 5個（5 issues documented） |
+| RPC 切り替え試行 | 4回失敗 → 1回成功 |
+| デプロイメント | 1回成功 (0xBbe8666fF3d416Ef9a27e842F3575F76636218ff) |
+| トークン転送テスト | 1回成功 (100 VBC) |
+| ドキュメント追加行数 | 1,920行 |
+| 日本語ドキュメント | 1,599行 (4ファイル) |
+| Git コミット数 | 3個 |
+| PR マージ完了 | PR #18 ✅ |
+
+### 🎓 Vibe Coding での学び （セッション 16）
+- ✅ **本番テストネット運用**
+  * RPC エンドポイント選定・トラブルシューティング
+  * テストネット資金（Faucet）管理
+  * MetaMask マルチアカウント・マルチネットワーク対応
+
+- ✅ **Web3 開発フロー**
+  * 開発環境（Hardhat Local）から本番環境（Sepolia）への移行判定
+  * スマートコントラクト・フロントエンド統合検証
+  * チェーン・ネットワーク・ガス代金の実践的な理解
+
+- ✅ **テスト・ドキュメント駆動**
+  * すべての失敗ケースを体系的に記録
+  * 言語別ドキュメント提供の重要性
+
+- ✅ **AI + ユーザー協働**
+  * デバッグ：ユーザー側 API キー取得 → AI トラブルシューティング並行
+  * ドキュメント化：ユーザーフィードバック → AI による構造化記録
+
+### 🔒 セッション 16 チェックリスト
+- ✅ ID 015 Web3 Frontend 本番テスト完了
+- ✅ Sepolia Testnet への正常デプロイ確認
+- ✅ MetaMask ウォレット連携動作確認
+- ✅ トークン転送機能検証（100 VBC 処理成功）
+- ✅ 包括トラブルシューティングドキュメント（315行）
+- ✅ 日本語ドキュメント（1,599行）
+- ✅ agents.md GitHub CLI サポート追加
+- ✅ PR #18 作成・マージ完了
+- ✅ ローカル main 同期完了
+
+**Status**: ✅ **ID 015 Web3 Frontend 本番テスト・ドキュメント化完全完了** - 次のプロジェクト (ID 016) 準備フェーズへ
+
+---
+
+**最終更新**: 2026年4月5日（Session 16 完了 - ID 015 Web3 フロントエンド統合テスト＋多言語ドキュメント化）  
 **管理者**: VibeCoding Learning Project AI Agent
 
 
