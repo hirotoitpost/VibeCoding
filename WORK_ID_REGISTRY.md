@@ -48,7 +48,7 @@ PR タイトル:
 | 013 | フェーズ3.3.A / スマートホーム IoT ハブ | ✅完了 | PR #9 (9ad8dc5) + PR #11 (81a08c7) | S13 | MQTT + Python + Express + React + Docker + 3,200+行 |
 | 014 | フェーズ3.3.B / スマートコントラクト DApp モジュール実装 + デプロイ修正 | ✅完了 | PR #12 (c4dc16b) + PR #13 (77520e1) + PR #14 (2b2e3e1) | S14 | Hardhat + Solidity + ERC-20 + 14テスト + Fixture修正 |
 | 015 | フェーズ3.3.A / Web3 フロントエンド統合＋本番テスト | ✅完了 | PR #16 (0cc1e70) + PR #18 (40069d9) | S15-S16 | React + ethers.js + MetaMask + 19ファイル + 3,190行 + テスト・日本語ドキュメント 1,920行 |
-| 016 | フェーズ 3.3.C / 春日部つむぎ立ち絵解説動画システム構築 | 🔄進行中 | feature/016_tsumugi_explanation_video_system | S17 | VOICEVOX + Shoost + ゆかりねっとコネクターNEO 統合 |
+| 016 | フェーズ 3.3.C / 春日部つむぎ立ち絵解説動画システム構築 | ⏳PR確認中 | PR #21 (fa33321) + PR #22 (03441be) | S17-S18 | VOICEVOX + Shoost + ゆかりねっとコネクターNEO 統合 + PowerShell 自動化スクリプト + テスト |
 
 **次に発行するID**: 017
 
