@@ -1408,7 +1408,127 @@ frontend/
 
 ---
 
-**最終更新**: 2026年4月5日（Session 17 開始 - ID 016 プロジェクト初期化）  
+---
+
+## セッション 18 (2026-04-05 続き)
+- **タスク**: ID 016 PowerShell 自動化スクリプト実装 - Step 1, 2, 3 完成
+
+**実装完了項目** (feature/016_implement_scripts ブランチ):
+
+### ✅ Step 1: PowerShell 環境自動化スクリプト (setup_env.ps1 - 250行)
+- **機能**: ユーザー入力でツールパスを取得 → フォルダ作成 → 環境変数永続化 → ランチャー生成
+  * ステップ 1: VOICEVOX, Shoost, ゆかりねっとNEO パス入力
+  * ステップ 2: フォルダを自動作成（存在チェック付き）
+  * ステップ 3: 環境変数を User レベルで永続化
+    - VOICEVOX_ENGINE_URL = http://localhost:50021
+    - VOICEVOX_PATH (ユーザー入力)
+    - TSUMUGI_ASSET_DIR (ユーザー入力)
+    - SHOOST_PATH (ユーザー入力)
+    - YUKARINETTO_PATH (ユーザー入力・オプション)
+    - VOICE_CHARACTER_ID = 14 (春日部つむぎ)
+  * ステップ 4: launch_tsumugi_system.bat をデスクトップに生成
+    - 全ツール（VOICEVOX, Shoost, ゆかりねっとNEO）をワンクリック起動
+    - 環境変数から自動検出して実行パス設定
+
+### ✅ Step 2: VOICEVOX テストスクリプト (test_voicevox.ps1 - 220行)
+- **機能**: VOICEVOX API を使用して音声合成テスト → 音声ファイル生成・再生
+  * ステップ 1: ヘルスチェック (/health エンドポイント)
+  * ステップ 2: 音声クエリ生成 (/audio_query エンドポイント)
+  * ステップ 3: 音声合成 (/synthesis エンドポイント)
+  * ステップ 4: WAV ファイルをデスクトップに保存
+  * ステップ 5: 音声ファイルを SoundPlayer で自動再生
+- **テスト内容**: 「準備完了だよ！」を春日部つむぎ（Speaker ID: 14）で音声合成
+- **エラーハンドリング**: VOICEVOX 未起動時の診断・対処方法記載
+
+### ✅ Step 3: Shoost セットアップガイド (SHOOST_SETUP_GUIDE.md - 314行)
+- **セットアップ手順**：
+  * 立ち絵の読み込み（ドラッグ&ドロップ OR メニューから）
+  * サイズ・位置調整（マウスドラッグ・リサイズ）
+  * 背景透過確認
+
+- **音声入力デバイス設定**：
+  * 仮想オーディオデバイス（VB-Audio Virtual Cable）セットアップ
+    - Windows での CABLE Input / CABLE Output 接続
+    - Stereo Mix（オプション・環境依存）
+  * Shoost でのデバイス設定（Sensitivity 調整）
+
+- **リップシンク（口パク）連携**：
+  * VOICEVOX 音声 → Shoost リアルタイム反応
+  * フォネムマッピング設定
+  * 自動マッピング vs 手動調整の説明
+
+- **目と眉毛の動作** (オプション):
+  * 瞬きのレイヤー設定
+  * 感情パターン設定
+
+- **統合テスト手順**:
+  * 全ツール起動 → test_voicevox.ps1 実行 → 立ち絵の口が動く確認
+
+- **トラブルシューティング** (5パターン):
+  * Q1: 立ち絵が見えない
+  * Q2: 口が全く動かない
+  * Q3: 音が出ない
+  * Q4: ゆかりねっと NEO と連携しない
+  * Q5: デバイス設定エラー
+
+### 📝 Git コミット・PR
+- **Commit 03441be**: feat(ID 016): PowerShell 環境自動化スクリプト + VOICEVOX テスト + Shoost ガイド
+  * 3 ファイル変更、784 行追加
+  * setup_env.ps1 (250行)
+  * test_voicevox.ps1 (220行)
+  * SHOOST_SETUP_GUIDE.md (314行)
+
+- **PR #22 作成**:
+  * ブランチ: feature/016_implement_scripts
+  * タイトル: [feat(ID 016): PowerShell 環境自動化スクリプト + VOICEVOX テスト + Shoost ガイド](https://github.com/hirotoitpost/VibeCoding/pull/22)
+  * 上記 3 ファイル含む 784 行のコード・ドキュメント
+
+### 📊 統計（Session 18）
+| 項目 | 数値 |
+|------|------|
+| 実装ファイル | 3 個 |
+| 総行数 | 784 行 |
+| PowerShell スクリプト | 470 行 |
+| ドキュメント | 314 行 |
+| コミット数 | 1 個 |
+| PR 作成 | 1 個 (#22) |
+
+### 🎓 Vibe Coding での学び（Session 18）
+- ✅ **PowerShell スクリプト開発**
+  * [Environment]::SetEnvironmentVariable で環境変数永続化
+  * Read-Host でユーザー入力を対話的に取得
+  * テンプレート生成（.bat ファイル Out-File）
+
+- ✅ **Web API 統合**
+  * Invoke-WebRequest で HTTP リクエスト送信
+  * JSON パース (ConvertFrom-Json / ConvertTo-Json)
+  * VOICEVOX API エンドポイント実装
+
+- ✅ **オーディオ処理基礎**
+  * WAV ファイルのバイナリ保存（Set-Content -AsByteStream）
+  * System.Media.SoundPlayer で音声再生
+
+- ✅ **仮想オーディオ環境**
+  * VB-Audio Virtual Cable セットアップ
+  * ループバック音声入力の仕組み
+
+### 🔒 セッション 18 チェックリスト
+- ✅ setup_env.ps1 実装・コミット
+- ✅ test_voicevox.ps1 実装・コミット
+- ✅ SHOOST_SETUP_GUIDE.md 作成・コミット
+- ✅ git push origin feature/016_implement_scripts
+- ✅ GitHub CLI で PR #22 作成
+- ✅ SESSION_PROGRESS.md 更新中
+
+**Status**: ✅ **ID 016 Step 1-3 実装・PR #22 作成完了**
+
+**次のステップ**:
+- ユーザーが PR #22 を確認・マージ
+- Session 18 続き: WORK_ID_REGISTRY.md 更新 & ドキュメント PR 作成
+
+---
+
+**最終更新**: 2026年4月5日（Session 18 - ID 016 自動化スクリプト実装）        
 **管理者**: VibeCoding Learning Project AI Agent
 
 
