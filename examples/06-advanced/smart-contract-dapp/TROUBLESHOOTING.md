@@ -533,16 +533,17 @@ MetaMask 接続 → ✅ OK
 
 **試行4: Infura パブリック API キー**
 ```
-エンドポイント: https://sepolia.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161
+エンドポイント: https://sepolia.infura.io/v3/[YOUR_INFURA_PROJECT_ID]
 エラー: "project ID does not have access to this network"
 原因: API キーに権限がない
 ```
 
 **解決方法** ✅:
 ```
-ユーザーが既に Alchemy アカウントを保有していた
-提供: https://eth-sepolia.g.alchemy.com/v2/Xq0pcWL_M-FTEpftfv7z_
-→ 正式 API キー (Demo ではない) で成功！
+自身の Alchemy アカウントで API キーを取得
+https://eth-sepolia.g.alchemy.com/v2/[YOUR_API_KEY]
+→ 正式 API キー (Demo ではない) を使用して接続成功
+※.env.example を参照して環境変数に設定してください
 ```
 
 **ベストプラクティス**:
