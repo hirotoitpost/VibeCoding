@@ -472,6 +472,297 @@ EOF
 
 ---
 
-**Last Updated**: 2026年4月4日  
-**ID**: 014  
+## 🎯 ID 015: Web3 フロントエンド統合テスト - 実装時の躓きと解決
+
+> 📝 **Session 16**: Sepolia テストネットでの実際のテスト実施記録
+
+### 📌 Issue 1: Hardhat Local でのコントラクト消失問題
+
+**背景**: ID 015 実装後、Hardhat Local で最初のテストを試行
+
+**症状**:
+```
+Frontend (localhost:3001) 接続 → ✅ OK
+MetaMask 接続 → ✅ OK
+トークン残高取得 → ❌ FAILED
+エラー: "could not decode result data (value="0x", ...BAD_DATA)"
+残高表示: 0.00 VBC
+```
+
+**原因分析**:
+- **Hardhat Local ノード** はメモリベースのため、ノード再起動で デプロイされたコントラクトが **消失**
+- フロントエンドが呼び出す契約アドレスが存在しない状態
+
+**解決方法**:
+```
+✅ 決定: Hardhat Local 使用を中止 → Sepolia テストネット へ切り替え
+理由: Sepolia は永続的、テスト目的に適正、実運用に近い
+```
+
+**学習ポイント**:
+- Hardhat Local テスト環境は **開発初期段階専用**
+- **本格的なテスト** には **テストネット** (Sepolia) を使用
+- メモリベース環境の制約を理解することが重要
+
+---
+
+### 📌 Issue 2: Sepolia RPC エンドポイント選定の課題
+
+**背景**: デプロイ実行のため Sepolia RPC URL が必要
+
+**試行1: Alchemy デモ RPC**
+```
+エンドポイント: https://eth-sepolia.g.alchemy.com/v2/demo
+エラー: "Too Many Requests error received from eth-sepolia.g.alchemy.com"
+原因: Demo RPC はレート制限（複数ユーザー共有）
+```
+
+**試行2: BlastAPI パブリック RPC**
+```
+エンドポイント: https://eth-sepolia.public.blastapi.io
+エラー: "Blast API is no longer available. Please update..."
+原因: RPC プロバイダ廃止・サービス終了
+```
+
+**試行3: dRPC パブリック RPC**
+```
+エンドポイント: https://eth-sepolia.drpc.org
+エラー: "Invalid JSON-RPC response received: {"message":"Not Found"}"
+原因: URL 形式エラーまたはエンドポイント不安定
+```
+
+**試行4: Infura パブリック API キー**
+```
+エンドポイント: https://sepolia.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161
+エラー: "project ID does not have access to this network"
+原因: API キーに権限がない
+```
+
+**解決方法** ✅:
+```
+ユーザーが既に Alchemy アカウントを保有していた
+提供: https://eth-sepolia.g.alchemy.com/v2/Xq0pcWL_M-FTEpftfv7z_
+→ 正式 API キー (Demo ではない) で成功！
+```
+
+**ベストプラクティス**:
+```
+1️⃣ パブリック RPC の無料枠 → 廃止・制限が多い
+2️⃣ サードパーティ RPC → 登録必須だが安定
+3️⃣ 推奨: Alchemy, Infura, QuickNode などで正式アカウント取得
+4️⃣ テスト段階: 正式 API キーを事前に用意する
+```
+
+---
+
+### 📌 Issue 3: デプロイ失敗 - ガス代不足
+
+**症状**:
+```
+npm run deploy -- --network sepolia
+💰 Account balance: 0.0 ETH
+❌ Error: insufficient funds for gas * price + value: have 0 want 107838202678473
+```
+
+**原因**: テストアカウント `0xCE241a60a23825059aA05F83FEF291CcaD65BC38` に **SEpoliaETH が 0**
+
+**解決方法**:
+```
+1. Sepolia Faucet からテスト ETH を取得
+   - https://www.alchemy.com/faucets/ethereum-sepolia
+   - テストアドレスに 0.1 Sepolia ETH を送信
+   
+2. 待機: 5〜30 分（ブロック確認）
+
+3. デプロイ再実行
+   ✅ 成功: VibeCodingToken deployed to: 0xBbe8666fF3d416Ef9a27e842F3575F76636218ff
+```
+
+**ガス代の実績**:
+```
+トランザクション nonce: 1
+基本料金 (Gwei): 0.038290043
+優先手数料 (gwei): 15
+ガスリミット: 52,990
+ガス使用量: 52,200
+ガス代合計: 0.00008 SepoliaETH ✅
+```
+
+---
+
+### 📌 Issue 4: ウォレット接続時の複数アカウント問題
+
+**症状**:
+```
+MetaMask に 4 つのアカウントが存在
+- Sepolia Test Account (0xCE241a60...) ← デプロイ先（トークン保有）
+- Imported Account 1 (0xf39Fd6e5...) ← 接続されてしまった（トークンなし）
+- Account 2
+- Account 3
+```
+
+**フロントエンド接続時**:
+```
+Frontend が eth_requestAccounts を呼び出す
+→ MetaMask UI 表示（アカウント選択ダイアログ）
+→ Imported Account 1 が自動選択される（歴史的理由？）
+→ トークン残高 0 VBC として表示
+```
+
+**表示結果**:
+```
+✅ Connected: 0xF39F...2266 (Imported Account 1)
+💰 Balance: 0.00 VBC ❌ 期待値: 1,000,000 VBC
+```
+
+**解決方法**:
+```
+1. MetaMask の接続権限をリセット
+   - MetaMask 右上のメニュー → Settings
+   - Connected sites → localhost:3001 を削除
+   
+2. ページをリロード (F5)
+
+3. 「Connect Wallet」ボタン再クリック
+
+4. MetaMask UI で「Sepolia Test Account」を選択
+
+5. 接続完了
+```
+
+**改善後**:
+```
+✅ Connected: 0xCE241a60a23825059aA05F83FEF291CcaD65BC38 (正しい！)
+💰 Balance: 1,000,000.00 VBC ✅
+```
+
+---
+
+### 📌 Issue 5: MetaMask ネットワーク切り替え忘れ
+
+**症状**:
+```
+ページの「Network Information」に "Ethereum Mainnet" と表示
+タイルに大きなエラー表示: "Failed to fetch balance: could not decode result data..."
+```
+
+**原因**:
+```
+MetaMask が「Ethereum Mainnet」に接続されている
+フロントエンド設定は「Sepolia」(Chain ID: 11155111)
+→ ネットワーク不一致でコントラクト通信失敗
+```
+
+**解決方法**:
+```
+✅ MetaMask 左上のネットワークドロップダウンをクリック
+✅ 「Sepolia」を選択
+✅ ページをリロード (F5)
+```
+
+**改善後**:
+```
+Network Information:
+- Network: Sepolia Testnet ✅
+- Chain ID: 11155111 ✅
+- Account: 0xCE241a60a23825059aA05F83FEF291CcaD65BC38 ✅
+- Balance: 1,000,000.00 VBC ✅
+```
+
+---
+
+### ✅ トークン転送テスト成功
+
+**実施内容**:
+```
+送信元: Sepolia Test Account (0xCE241a60...)
+  初期: 1,000,000 VBC
+  
+送信先: Account 2 (0x0a9867cE...)
+  初期: 0 VBC
+  
+転送額: 100 VBC
+```
+
+**トランザクション詳細**:
+```
+Status: ✅ 確定されました
+From: 0xCE241a60a23825059aA05F83FEF291CcaD65BC38
+To: Account 2 (Wallet 1)
+Transaction: Nonce 1
+
+ガス内訳:
+- 基本料金: 0.038290043 Gwei
+- 優先手数料: 15 gwei
+- ガスリミット: 52,990
+- ガス使用量: 52,200
+- ガス代合計: 0.00008 SepoliaETH ✅
+
+転送結果:
+- 送信元残高: 1,000,000 → 999,900 VBC
+- 送信先残高: 0 → 100 VBC ✅
+```
+
+---
+
+### 📚 概念の理解
+
+**Sepolia テストネットの2つの資産**:
+
+| 資産 | 発行者 | 用途 | 残高 |
+|-----|--------|------|------|
+| **SepoliaETH** | Ethereum | ガス代（手数料） | 0.0999 ETH |
+| **VBC トークン** | デプロイされたコントラクト | アプリケーション内トークン | 999,900 VBC |
+
+**転送による消費**:
+- 転送対象: **VBC Token** (アプリケーションレベル)
+- ガス代: **SepoliaETH の一部** (ネットワークレベル)
+- 結果: VBC は 100 減、SepoliaETH は 0.00008 減
+
+---
+
+### 🎓 ベストプラクティス
+
+#### デプロイ前チェックリスト
+```
+✅ RPC エンドポイント: 正式 API キー使用
+✅ ウォレット残高: 最低 0.01 ETH
+✅ ネットワーク設定: Sepolia に統一
+✅ アカウント確認: デプロイアカウント = 接続アカウント
+✅ ドメイン記録: アカウント・アドレス・チェーンID
+```
+
+#### フロントエンド接続手順
+```
+1. MetaMask ネットワーク切り替え → Sepolia
+2. MetaMask サイト権限リセット（初回）
+3. ページリロード
+4. 「Connect Wallet」クリック
+5. MetaMask で目的アカウント選択
+6. 署名承認
+```
+
+#### トラブル診断フロー
+```
+残高が 0 VBC? 
+  → メタマスク ネットワークが Sepolia か確認
+  
+エラーが消えない?
+  → DevTools Console で eth_chainId 確認
+  
+アカウント違い?
+  → MetaMask 接続権限をリセット
+```
+
+---
+
+**テスト実施日**: 2026年4月5日  
+**ID**: 015（Web3 フロントエンド統合）  
+**テスト状況**: ✅ **完全成功** - Sepolia で正常に機能確認  
+**ガス代実績**: 0.00008 SepoliaETH ($0 概算)
+
+---
+
+**Last Updated**: 2026年4月5日  
+**ID**: 014 + 015  
 **Project**: VibeCoding Smart Contract DApp
