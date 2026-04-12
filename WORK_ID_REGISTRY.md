@@ -56,8 +56,9 @@ PR タイトル:
 | 021 | フェーズ 4 Impl / AviUtl CUI エンコーダー＆統合パイプライン | ✅完了 | PR #31 (6a0db13) | S21 | aviutl_runner.ps1 (226行), output_config.json (3profiles), run_all.ps1 (295行) |
 | 023 | フェーズ 5.2 / 動的トランジション・テロップタイミング生成エンジン | ✅完了 | PR #34 (81c9c6a) | S23 | generate_video_layout_dynamics.ps1 (380行), generate_exo.ps1拡張 (Step 2.7 +45行), run_all.ps1拡張 (+32行), SETUP_GUIDE.md (+90行) |
 | 024 | フェーズ 5.3 / トランジション効果最適化（dissolve、slide等） | ✅完了 | PR #36 (af02257) | S24 | effect_config.json (+131行, 5効果定義), generate_video_layout_dynamics.ps1拡張 (+190, -21行, Phase 5.3統合, 品質プロファイル, エフェクト選択ロジック) |
+| 025 | フェーズ 5.4 / トランジション効果 Exo 統合（effect_config × selected_effect） | ✅完了 | PR #38 (c472fc1) | S25 | generate_exo.ps1 Phase 5.4拡張 (+238, -7行, Step 2.8エフェクト読込, トランジション変換関数), run_all.ps1拡張 (+31行, Phase 2.7統合チェック), SETUP_GUIDE.md (+270行, Step 9完全ガイド) |
 
-**次に発行するID**: 025
+**次に発行するID**: 026
 
 ---
 
