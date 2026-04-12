@@ -7,8 +7,8 @@
 param(
     [string]$InputDir = ".\scenarios",
     [string]$OutputDir = ".\output\voice",
-    [int]$SpeakerId = 2,               # 2 = 四国めたん (ノーマル, デフォルト)
-    [int]$StyleId = 2,                 # Style: 2 = ノーマル
+    [int]$SpeakerId = 8,               # 8 = 春日部つむぎ (ノーマル, デフォルト)
+    [int]$StyleId = 8,                 # Style: 8 = ノーマル
     [string]$VoicevoxPort = $null      # $null = $env:VOICEVOX_PORT から取得
 )
 
@@ -24,7 +24,7 @@ Write-Host " VOICEVOX 音声一括生成" -ForegroundColor Cyan
 Write-Host "=============================================" -ForegroundColor Cyan
 Write-Host "  Input : $InputDir"
 Write-Host "  Output: $OutputDir"
-Write-Host "  Speaker: ID $SpeakerId - 四国めたん (Style: $StyleId - ノーマル)"
+Write-Host "  Speaker: ID $SpeakerId - 春日部つむぎ (Style: $StyleId - ノーマル)"
 Write-Host ""
 
 # 出力ディレクトリ確認
