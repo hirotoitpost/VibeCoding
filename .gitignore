@@ -1,4 +1,6 @@
 # VS Code
+.vscode/settings.json
+.vscode/.history
 
 # OS
 .DS_Store

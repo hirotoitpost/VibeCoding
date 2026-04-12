@@ -67,6 +67,33 @@ cp .env.example .env
 # - その他の環境変数
 ```
 
+### ステップ 2.5: 環境変数の自動読み込み設定（Windows PowerShell 推奨）
+
+VibeCoding は PowerShell 起動時に自動で `.env` ファイルから環境変数を読み込むシステムが整備されています。
+
+**Windows 開発者向け**（PowerShell ユーザー）：
+```powershell
+# VibeCoding ディレクトリで以下を実行
+./scripts/setup-dev-env.ps1
+
+# このスクリプトが自動で：
+#   1. PowerShell プロフィールに VibeCoding 設定を追加
+#   2. .env ファイルのテンプレートをコピー
+#   3. Python 仮想環境を作成（オプション）
+```
+
+🎯 **セットアップ後の動作**：
+- PowerShell を再起動
+- VibeCoding ディレクトリで新しいターミナルを開く
+- 自動的に `.env` から環境変数が読み込まれる
+- 確認: `$env:AVIUTL_ROOT` で値が表示される
+
+**Linux/macOS 開発者向け**：
+```bash
+# 手動で .env ファイルを `source` または bash 環境に読み込んでください
+source .env
+```
+
 ### ステップ 3: 開発環境の検証
 ```bash
 # Python がインストール済みか確認（例）
