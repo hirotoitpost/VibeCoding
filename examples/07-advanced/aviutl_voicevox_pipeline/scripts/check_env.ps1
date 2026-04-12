@@ -68,9 +68,11 @@ Write-Host "[ 2/3 ] VOICEVOX チェック..." -ForegroundColor Yellow
 if ([string]::IsNullOrEmpty($env:VOICEVOX_ROOT)) {
     Write-Host "  ⚠️  環境変数 VOICEVOX_ROOT が設定されていません" -ForegroundColor Yellow
     Write-Host "     .env ファイルに VOICEVOX_ROOT=C:\\Program Files\\VOICEVOX を設定してください" -ForegroundColor Gray
-} elseif (-not (Test-Path $env:VOICEVOX_ROOT)) {
+}
+elseif (-not (Test-Path $env:VOICEVOX_ROOT)) {
     Write-Host "  ⚠️  VOICEVOX_ROOT のパスが存在しません: $env:VOICEVOX_ROOT" -ForegroundColor Yellow
-} else {
+}
+else {
     Write-Host "  ✅ VOICEVOX Root: $env:VOICEVOX_ROOT" -ForegroundColor Green
 }
 
