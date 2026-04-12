@@ -436,6 +436,276 @@ aviutl_voicevox_pipeline/
 
 ---
 
+## Step 9: Phase 5.3-5.4 - トランジション効果最適化と Exo 統合
+
+Phase 5.3-5.4 では、複数のトランジション効果（フェード、ディゾルブ、スライド等）を定義し、セグメント間の効果をインテリジェントに選択・適用します。
+
+### Phase 5.3: トランジション効果定義
+
+トランジション効果設定ファイル（effect_config.json）:
+
+```powershell
+# Phase 5.3: エフェクト定義スクリプト実行
+# effect_config.json に 5種類のトランジション効果を定義
+
+# ファイル内容例（自動生成 or 既存）:
+Get-Content effect_config.json | ConvertFrom-Json | Format-List
+```
+
+### effect_config.json 構造
+
+```json
+{
+  "available_effects": [
+    {
+      "name": "fade",
+      "duration_ms": 300,
+      "easing": "linear",
+      "aviutl_effect": "フェード",
+      "use_case": "デフォルト、スムーズな切り替え"
+    },
+    {
+      "name": "dissolve",
+      "duration_ms": 500,
+      "easing": "ease-in-out",
+      "aviutl_effect": "ディゾルブ",
+      "use_case": "スピーカー変化時、または類似内容の連続"
+    },
+    {
+      "name": "slide_left",
+      "duration_ms": 400,
+      "easing": "ease-in-out",
+      "aviutl_effect": "スライド (90°)",
+      "use_case": "左スピーカー → 右スピーカーへの視点移動"
+    },
+    {
+      "name": "slide_right",
+      "duration_ms": 400,
+      "easing": "ease-in-out",
+      "aviutl_effect": "スライド (270°)",
+      "use_case": "右スピーカー → 左スピーカーへの視点移動"
+    },
+    {
+      "name": "fade_through_color",
+      "duration_ms": 350,
+      "easing": "linear",
+      "aviutl_effect": "色を通してフェード",
+      "use_case": "場面転換、トピック切り替え時"
+    }
+  ],
+  "quality_profiles": {
+    "fast": {
+      "name": "高速処理モード",
+      "available_effects": ["fade"],
+      "use_case": "プレビュー、テスト用"
+    },
+    "normal": {
+      "name": "バランス型（推奨）",
+      "available_effects": ["fade", "dissolve"],
+      "use_case": "実制作、標準品質"
+    },
+    "high": {
+      "name": "フル機能モード",
+      "available_effects": ["fade", "dissolve", "slide_left", "slide_right", "fade_through_color"],
+      "use_case": "最高品質、全効果対応"
+    }
+  },
+  "effect_selection_rules": {
+    "same_speaker": "fade",
+    "speaker_change_left_to_right": "slide_left",
+    "speaker_change_right_to_left": "slide_right",
+    "different_topic": "dissolve",
+    "default": "fade"
+  }
+}
+```
+
+### Phase 5.4: Exo ファイル生成工程（トランジション統合）
+
+#### 動作フロー
+
+```
+video_layout_dynamics.json (Phase 5.2)
+  ├─ segment[1]: speaker_1
+  ├─ segment[2]: speaker_2
+  ├─ selected_effect: { name: "slide_left", duration_ms: 400, easing: "ease-in-out" }
+  │   ↓
+generate_exo.ps1 (Phase 5.4 拡張)
+  ├─ effect_config.json 読み込み
+  ├─ selected_effect 抽出
+  ├─ AviUtl形式に変換
+  │   └─ "slide_left" → <transition type="スライド" ... />
+  │
+  └─ project.exo に<transition>タグ挿入
+        ↓
+AviUtl CUI エンコード
+        ↓
+✅ トランジション効果が適用された動画生成
+```
+
+#### generate_exo.ps1 実行（Phase 5.4 拡張版）
+
+```powershell
+# Phase 5.4: Exo 生成（自動的にトランジション効果を統合）
+.\scripts\generate_exo.ps1
+
+# 詳細オプション
+.\scripts\generate_exo.ps1 `
+  -OutputPath "./output/project.exo" `
+  -LayoutConfigPath "./video_layout.json" `
+  -DynamicsLayoutPath "./video_layout_dynamics.json" `
+  -EffectConfigPath "../effect_config.json"
+
+# 実行結果
+# - Phase 2.8: effect_config.json 読込確認
+# - セグメント間トランジション自動生成
+# - <transition> XML タグ挿入
+# - project.exo に最終的なトランジション情報が反映される
+```
+
+#### トランジション効果の自動選択ロジック
+
+```
+セグメント間の遷移を検出:
+  ├─ 同じスピーカー?
+  │   └─ YES → fade（300ms、スムーズ）
+  │
+  ├─ スピーカー変化?（speaker_change）
+  │   ├─ 左→右?
+  │   │   └─ YES → slide_left（400ms、視点移動）
+  │   │
+  │   ├─ 右→左?
+  │   │   └─ YES → slide_right（400ms、視点移動）
+  │   │
+  │   └─ デフォルト → dissolve（500ms）
+  │
+  └─ その他 → fade（デフォルト）
+
+✨ 結果: セグメント毎に最適なトランジション自動配置
+```
+
+#### 品質プロファイルの選択（推奨: normal）
+
+```powershell
+# 法1: generate_exo.ps1内から制御
+# ファイル内で QualityProfile パラメーターを指定
+#   -QualityProfile "normal"  # fast | normal | high
+
+# 法2: 環境変数設定
+$env:QUALITY_PROFILE = "normal"
+
+# 法3: run_all.ps1 パラメーター（今後の拡張）
+# .\run_all.ps1 -QualityProfile "normal"
+
+# QualityProfile 効果
+# - fast  : フェードのみ（軽量、プレビュー向け）
+# - normal: フェード + ディゾルブ（バランス型、推奨）✅
+# - high  : 全効果（高品質、処理時間増加）
+```
+
+### 統合実行（Phase 2-2.5-2.6-2.7-2.8 → Phase 3-4）
+
+```powershell
+# 最も推奨: 全フェーズ自動実行
+# (Phase 2 → 2.5 → 2.6 → 2.7チェック → 2.8読込 → Phase 3 → 4)
+.\run_all.ps1 -FastMode $true
+
+# 実行出力例
+# ==============================================
+#  VibeCoding 動画生成パイプライン 統合実行
+# ==============================================
+# [ Phase 2 ] 音声生成（VOICEVOX）
+# [ Phase 2.5 ] 映像要素生成（レイアウト・背景・立ち絵）
+# [ Phase 2.6 ] 動的レイアウト生成（トランジション・タイミング）
+# [ Phase 2.7 ] トランジション効果統合チェック
+# [ Phase 3 ] Exo ファイル生成（Phase 5.4: トランジション効果統合）✨
+# [ Phase 4 ] AviUtl CUI 動画エンコード
+# ==============================================
+```
+
+### トランジション効果の確認方法
+
+```powershell
+# 1. video_layout_dynamics.json で selected_effect を確認
+Get-Content "video_layout_dynamics.json" | ConvertFrom-Json | ForEach-Object {
+    $_.segments | ForEach-Object {
+        Write-Host "Segment $($_.id): $($_.speaker_name) - Effect: $($_.selected_effect.name)"
+    }
+}
+
+# 2. project.exo で<transition>タグを確認
+Get-Content "project.exo" | Select-String "<transition" -Context 1,1
+
+# 3. AviUtl で project.exo を開いて、タイムライン上のトランジション効果を視認
+```
+
+### カスタマイズ：effect_config.json 修正
+
+効果の duration_ms や easing を変更する場合:
+
+```json
+{
+  "available_effects": [
+    {
+      "name": "dissolve",
+      "duration_ms": 600,      // デフォルト 500ms → 600ms に変更
+      "easing": "ease-out"     // ease-in-out → ease-out に変更
+    }
+  ]
+}
+```
+
+変更後、次回実行時に新しい設定が反映されます:
+
+```powershell
+.\scripts\generate_exo.ps1
+
+# または全フェーズ実行
+.\run_all.ps1 -FastMode $true
+```
+
+### よくある質問（FAQトランジション）
+
+#### Q: トランジション効果が反映されていない
+- A: 以下を確認してください
+  1. effect_config.json が存在するか（ルートディレクトリ）
+  2. video_layout_dynamics.json に selected_effect フィールドがあるか
+  3. ✅ generate_exo.ps1 の出力メッセージで「トランジション情報追加中」が表示されたか
+
+#### Q: スライド効果の方向を逆にしたい
+- A: effect_config.json の effect_selection_rules を修正
+  ```json
+  {
+    "speaker_change_left_to_right": "slide_right",  // 左右反転
+    "speaker_change_right_to_left": "slide_left"
+  }
+  ```
+
+#### Q: 特定のセグメント間だけトランジション効果を変更したい
+- A: video_layout_dynamics.json の該当セグメントの selected_effect を直接修正
+  ```json
+  {
+    "segments": [
+      {
+        "id": 5,
+        "selected_effect": {
+          "name": "fade_through_color",  // カスタム効果
+          "duration_ms": 350
+        }
+      }
+    ]
+  }
+  ```
+
+#### Q: FastMode と Normal Mode の違いは?
+- A: run_all.ps1 の実行パターン
+  - FastMode true: 各フェーズ自動実行、一時停止なし
+  - FastMode false: フェーズ毎に一時停止、確認後 Enter キーで続行
+
+---
+
+## トラブルシューティング
+
 ### VOICEVOX に接続できない
 - VOICEVOX アプリを起動してください（タスクトレイを確認）
 - ファイアウォールで `50021` ポートが許可されているか確認
