@@ -7,7 +7,8 @@
 param(
     [string]$InputDir = ".\scenarios",
     [string]$OutputDir = ".\output\voice",
-    [int]$SpeakerId = 14,              # 14 = 春日部つむぎ (ノーマル)
+    [int]$SpeakerId = 8,               # 8 = 春日部つむぎ (ノーマル, デフォルト)
+    [int]$StyleId = 8,                 # Style: 8 = ノーマル
     [string]$VoicevoxPort = $null      # $null = $env:VOICEVOX_PORT から取得
 )
 
@@ -23,7 +24,7 @@ Write-Host " VOICEVOX 音声一括生成" -ForegroundColor Cyan
 Write-Host "=============================================" -ForegroundColor Cyan
 Write-Host "  Input : $InputDir"
 Write-Host "  Output: $OutputDir"
-Write-Host "  Speaker: ID $SpeakerId (春日部つむぎ)"
+Write-Host "  Speaker: ID $SpeakerId - 春日部つむぎ (Style: $StyleId - ノーマル)"
 Write-Host ""
 
 # 出力ディレクトリ確認
@@ -72,12 +73,12 @@ foreach ($file in $scenarioFiles) {
     try {
         # Step 1: audio_query (テキスト → クエリ)
         $queryBody = [System.Web.HttpUtility]::UrlEncode($text)
-        $queryResponse = Invoke-RestMethod -Uri "$VoicevoxUrl/audio_query?speaker=$SpeakerId&text=$queryBody" `
+        $queryResponse = Invoke-RestMethod -Uri "$VoicevoxUrl/audio_query?speaker=$SpeakerId&style_id=$StyleId&text=$queryBody" `
             -Method Post -ContentType "application/json" -ErrorAction Stop
 
         # Step 2: synthesis (クエリ → 音声)
         $queryJson = $queryResponse | ConvertTo-Json -Depth 10
-        $audioResponse = Invoke-WebRequest -Uri "$VoicevoxUrl/synthesis?speaker=$SpeakerId" `
+        $audioResponse = Invoke-WebRequest -Uri "$VoicevoxUrl/synthesis?speaker=$SpeakerId&style_id=$StyleId" `
             -Method Post -ContentType "application/json" -Body ([System.Text.Encoding]::UTF8.GetBytes($queryJson)) `
             -ErrorAction Stop
 

@@ -17,6 +17,10 @@
 
 $ErrorCount = 0
 
+# スクリプトの場所からプロジェクトルートを計算
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$projectRoot = Split-Path -Parent $scriptRoot
+
 Write-Host "=============================================" -ForegroundColor Cyan
 Write-Host " VibeCoding 動画生成パイプライン 環境チェック" -ForegroundColor Cyan
 Write-Host "=============================================" -ForegroundColor Cyan
@@ -28,13 +32,13 @@ Write-Host ""
 Write-Host "[ 1/3 ] AviUtl チェック..." -ForegroundColor Yellow
 
 if ([string]::IsNullOrEmpty($env:AVIUTL_ROOT)) {
-    Write-Host "  ❌ 環境変数 AVIUTL_ROOT が設定されていません" -ForegroundColor Red
+    Write-Host "  ⚠️  環境変数 AVIUTL_ROOT が設定されていません" -ForegroundColor Yellow
     Write-Host "     .env ファイルに AVIUTL_ROOT=C:\AviUtl を設定してください" -ForegroundColor Gray
-    $ErrorCount++
+    # AviUtl 未設定は WARNING（致命的ではない）
 }
 elseif (-not (Test-Path $env:AVIUTL_ROOT)) {
-    Write-Host "  ❌ AVIUTL_ROOT のパスが存在しません: $env:AVIUTL_ROOT" -ForegroundColor Red
-    $ErrorCount++
+    Write-Host "  ⚠️  AVIUTL_ROOT のパスが存在しません: $env:AVIUTL_ROOT" -ForegroundColor Yellow
+    # パス存在しないも WARNING（テスト環境で不要）
 }
 else {
     $aviutlExe = Join-Path $env:AVIUTL_ROOT "aviutl.exe"
@@ -106,14 +110,20 @@ Write-Host ""
 # ========================================
 Write-Host "[ 3/3 ] 出力ディレクトリ チェック..." -ForegroundColor Yellow
 
-$dirs = @("output/voice", "output/video", "scripts", "scenarios")
+$dirs = @(
+    (Join-Path $projectRoot "output\voice"),
+    (Join-Path $projectRoot "output\video"),
+    (Join-Path $projectRoot "scripts"),
+    (Join-Path $projectRoot "scenarios")
+)
+
 foreach ($dir in $dirs) {
     if (-not (Test-Path $dir)) {
         New-Item -ItemType Directory -Path $dir -Force | Out-Null
-        Write-Host "  📁 作成: $dir" -ForegroundColor Cyan
+        Write-Host "  📁 作成: $(Split-Path -Leaf $dir)" -ForegroundColor Cyan
     }
     else {
-        Write-Host "  ✅ 存在: $dir" -ForegroundColor Green
+        Write-Host "  ✅ 存在: $(Split-Path -Leaf $dir)" -ForegroundColor Green
     }
 }
 
@@ -131,10 +141,10 @@ if ($ErrorCount -eq 0) {
     Write-Host "   1. シナリオファイル作成: scenarios\01_intro.txt"
     Write-Host "   2. 音声生成: .\scripts\generate_voice.ps1"
     Write-Host "   3. Exo 生成: .\scripts\generate_exo.ps1"
+    exit 0
 }
 else {
     Write-Host " ❌ $ErrorCount 個の問題を解決してください" -ForegroundColor Red
     Write-Host " SETUP_GUIDE.md を参照してください" -ForegroundColor Gray
+    exit 1
 }
-
-Write-Host "=============================================" -ForegroundColor Cyan
