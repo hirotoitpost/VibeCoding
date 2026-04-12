@@ -28,7 +28,7 @@
 .NOTES
     環境変数:
     - AVIUTL_ROOT: AviUtl のインストールディレクトリ (C:\AviUtl など)
-    - PSDTOOLKIT_ROOT: PSDToolKit のパス（オプション）
+    - PSDTOOLKIT_ROOT: PSDToolKit のパス (C:\AviUtl\PSDToolKit など、オプション)
 #>
 
 param(

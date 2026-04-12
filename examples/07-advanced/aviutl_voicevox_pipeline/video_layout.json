@@ -1,171 +1,171 @@
 {
-  "projectName": "VibeCoding 解説動画",
-  "description": "パターン A: シンプル対話型（2人対話レイアウト）",
-  "createdAt": "2026-04-13 00:23:00",
+  "createdAt": "2026-04-13 01:39:42",
+  "designConfig": {
+    "typography": {
+      "fontSize_small": 20,
+      "fontSize_normal": 28,
+      "fontFamily": "メイリオ",
+      "fontSize_large": 48,
+      "fontWeight": "bold"
+    },
+    "colorScheme": {
+      "text_secondary": "#CCCCCC",
+      "background_top": "#E8D9F0",
+      "text_primary": "#FFFFFF",
+      "accent_primary": "#6B4C8A",
+      "accent_secondary": "#5BA3A3",
+      "border_color": "#E0D0E8",
+      "background_bottom": "#F5E6F0"
+    },
+    "animation": {
+      "fade_in_duration": 0.5,
+      "fade_out_duration": 0.3,
+      "transition_duration": 0.3
+    }
+  },
+  "layers": [
+    {
+      "height": 1080,
+      "type": "color_gradient",
+      "name": "背景",
+      "color_bottom": "#F5E6F0",
+      "alpha": 255,
+      "color_top": "#E8D9F0",
+      "x": 960,
+      "description": "グラデーション背景（将来: スライド背景対応予定）",
+      "visible": true,
+      "y": 540,
+      "width": 1920,
+      "layer": 0,
+      "locked": true
+    },
+    {
+      "x": 300,
+      "psdFile": "./assets/psd/character_1.psd",
+      "characterName": "つむぎ",
+      "name": "立ち絵_左",
+      "alpha": 255,
+      "characterId": "8",
+      "rotate": 0,
+      "y": 540,
+      "speaker": "SPEAKER_1",
+      "description": "進行役の立ち絵",
+      "locked": false,
+      "layer": 1,
+      "scale_x": 1.0,
+      "width": 600,
+      "height": 800,
+      "scale_y": 1.0,
+      "visibility_sync": {
+        "fade_in": 0.3,
+        "fade_out": 0.3,
+        "show_when": "speaker_1_active"
+      },
+      "type": "psd_image",
+      "visible": true
+    },
+    {
+      "x": 1620,
+      "psdFile": "./assets/psd/character_2.psd",
+      "characterName": "ずんだもん",
+      "name": "立ち絵_右",
+      "alpha": 255,
+      "characterId": "3",
+      "rotate": 0,
+      "y": 540,
+      "speaker": "SPEAKER_2",
+      "description": "相槌役の立ち絵",
+      "locked": false,
+      "layer": 2,
+      "scale_x": 1.0,
+      "width": 600,
+      "height": 800,
+      "scale_y": 1.0,
+      "visibility_sync": {
+        "fade_in": 0.3,
+        "fade_out": 0.3,
+        "show_when": "speaker_2_active"
+      },
+      "type": "psd_image",
+      "visible": true
+    },
+    {
+      "borderColor": "#E8D9F0",
+      "height": 120,
+      "type": "text_box",
+      "name": "テロップ",
+      "text_config": {
+        "fontColor": "#FFFFFF",
+        "alignment": "center",
+        "lineHeight": 1.4,
+        "verticalAlignment": "middle",
+        "fontBold": true,
+        "fontSize": 48,
+        "lineLimit": 3,
+        "fontFamily": "メイリオ"
+      },
+      "padding": {
+        "top": 10,
+        "bottom": 10,
+        "right": 20,
+        "left": 20
+      },
+      "content_pattern": "{SPEAKER}: {TEXT}",
+      "backgroundColor": "rgba(0,0,0,0.7)",
+      "x": 960,
+      "description": "話者名＋セリフ表示",
+      "borderWidth": 2,
+      "visible": true,
+      "y": 140,
+      "width": 1800,
+      "layer": 3,
+      "locked": false
+    },
+    {
+      "borderColor": "#F0F0F0",
+      "height": 60,
+      "type": "text_box",
+      "name": "字幕",
+      "text_config": {
+        "fontSize": 20,
+        "fontColor": "#CCCCCC",
+        "verticalAlignment": "middle",
+        "fontBold": false,
+        "alignment": "center",
+        "lineHeight": 1.3,
+        "fontFamily": "メイリオ"
+      },
+      "padding": {
+        "top": 5,
+        "bottom": 5,
+        "right": 15,
+        "left": 15
+      },
+      "content_pattern": "← {LEFT_CHARACTER} | {RIGHT_CHARACTER} →",
+      "backgroundColor": "rgba(0,0,0,0.5)",
+      "x": 960,
+      "description": "補足情報・キャラ名表示",
+      "borderWidth": 1,
+      "visible": true,
+      "y": 1000,
+      "width": 1200,
+      "layer": 4,
+      "locked": false
+    }
+  ],
   "notes": [
     "将来: スライド/埋込み動画を背景に配置可能",
     "Layer 構成は AviUtl Exo ファイルに反映されます",
     "各レイヤーは独立して追加/削除/編集可能です"
   ],
   "pattern": "A",
-  "designConfig": {
-    "animation": {
-      "transition_duration": 0.3,
-      "fade_out_duration": 0.3,
-      "fade_in_duration": 0.5
-    },
-    "colorScheme": {
-      "accent_primary": "#6B4C8A",
-      "text_secondary": "#CCCCCC",
-      "background_bottom": "#F5E6F0",
-      "border_color": "#E0D0E8",
-      "text_primary": "#FFFFFF",
-      "background_top": "#E8D9F0",
-      "accent_secondary": "#5BA3A3"
-    },
-    "typography": {
-      "fontFamily": "メイリオ",
-      "fontSize_small": 20,
-      "fontSize_large": 48,
-      "fontSize_normal": 28,
-      "fontWeight": "bold"
-    }
-  },
-  "layers": [
-    {
-      "name": "背景",
-      "width": 1920,
-      "type": "color_gradient",
-      "layer": 0,
-      "description": "グラデーション背景（将来: スライド背景対応予定）",
-      "locked": true,
-      "x": 960,
-      "color_bottom": "#F5E6F0",
-      "y": 540,
-      "visible": true,
-      "height": 1080,
-      "color_top": "#E8D9F0",
-      "alpha": 255
-    },
-    {
-      "description": "進行役の立ち絵",
-      "width": 600,
-      "scale_x": 1.0,
-      "visibility_sync": {
-        "show_when": "speaker_1_active",
-        "fade_in": 0.3,
-        "fade_out": 0.3
-      },
-      "y": 540,
-      "rotate": 0,
-      "name": "立ち絵_左",
-      "psdFile": "D:\\freesoftware\\立ち絵置き場\\坂本アヒル\\春日部つむぎ立ち絵素材\\春日部つむぎ立ち絵素材.psd",
-      "speaker": "SPEAKER_1",
-      "x": 300,
-      "type": "psd_image",
-      "scale_y": 1.0,
-      "visible": true,
-      "locked": false,
-      "characterName": "つむぎ",
-      "layer": 1,
-      "height": 800,
-      "characterId": "8",
-      "alpha": 255
-    },
-    {
-      "description": "相槌役の立ち絵",
-      "width": 600,
-      "scale_x": 1.0,
-      "visibility_sync": {
-        "show_when": "speaker_2_active",
-        "fade_in": 0.3,
-        "fade_out": 0.3
-      },
-      "y": 540,
-      "rotate": 0,
-      "name": "立ち絵_右",
-      "psdFile": "D:\\freesoftware\\立ち絵置き場\\坂本アヒル\\ずんだもん立ち絵素材2.3\\ずんだもん立ち絵素材2.3.psd",
-      "speaker": "SPEAKER_2",
-      "x": 1620,
-      "type": "psd_image",
-      "scale_y": 1.0,
-      "visible": true,
-      "locked": false,
-      "characterName": "ずんだもん",
-      "layer": 2,
-      "height": 800,
-      "characterId": "3",
-      "alpha": 255
-    },
-    {
-      "backgroundColor": "rgba(0,0,0,0.7)",
-      "name": "テロップ",
-      "width": 1800,
-      "type": "text_box",
-      "layer": 3,
-      "description": "話者名＋セリフ表示",
-      "locked": false,
-      "x": 960,
-      "text_config": {
-        "lineLimit": 3,
-        "lineHeight": 1.4,
-        "fontColor": "#FFFFFF",
-        "alignment": "center",
-        "fontSize": 48,
-        "fontFamily": "メイリオ",
-        "verticalAlignment": "middle",
-        "fontBold": true
-      },
-      "content_pattern": "{SPEAKER}: {TEXT}",
-      "borderColor": "#E8D9F0",
-      "y": 140,
-      "visible": true,
-      "height": 120,
-      "borderWidth": 2,
-      "padding": {
-        "right": 20,
-        "top": 10,
-        "left": 20,
-        "bottom": 10
-      }
-    },
-    {
-      "backgroundColor": "rgba(0,0,0,0.5)",
-      "name": "字幕",
-      "width": 1200,
-      "type": "text_box",
-      "layer": 4,
-      "description": "補足情報・キャラ名表示",
-      "locked": false,
-      "x": 960,
-      "text_config": {
-        "fontColor": "#CCCCCC",
-        "verticalAlignment": "middle",
-        "fontBold": false,
-        "fontFamily": "メイリオ",
-        "lineHeight": 1.3,
-        "alignment": "center",
-        "fontSize": 20
-      },
-      "content_pattern": "← {LEFT_CHARACTER} | {RIGHT_CHARACTER} →",
-      "borderColor": "#F0F0F0",
-      "y": 1000,
-      "visible": true,
-      "height": 60,
-      "borderWidth": 1,
-      "padding": {
-        "right": 15,
-        "top": 5,
-        "left": 15,
-        "bottom": 5
-      }
-    }
-  ],
-  "totalLayers": 5,
+  "description": "パターン A: シンプル対話型（2人対話レイアウト）",
   "screenConfig": {
-    "fps": 30,
     "height": 1080,
     "aspectRatio": "16:9",
+    "fps": 30,
     "width": 1920
-  }
+  },
+  "totalLayers": 5,
+  "projectName": "VibeCoding 解説動画"
 }

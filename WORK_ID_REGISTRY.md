@@ -265,3 +265,5 @@ f1d13d0 feat(Phase 4 Prep): Add speaker and PSD environment variables for 2-spea
 **最終更新**: 2026年4月5日 (Session 16 完了 - ID 015 Web3 Frontend テスト＋ドキュメント化 + PR #18 マージ完了)  
 **管理者**: VibeCoding Learning Project AI Agent
 
+| 026 | フェーズ 5.5.1 / PSDToolKit フォーマット統合分析 | ✅分析完了 | - | S26 | Layer4.exo詳細解析、INI形式発見、パターン確定 |
+| 027 | フェーズ 5.5.2 / INI形式 Exo ファイル完全実装（繰延べ） | ⏳計画中 | - | S27+ | generate_exo.ps1 完全書き直し、INI形式対応 |

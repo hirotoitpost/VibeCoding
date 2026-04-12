@@ -54,12 +54,12 @@ else {
     if ([string]::IsNullOrEmpty($env:PSDTOOLKIT_ROOT)) {
         Write-Host "  ⚠️  環境変数 PSDTOOLKIT_ROOT が設定されていません" -ForegroundColor Yellow
         # デフォルトパスをチェック
-        $defaultPsdToolKit = Join-Path $env:AVIUTL_ROOT "plugins\PSDToolKit"
+        $defaultPsdToolKit = Join-Path $env:AVIUTL_ROOT "PSDToolKit"
         if (Test-Path $defaultPsdToolKit) {
             Write-Host "     デフォルトパスで検出: $defaultPsdToolKit" -ForegroundColor Cyan
         }
         else {
-            Write-Host "     .env ファイルに PSDTOOLKIT_ROOT を設定してください" -ForegroundColor Gray
+            Write-Host "     .env ファイルに PSDTOOLKIT_ROOT=C:\AviUtl\PSDToolKit を設定してください" -ForegroundColor Gray
         }
     }
     elseif (-not (Test-Path $env:PSDTOOLKIT_ROOT)) {
@@ -118,7 +118,8 @@ $speaker2StyleId = if ($env:SPEAKER_2_STYLE_ID) { $env:SPEAKER_2_STYLE_ID } else
 if ($speaker1Id -eq "未設定" -or $speaker2Id -eq "未設定") {
     Write-Host "  ⚠️  話し手の設定が完全ではありません" -ForegroundColor Yellow
     Write-Host "     .env に SPEAKER_1_ID, SPEAKER_2_ID を設定してください" -ForegroundColor Gray
-} else {
+}
+else {
     Write-Host "  ✅ 話し手1 (進行役): Speaker ID $speaker1Id, Style $speaker1StyleId" -ForegroundColor Green
     Write-Host "  ✅ 話し手2 (相槌役): Speaker ID $speaker2Id, Style $speaker2StyleId" -ForegroundColor Green
 }
@@ -136,11 +137,13 @@ $psd2 = $env:PSD_CHARACTER_2
 if ([string]::IsNullOrEmpty($psd1) -and [string]::IsNullOrEmpty($psd2)) {
     Write-Host "  ⚠️  立ち絵 PSD ファイルが設定されていません" -ForegroundColor Yellow
     Write-Host "     .env に PSD_CHARACTER_1, PSD_CHARACTER_2 を設定してください" -ForegroundColor Gray
-} else {
+}
+else {
     if (-not [string]::IsNullOrEmpty($psd1)) {
         if (Test-Path $psd1) {
             Write-Host "  ✅ 立ち絵1 (進行役): $psd1" -ForegroundColor Green
-        } else {
+        }
+        else {
             Write-Host "  ⚠️  立ち絵1 のパスが見つかりません: $psd1" -ForegroundColor Yellow
         }
     }
@@ -148,7 +151,8 @@ if ([string]::IsNullOrEmpty($psd1) -and [string]::IsNullOrEmpty($psd2)) {
     if (-not [string]::IsNullOrEmpty($psd2)) {
         if (Test-Path $psd2) {
             Write-Host "  ✅ 立ち絵2 (相槌役): $psd2" -ForegroundColor Green
-        } else {
+        }
+        else {
             Write-Host "  ⚠️  立ち絵2 のパスが見つかりません: $psd2" -ForegroundColor Yellow
         }
     }

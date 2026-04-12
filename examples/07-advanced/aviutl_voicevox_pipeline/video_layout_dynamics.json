@@ -1,66 +1,48 @@
 {
-  "timing_rules": {
-    "min_display_time": 500,
-    "fade_out_duration": 300,
-    "max_display_time": 5000,
-    "fade_in_duration": 300
+  "metadata": {
+    "created": "2026-04-13 01:39:42",
+    "effect_config": "N/A (デフォルト)",
+    "quality_profile": "normal",
+    "version": "1.0",
+    "phase_title": "追加トランジション効果最適化",
+    "phase": "5.3",
+    "source_layout": "video_layout.json",
+    "total_duration": 19648.0,
+    "segment_count": 1
   },
   "transitions": {
-    "quality_profile": "normal",
     "default_duration": 300,
+    "default_type": "fade",
     "available_types": [
       {
-        "name": "fade",
-        "aviutl_effect": "fade",
-        "easing": "linear",
         "params": {
-          "in_out": "both",
-          "intensity": 1.0
+          "intensity": 1.0,
+          "in_out": "both"
         },
+        "easing": "linear",
+        "description": "フェード効果",
+        "name": "fade",
         "duration_ms": 300,
-        "description": "フェード効果"
+        "aviutl_effect": "fade"
       }
     ],
-    "default_type": "fade"
-  },
-  "layer_visibility": {
-    "layer_2": {
-      "z_order": 10,
-      "fade_time": 300,
-      "name": "立ち絵_右 (Speaker 2)"
-    },
-    "layer_0": {
-      "z_order": 0,
-      "always_visible": true,
-      "name": "背景"
-    },
-    "layer_4": {
-      "z_order": 15,
-      "always_visible": true,
-      "name": "字幕"
-    },
-    "layer_1": {
-      "z_order": 10,
-      "fade_time": 300,
-      "name": "立ち絵_左 (Speaker 1)"
-    },
-    "layer_3": {
-      "z_order": 20,
-      "always_visible": true,
-      "name": "テロップ"
-    }
+    "quality_profile": "normal"
   },
   "segments": [
     {
-      "speaker_id": "8",
+      "transitions": {
+        "fade_out": 300,
+        "fade_in": 300,
+        "duration": 19648.0
+      },
       "telop": {
-        "duration": 19648.0,
-        "text": "つむぎ: ...（テロップ自動生成予定）",
         "display_time": 0,
-        "y": 120,
         "x": 960,
+        "text": "つむぎ: ...（テロップ自動生成予定）",
         "height": 120,
-        "width": 1800
+        "duration": 19648.0,
+        "width": 1800,
+        "y": 120
       },
       "visible_layers": [
         0,
@@ -68,27 +50,45 @@
         3,
         4
       ],
+      "speaker_id": "8",
       "duration": 19648.0,
-      "end_time": 19648.0,
-      "transitions": {
-        "duration": 19648.0,
-        "fade_in": 300,
-        "fade_out": 300
-      },
       "speaker_name": "つむぎ",
       "id": 1,
-      "start_time": 0
+      "start_time": 0,
+      "end_time": 19648.0
     }
   ],
-  "metadata": {
-    "total_duration": 19648.0,
-    "effect_config": "N/A (デフォルト)",
-    "version": "1.0",
-    "phase_title": "追加トランジション効果最適化",
-    "created": "2026-04-13 00:23:00",
-    "quality_profile": "normal",
-    "source_layout": "video_layout.json",
-    "segment_count": 1,
-    "phase": "5.3"
+  "layer_visibility": {
+    "layer_3": {
+      "name": "テロップ",
+      "always_visible": true,
+      "z_order": 20
+    },
+    "layer_4": {
+      "name": "字幕",
+      "always_visible": true,
+      "z_order": 15
+    },
+    "layer_2": {
+      "name": "立ち絵_右 (Speaker 2)",
+      "z_order": 10,
+      "fade_time": 300
+    },
+    "layer_1": {
+      "name": "立ち絵_左 (Speaker 1)",
+      "z_order": 10,
+      "fade_time": 300
+    },
+    "layer_0": {
+      "name": "背景",
+      "always_visible": true,
+      "z_order": 0
+    }
+  },
+  "timing_rules": {
+    "fade_in_duration": 300,
+    "max_display_time": 5000,
+    "fade_out_duration": 300,
+    "min_display_time": 500
   }
 }

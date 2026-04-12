@@ -75,6 +75,30 @@ Write-Host "⚡ FastMode: $FastMode" -ForegroundColor Gray
 Write-Host ""
 
 # ========================================
+# 環境変数設定（.env ファイル読込）
+# ========================================
+
+$envFile = Join-Path $projectRoot ".env"
+if (Test-Path $envFile) {
+    Write-Host "[ 環境設定 ] .env ファイルを読み込み中..." -ForegroundColor Cyan
+    Get-Content $envFile | Where-Object { $_ -match '^[^#]' -and $_ -match '=' } | ForEach-Object {
+        if ($_ -match '^([A-Z_]+)=(.+)$') {
+            $varName = $matches[1]
+            $varValue = $matches[2]
+            [Environment]::SetEnvironmentVariable($varName, $varValue, "Process")
+            if ($varName -like "PSD_*" -or $varName -like "*_PATH" -or $varName -like "*_ROOT") {
+                Write-Host "  ✅ $varName = $varValue" -ForegroundColor Green
+            }
+        }
+    }
+    Write-Host ""
+}
+else {
+    Write-Host "  ⚠️  .env ファイルが見つかりません: $envFile" -ForegroundColor Yellow
+    Write-Host ""
+}
+
+# ========================================
 # ユーティリティ関数
 # ========================================
 function Invoke-Phase {

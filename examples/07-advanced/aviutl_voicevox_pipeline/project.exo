@@ -29,39 +29,21 @@
       locked="True"
     />
     <!-- Layer 1: 立ち絵_左 (PSD 立ち絵 - つむぎ) -->
-    <object
-      index="1"
-      name="立ち絵_左"
-      src="D:\freesoftware\立ち絵置き場\坂本アヒル\春日部つむぎ立ち絵素材\春日部つむぎ立ち絵素材.psd"
-      x="300"
-      y="540"
-      width="600"
-      height="800"
-      alpha="255"
-      scale_x="1"
-      scale_y="1"
-      rotate="0"
-      start="0"
-      end="589"
-      locked="False"
-    />
+    <!-- PSDToolKit XML/Lua フォーマット Integration (Phase 5.5.1) -->
+<?-- character_1.psd
+o={
+  lipsync=2,
+  ptkf="D:\\ProjectPool2\\hirotoitpost\\GitHub\\VibeCoding\\examples\\07-advanced\\aviutl_voicevox_pipeline\\assets\\psd\\character_1.psd",
+  ptkl="L.0 V._BAAaYw"
+}PSD,subobj=require("PSDToolKit").PSDState.init(obj,o)?>
     <!-- Layer 2: 立ち絵_右 (PSD 立ち絵 - ずんだもん) -->
-    <object
-      index="2"
-      name="立ち絵_右"
-      src="D:\freesoftware\立ち絵置き場\坂本アヒル\ずんだもん立ち絵素材2.3\ずんだもん立ち絵素材2.3.psd"
-      x="1620"
-      y="540"
-      width="600"
-      height="800"
-      alpha="255"
-      scale_x="1"
-      scale_y="1"
-      rotate="0"
-      start="0"
-      end="589"
-      locked="False"
-    />
+    <!-- PSDToolKit XML/Lua フォーマット Integration (Phase 5.5.1) -->
+<?-- character_2.psd
+o={
+  lipsync=2,
+  ptkf="D:\\ProjectPool2\\hirotoitpost\\GitHub\\VibeCoding\\examples\\07-advanced\\aviutl_voicevox_pipeline\\assets\\psd\\character_2.psd",
+  ptkl="L.0 V._BAAaYw"
+}PSD,subobj=require("PSDToolKit").PSDState.init(obj,o)?>
     <!-- Layer 3: テロップ (テキスト) -->
     <object
       index="3"
