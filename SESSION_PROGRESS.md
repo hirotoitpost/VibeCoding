@@ -614,6 +614,147 @@
 - または フェーズ 3.3 の追加プロジェクト
 
 ---
+
+## セッション 14 (2026-04-04)
+- **タスク**: ID 014 スマートコントラクト DApp 実装（フェーズ 3.3.B）
+- **完了項目**:
+  - ✅ Hardhat プロジェクト構築（TypeScript、Solidity 0.8.20）
+  - ✅ VibeCodingToken ERC-20 スマートコントラクト実装
+  - ✅ 14 ユニットテスト（100% 通過、922ms）
+  - ✅ デプロイスクリプト（scripts/deploy.ts）
+  - ✅ Sepolia testnet 対応
+  - ✅ PR #12 マージ完了
+  - ✅ Fixture 修正（PR #13、PR #14）
+- **統計**: 14テスト成功、デプロイ可能状態
+
+**Status**: ✅ **ID 014 完全完成** - フェーズ 3.3.B 確定
+
+---
+
+## セッション 15 (2026-04-05)
+- **タスク**: ID 015 Web3 フロントエンド統合（フェーズ 3.3）
+- **完了項目**:
+  - ✅ React コンポーネント実装（Web3 統合）
+  - ✅ ethers.js + MetaMask 統合
+  - ✅ トークン転送機能実装
+  - ✅ 19 ファイル作成、3,190行追加
+  - ✅ 日本語ドキュメント追加（1,920行）
+  - ✅ PR #16 + PR #18 マージ完了
+
+**Status**: ✅ **ID 015 完全完成** - Web3 フロントエンド統合完了
+
+---
+
+## セッション 16 (2026-04-06)
+- **タスク**: ID 016 テスト・検証・ドキュメント完成
+- **完了項目**:
+  - ✅ Web3 フロント検証完了
+  - ✅ ドキュメント・テスト統合
+  - ✅ システム統合テスト実施
+
+**Status**: ✅ **ID 016 完了** 
+
+---
+
+## セッション 17 (2026-04-07)
+- **タスク**: ID 017 Exo ファイル生成（フェーズ 3）
+- **完了項目**:
+  - ✅ generate_exo.ps1 実装（Phase 3）
+  - ✅ VOICEVOX API ガイド作成
+  - ✅ Speaker ID 8 (Kasuga Harubi Tsumegi) に変更
+  - ✅ PR #29 マージ完了
+
+**Status**: ✅ **ID 017 Phase 3 完完成**
+
+---
+
+## セッション 18 (2026-04-08)
+- **タスク**: ID 018 Phase 4 環境準備（フェーズ 4 Prep）
+- **完了項目**:
+  - ✅ SPEAKER_1/2_ID 環境変数追加
+  - ✅ SPEAKER_1/2_STYLE_ID 追加
+  - ✅ PSD_CHARACTER_1/2 パス変数追加
+  - ✅ check_env.ps1 検証スクリプト拡張
+  - ✅ PR #30 マージ完了
+
+**Status**: ✅ **ID 018 Phase 4 Prep 完成**
+
+---
+
+## セッション 19 (2026-04-09)
+- **タスク**: ID 018 Phase 4 実装（aviutl_runner.ps1）
+- **完了項目**:
+  - ✅ aviutl_runner.ps1 実装（226行）
+  - ✅ output_config.json 作成（3 encoding profiles）
+  - ✅ run_all.ps1 拡張（295行）
+  - ✅ SETUP_GUIDE.md Phase 4 ドキュメント
+  - ✅ PR #31 マージ完了
+
+**Status**: ✅ **ID 018 Phase 4 実装完成**
+
+---
+
+## セッション 20 (2026-04-10)
+- **タスク**: ID 019 Phase 5.1 準備・計画
+- **完了項目**:
+  - ✅ Phase 5.1 仕様検討（Pattern A: シンプル対話型）
+  - ✅ レイアウト設計（2列キャラクター配置）
+  - ✅ 画面構成図作成
+
+**Status**: ⏳ **Phase 5.1 準備完了** - 次: 実装
+
+---
+
+## セッション 21 (2026-04-11)
+- **タスク**: ID 019 Phase 5.1 準備継続・詳細設計
+- **完了項目**:
+  - ✅ 詳細スペック確定（Layer構成、色指定）
+  - ✅ generate_video_elements.ps1 設計
+  - ✅ video_layout.json フォーマット検討
+
+**Status**: ⏳ **ID 019 詳細設計完了** - 次: 実装
+
+---
+
+## セッション 22 (2026-04-12)
+- **タスク**: ID 019 Phase 5.1 実装完成（映像要素生成エンジン）
+- **完了項目**:
+  - ✅ generate_video_elements.ps1 実装（390行）
+    - パターン A: シンプル対話型レイアウト
+    - Layer 0: 薄紫グラデーション背景
+    - Layer 1-2: PSD キャラクター画像（左右配置）
+    - Layer 3: テロップテキストボックス
+    - Layer 4: 字幕テキストボックス
+    - 出力: video_layout.json
+  - ✅ generate_exo.ps1 拡張（+140行）
+    - Step 2.5: video_layout.json 読込・解析
+    - Layer マッピング（背景→キャラ→テキスト→音声）
+    - XML生成ロジック統合
+  - ✅ run_all.ps1 統合 (+30行)
+    - Phase 2.5 (video elements) 追加
+    - パイプライン流: Phase 2 → 2.5 → 3 → 4
+  - ✅ SETUP_GUIDE.md 更新 (+60行)
+    - Step 7: Phase 5.1 詳細説明
+    - レイアウト ASCII オ図
+    - video_layout.json 設定例
+    - パイプラインフロー更新
+  - ✅ PowerShell スクリプト整形改善
+    - Commit 8b4ccc1: フォーマット改善・可読性向上
+  - ✅ PR #32 作成・マージ完了 (ded5a49)
+
+**統計**:
+- Phase 5.1 ファイル: 1 新規 (generate_video_elements.ps1)
+- 拡張ファイル: 3 (generate_exo.ps1, run_all.ps1, SETUP_GUIDE.md)
+- 追加行数合計: 620行
+- コミット: 2 (1965394, 8b4ccc1)
+- PR マージ: ✅ #32
+
+**Status**: ✅ **ID 019 Phase 5.1 完全完成・マージ完了**
+
+**次のステップ**:
+- Session 23+: ID 020+ フェーズ 3.3 追加プロジェクト / フェーズ 4 成果物化
+
+---
   * 16ファイル削除（clover.xml, coverage-final.json, lcov-report/ 配下）
   * リポジトリサイズ: 3,269 行削減
 

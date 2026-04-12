@@ -49,8 +49,13 @@ PR タイトル:
 | 014 | フェーズ3.3.B / スマートコントラクト DApp モジュール実装 + デプロイ修正 | ✅完了 | PR #12 (c4dc16b) + PR #13 (77520e1) + PR #14 (2b2e3e1) | S14 | Hardhat + Solidity + ERC-20 + 14テスト + Fixture修正 |
 | 015 | フェーズ3.3.A / Web3 フロントエンド統合＋本番テスト | ✅完了 | PR #16 (0cc1e70) + PR #18 (40069d9) | S15-S16 | React + ethers.js + MetaMask + 19ファイル + 3,190行 + テスト・日本語ドキュメント 1,920行 |
 | 016 | フェーズ 3.3.C / 春日部つむぎ立ち絵解説動画システム構築 | ⏳PR確認中 | PR #21 (fa33321) + PR #22 (03441be) | S17-S18 | VOICEVOX + Shoost + ゆかりねっとコネクターNEO 統合 + PowerShell 自動化スクリプト + テスト |
+| 017 | フェーズ 3 / Exo ファイル生成（VOICEVOX × AviUtl） | ✅完了 | PR #29 (72e104d) | S17 | VOICEVOX API統合、Speaker ID 8 (Kasuga Harubi), VOICEVOX_API_GUIDE.md |
+| 018 | フェーズ 4 Prep / 2スピーカー環境・PSD設定 | ✅完了 | PR #30 (37d703d) + PR #20 (f1d13d0) | S18-S20 | SPEAKER_1/2_ID, SPEAKER_1/2_STYLE_ID, PSD_CHARACTER_1/2 環境変数 |
+| 019 | フェーズ 5.1 / 映像要素生成エンジン（レイアウト定義） | ✅完了 | PR #32 (ded5a49) | S22 | generate_video_elements.ps1 (390行), generate_exo.ps1拡張 (+140行), run_all.ps1拡張 (+30行), video_layout.json, SETUP_GUIDE.md (+60行) |
+| 020 | フェーズ 4 Prep / Speaker × PSD 環境変数・validate スクリプト | ✅完了 | PR #30 (f1d13d0) | S20 | check_env.ps1 拡張、SPEAKER_1/2_ID/STYLE_ID, PSD環境の統合 |
+| 021 | フェーズ 4 Impl / AviUtl CUI エンコーダー＆統合パイプライン | ✅完了 | PR #31 (6a0db13) | S21 | aviutl_runner.ps1 (226行), output_config.json (3profiles), run_all.ps1 (295行) |
 
-**次に発行するID**: 017
+**次に発行するID**: 022
 
 ---
 
@@ -88,6 +93,20 @@ PR タイトル:
 - **フェーズ 3.3.B** ✅
   - ID 014: スマートコントラクト DApp (Hardhat + Solidity ERC-20 + 14テスト)
 
+- **フェーズ 3.3.C** ⏳
+  - ID 016: 春日部つむぎ立ち絵解説動画システム (VOICEVOX + Shoost + ゆかりねっとコネクターNEO)
+
+### フェーズ 3 → 4 → 5.1: 動画生成パイプライン
+- **フェーズ 3 (Voice)** ✅
+  - ID 017: Exo ファイル生成 (VOICEVOX × AviUtl)
+
+- **フェーズ 4 (Encode)** ✅
+  - ID 018/020: Phase 4 Prep (2スピーカー + PSD環境変数)
+  - ID 021: Phase 4 Impl (AviUtl CUI エンコーダー)
+
+- **フェーズ 5.1 (Video Layout)** ✅
+  - ID 019: 映像要素生成エンジン (レイアウト定義・video_layout.json)
+
 ---
 
 ## Git との連携確認
@@ -95,13 +114,16 @@ PR タイトル:
 ### 最新コミット履歴との対応
 
 ```
-1e7fd37 docs(ID 011): PR テンプレート・レビューチェックリスト追加
-6ff5e77 feat(ID 011): ユニットテスト・Docker・トラブルシューティング追加
-299d97d feat(ID 011): IoT センサーシミュレーター - プロジェクトスケーフォルド完成
-cfb0c82 Merge pull request #6 from hirotoitpost/feature/010_dns_api_gateway
-dca43d2 docs(Session 7): ID 009 完全完成記録を更新
-a438785 chore(ID 009): テスト・検証インフラ完全統合
-02373e1 Merge pull request #5 from hirotoitpost/feature/009_web家計簿テスト検証
+ded5a49 (HEAD -> main, origin/main, origin/HEAD) Merge pull request #32 from hirotoitpost/feature/022_phase5_video_elements
+8b4ccc1 style: Improve PowerShell script formatting and readability for Phase 5.1 pipeline scripts
+1965394 feat(Phase 5.1): Implement video elements generation with layout configuration
+6a0db13 Merge pull request #31 from hirotoitpost/feature/021_phase4_aviutl_runner
+571bd49 feat(Phase 4): Implement AviUtl CUI encoder and unified video pipeline
+37d703d Merge pull request #30 from hirotoitpost/feature/020_speaker_and_psd_env
+f1d13d0 feat(Phase 4 Prep): Add speaker and PSD environment variables for 2-speaker system
+72e104d (feature/017_phase3_exofile_generation) Merge pull request #29 from hirotoitpost/feature/017_phase3_exofile_generation
+7f7172c chore(ID 017): Change default speaker to Kasuga Harubi Tsumegi (ID 8)
+6e5ef36 docs(ID 017): Add comprehensive VOICEVOX API documentation
 ```
 
 **ブランチ状態**:
