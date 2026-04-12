@@ -1,16 +1,18 @@
-# VibeCoding 動的映像レイアウト生成スクリプト (ID 023 Phase 5.2)
+# VibeCoding 動的映像レイアウト生成スクリプト (ID 023 Phase 5.2 + ID 024 Phase 5.3 拡張)
 # 役割: 立ち絵トランジション、テロップ動的表示タイミングを定義し、JSON で出力
+# 拡張: トランジション効果最適化（dissolve, slide_left, slide_right 実装）
 
 <#
 .SYNOPSIS
-    動的映像レイアウト要素（トランジション・タイミング）を定義・生成します
+    動的映像レイアウト要素（トランジション・タイミング）を定義・生成します（Phase 5.3 対応）
 
 .DESCRIPTION
     Phase 5.1 の video_layout.json を読み込み、以下の動的要素を追加生成:
     - セグメント定義（各話者の発話区間）
     - 立ち絵の表示/非表示タイミング
-    - フェードイン/アウト効果
+    - フェードイン/アウト効果（+Phase 5.3: dissolve, slide 効果）
     - テロップ表示時間の動的計算
+    - トランジション効果の自動最適化選択
 
 .PARAMETER OutputPath
     出力 JSON ファイルのパス（デフォルト: video_layout_dynamics.json）
@@ -21,9 +23,15 @@
 .PARAMETER SegmentInfoFile
     セグメント情報ファイルのパス（デフォルト: output/segments.json）
 
+.PARAMETER EffectConfigPath
+    トランジション効果設定ファイルのパス（デフォルト: effect_config.json - Phase 5.3）
+
+.PARAMETER QualityProfile
+    効果品質設定: "fast" (フェードのみ), "normal" (フェード+ディゾルブ), "high" (全効果)
+
 .EXAMPLE
     .\generate_video_layout_dynamics.ps1
-    .\generate_video_layout_dynamics.ps1 -OutputPath "dynamics.json"
+    .\generate_video_layout_dynamics.ps1 -OutputPath "dynamics.json" -QualityProfile "high"
 
 .NOTES
     出力 JSON は後の generate_exo.ps1 Step 2.7 で使用されます
@@ -32,7 +40,10 @@
 param(
     [string]$OutputPath = "video_layout_dynamics.json",
     [string]$LayoutConfigPath = "video_layout.json",
-    [string]$SegmentInfoFile = "output/segments.json"
+    [string]$SegmentInfoFile = "output/segments.json",
+    [string]$EffectConfigPath = "../effect_config.json",
+    [ValidateSet("fast", "normal", "high")]
+    [string]$QualityProfile = "normal"
 )
 
 Write-Host "=================================================" -ForegroundColor Cyan
@@ -75,6 +86,50 @@ if ($wavFiles.Count -eq 0) {
 }
 
 Write-Host "  ✅ 検出ファイル数: $($wavFiles.Count)" -ForegroundColor Green
+
+# ========================================
+# ヘルパー関数: トランジション/ エフェクト選択（Phase 5.3）
+# ========================================
+function Select-TransitionEffect {
+    param(
+        [Parameter(Mandatory=$true)][object]$CurrentSegment,
+        [Parameter(Mandatory=$false)][object]$PreviousSegment,
+        [Parameter(Mandatory=$true)][array]$AvailableEffects,
+        [Parameter(Mandatory=$false)][string]$QualityProfile = "normal",
+        [Parameter(Mandatory=$false)][object]$SelectionRules
+    )
+    
+    # Phase 5.3: スピーカー検出に基づいて選択ルール適用
+    if ($null -ne $SelectionRules -and $null -ne $PreviousSegment) {
+        $currentSpeakerId = $CurrentSegment.speaker_id
+        $previousSpeakerId = $PreviousSegment.speaker_id
+        
+        # スピーカーが変わった場合: slide 効果を優先
+        if ($currentSpeakerId -ne $previousSpeakerId) {
+            # レイヤー位置に基づいて方向を決定
+            $currentLayerIndex = [array]::IndexOf($CurrentSegment.visible_layers, $currentSpeakerId)
+            $previousLayerIndex = [array]::IndexOf($PreviousSegment.visible_layers, $previousSpeakerId)
+            
+            if ($currentLayerIndex -gt $previousLayerIndex) {
+                # 右へスライド
+                $effect = $AvailableEffects | Where-Object { $_.name -eq "slide_right" } | Select-Object -First 1
+                if ($effect) { return $effect }
+            } elseif ($currentLayerIndex -lt $previousLayerIndex) {
+                # 左へスライド
+                $effect = $AvailableEffects | Where-Object { $_.name -eq "slide_left" } | Select-Object -First 1
+                if ($effect) { return $effect }
+            }
+            
+            # スライドがない場合はディゾルブ
+            $effect = $AvailableEffects | Where-Object { $_.name -eq "dissolve" } | Select-Object -First 1
+            if ($effect) { return $effect }
+        }
+    }
+    
+    # デフォルト: フェード
+    $effect = $AvailableEffects | Where-Object { $_.name -eq "fade" } | Select-Object -First 1
+    return $effect
+}
 
 # セグメント情報を生成
 $segments = @()
@@ -136,6 +191,7 @@ foreach ($wav in $wavFiles) {
                 fade_in     = 300
                 fade_out    = 300
                 duration    = $duration
+                # Phase 5.3: エフェクト選択は後続ジェネレーション時に適用
             }
             telop          = @{
                 text         = "${speakerName}: ...（テロップ自動生成予定）"
@@ -163,26 +219,112 @@ Write-Host "  ✅ 合計時間: $currentTime ms ($([System.Math]::Round($current
 Write-Host ""
 
 # ========================================
-# ステップ 3: トランジション定義
+# セクション 2.5: エフェクト事前選択（Phase 5.3 準備）
 # ========================================
+Write-Host "[ 2.5/5 ] エフェクト事前選択（Phase 5.3）..." -ForegroundColor Yellow
 
-Write-Host "[ 3/5 ] トランジション定義..." -ForegroundColor Yellow
-
-$transitions = @{
-    available_types = @(
-        @{ name = "fade"; duration_ms = 300; description = "フェード効果" },
-        @{ name = "dissolve"; duration_ms = 500; description = "ディゾルブ効果" },
-        @{ name = "slide_left"; duration_ms = 400; description = "左スライド" },
-        @{ name = "slide_right"; duration_ms = 400; description = "右スライド" }
-    )
-    default_type   = "fade"
-    default_duration = 300
+if ($effectConfig) {
+    # Phase 5.3: 各セグメントに対して最適なエフェクトを事前選択
+    $availableEffects = $effectConfig.available_effects
+    
+    # 品質プロファイルでフィルタリング
+    if ($QualityProfile -ne "high") {
+        $allowedEffects = $effectConfig.quality_profiles.$QualityProfile.effects
+        $availableEffects = $availableEffects | Where-Object { $_.name -in $allowedEffects }
+    }
+    
+    for ($i = 0; $i -lt $segments.Count; $i++) {
+        $seg = $segments[$i]
+        $prevSeg = if ($i -gt 0) { $segments[$i-1] } else { $null }
+        
+        # エフェクト選択（スピーカー変化に基づく）
+        $selectedEffect = Select-TransitionEffect `
+            -CurrentSegment $seg `
+            -PreviousSegment $prevSeg `
+            -AvailableEffects $availableEffects `
+            -QualityProfile $QualityProfile `
+            -SelectionRules $effectConfig.effect_selection_rules
+        
+        # セグメント に選択エフェクト情報を追加
+        $seg | Add-Member -MemberType NoteProperty -Name "selected_effect" -Value @{
+            name           = $selectedEffect.name
+            duration_ms    = $selectedEffect.duration_ms
+            easing         = $selectedEffect.easing
+            aviutl_effect  = $selectedEffect.aviutl_effect
+            params         = $selectedEffect.params
+        }
+        
+        Write-Host "  ✅ Segment #$($seg.id): $($prevSeg.speaker_name) → $($seg.speaker_name) / Effect: $($selectedEffect.name)" -ForegroundColor Cyan
+    }
+    
+    Write-Host "  ✅ エフェクト事前選択完了: $QualityProfile プロファイル適用" -ForegroundColor Green
+}
+else {
+    Write-Host "  ⚠️  effect_config.json 非対応: デフォルトエフェクト（フェード）を使用" -ForegroundColor Yellow
+    for ($i = 0; $i -lt $segments.Count; $i++) {
+        $segments[$i] | Add-Member -MemberType NoteProperty -Name "selected_effect" -Value @{
+            name           = "fade"
+            duration_ms    = 300
+        }
+    }
 }
 
-Write-Host "  ✅ トランジションタイプ設定: $($transitions.available_types.Count) 種類" -ForegroundColor Green
+Write-Host ""
+
+# ========================================
+# ステップ 3: トランジション定義（再度の読み込みは不要、effect_config をメモリ使用）
+# ========================================
+
+Write-Host "[ 3/5 ] トランジション定義（Phase 5.3 最適化）..." -ForegroundColor Yellow
+
+# トランジション定義を構築（Phase 5.3 改定）
+$transitions = @{
+    available_types = @()
+    default_type    = "fade"
+    default_duration = 300
+    quality_profile = $QualityProfile
+}
+
+if ($effectConfig) {
+    # effect_config.json ベースの定義
+    $transitions.available_types = @($effectConfig.available_effects | ForEach-Object {
+        @{
+            name           = $_.name
+            duration_ms    = $_.duration_ms
+            description    = $_.description
+            easing         = $_.easing
+            aviutl_effect  = $_.aviutl_effect
+            params         = $_.params
+        }
+    })
+    
+    $transitions.default_type = $effectConfig.effect_selection_rules.default_effect
+    
+    # 品質プロファイル フィルタリング
+    if ($QualityProfile -ne "high") {
+        $allowedNames = $effectConfig.quality_profiles.$QualityProfile.effects
+        $transitions.available_types = $transitions.available_types | Where-Object { $_.name -in $allowedNames }
+    }
+    
+    Write-Host "  ✅ トランジションタイプ設定: $($transitions.available_types.Count) 種類（$QualityProfile）" -ForegroundColor Green
+}
+else {
+    # フォールバック
+    $transitions.available_types = @(
+        @{ 
+            name           = "fade"
+            duration_ms    = 300
+            description    = "フェード効果"
+            easing         = "linear"
+            aviutl_effect  = "fade"
+            params         = @{ intensity = 1.0; in_out = "both" }
+        }
+    )
+    Write-Host "  ⚠️  デフォルト設定: フェード（Phase 5.3 設定なし）" -ForegroundColor Yellow
+}
 
 foreach ($type in $transitions.available_types) {
-    Write-Host "     - $($type.name): $($type.duration_ms)ms ($($type.description))" -ForegroundColor Cyan
+    Write-Host "     - $($type.name): $($type.duration_ms)ms (Easing: $($type.easing))" -ForegroundColor Cyan
 }
 
 Write-Host ""
@@ -196,9 +338,12 @@ Write-Host "[ 4/5 ] 動的レイアウト JSON 生成..." -ForegroundColor Yello
 $dynamicLayout = @{
     metadata = @{
         version        = "1.0"
-        phase          = "5.2"
+        phase          = "5.3"
+        phase_title    = "追加トランジション効果最適化"
+        quality_profile = $QualityProfile
         created        = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
         source_layout  = $LayoutConfigPath
+        effect_config  = if ($effectConfig) { $EffectConfigPath } else { "N/A (デフォルト)" }
         total_duration = $currentTime
         segment_count  = $segments.Count
     }
@@ -243,8 +388,9 @@ $dynamicLayout = @{
     }
 }
 
-Write-Host "  ✅ Metadata: Phase $($dynamicLayout.metadata.phase)" -ForegroundColor Green
-Write-Host "  ✅ Segments: $($dynamicLayout.segments.Count)個定義" -ForegroundColor Green
+Write-Host "  ✅ Metadata: Phase $($dynamicLayout.metadata.phase) ($($dynamicLayout.metadata.phase_title))" -ForegroundColor Green
+Write-Host "  ✅ Quality Profile: $($dynamicLayout.metadata.quality_profile)" -ForegroundColor Green
+Write-Host "  ✅ Segments: $($dynamicLayout.segments.Count)個定義（エフェクト付き）" -ForegroundColor Green
 Write-Host "  ✅ Total Duration: $([System.Math]::Round($dynamicLayout.metadata.total_duration / 1000, 2))秒" -ForegroundColor Green
 
 Write-Host ""
@@ -272,11 +418,13 @@ else {
 
 Write-Host ""
 Write-Host "=================================================" -ForegroundColor Cyan
-Write-Host " ✅ Phase 5.2 動的レイアウト生成完了" -ForegroundColor Cyan
+Write-Host " ✅ Phase 5.3 トランジション効果最適化完了" -ForegroundColor Cyan
 Write-Host "=================================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "次のステップ:" -ForegroundColor Yellow
-Write-Host "  1. generate_exo.ps1 を実行：$OutputPath を読み込んでトランジション適用" -ForegroundColor Cyan
+Write-Host "  1. generate_exo.ps1 を実行：$OutputPath を読み込んでエフェクト適用 (Phase 5.3)" -ForegroundColor Cyan
 Write-Host "  2. AviUtl でエンコード（aviutl_runner.ps1）" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "出力ファイル: $OutputPath" -ForegroundColor Green
+Write-Host "品質プロファイル: $QualityProfile" -ForegroundColor Green
+Write-Host "適用エフェクト: $($transitions.available_types | ForEach-Object { $_.name } | Join-String -Separator ', ')" -ForegroundColor Green

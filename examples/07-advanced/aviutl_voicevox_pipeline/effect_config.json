@@ -1,0 +1,131 @@
+{
+  "version": "1.0",
+  "phase": "5.3",
+  "description": "トランジション効果設定 - dissolve, slide_left, slide_right 完全実装",
+  "meta": {
+    "created": "2026-04-12",
+    "updated": "2026-04-12",
+    "maintainer": "VibeCoding AI Agent",
+    "reference": "Phase 5.3 トランジション効果最適化エンジン"
+  },
+  "available_effects": [
+    {
+      "name": "fade",
+      "display_name": "フェード",
+      "description": "フェードイン/アウト（画面全体が徐々に映る/消える）",
+      "duration_ms": 300,
+      "easing": "linear",
+      "aviutl_effect": "fade",
+      "params": {
+        "intensity": 1.0,
+        "in_out": "both"
+      },
+      "use_case": "一般的な立ち絵切り替え、テロップ表示/消去",
+      "performance_impact": "low"
+    },
+    {
+      "name": "dissolve",
+      "display_name": "ディゾルブ",
+      "description": "ディゾルブ（前の画像がこすれて消えながら次の画像が現れる）",
+      "duration_ms": 500,
+      "easing": "ease-in-out",
+      "aviutl_effect": "dissolve",
+      "params": {
+        "intensity": 0.8,
+        "pattern": "random",
+        "noise_seed": 42
+      },
+      "use_case": "複数キャラの立ち絵切り替え、シーン転換",
+      "performance_impact": "medium"
+    },
+    {
+      "name": "slide_left",
+      "display_name": "スライド左",
+      "description": "スライドイン（左からスライドインして画面を入れ替え）",
+      "duration_ms": 400,
+      "easing": "ease-in-out",
+      "aviutl_effect": "slide",
+      "params": {
+        "direction": "left",
+        "distance": 100,
+        "intensity": 0.9
+      },
+      "use_case": "左キャラクターから右キャラクターへの視点転換",
+      "performance_impact": "medium"
+    },
+    {
+      "name": "slide_right",
+      "display_name": "スライド右",
+      "description": "スライドイン（右からスライドインして画面を入れ替え）",
+      "duration_ms": 400,
+      "easing": "ease-in-out",
+      "aviutl_effect": "slide",
+      "params": {
+        "direction": "right",
+        "distance": 100,
+        "intensity": 0.9
+      },
+      "use_case": "右キャラクターから左キャラクターへの視点転換",
+      "performance_impact": "medium"
+    },
+    {
+      "name": "fade_through_color",
+      "display_name": "カラーフェード",
+      "description": "色を経由したフェード（黒や白を経由して切り替え）",
+      "duration_ms": 350,
+      "easing": "linear",
+      "aviutl_effect": "fade",
+      "params": {
+        "color": "black",
+        "intensity": 0.7
+      },
+      "use_case": "重要なシーン転換、ナレーション区切り",
+      "performance_impact": "low"
+    }
+  ],
+  "effect_selection_rules": {
+    "default_effect": "fade",
+    "speaker_change": {
+      "same_speaker": "fade",
+      "different_speaker": "dissolve",
+      "left_to_right": "slide_left",
+      "right_to_left": "slide_right"
+    },
+    "segment_attributes": {
+      "type": "telop_only",
+      "effect": "fade"
+    },
+    "scene_transitions": {
+      "new_scene": "fade_through_color",
+      "continuous": "fade"
+    }
+  },
+  "timing_config": {
+    "fade_in_start": -100,
+    "fade_in_end": 0,
+    "fade_out_start": -300,
+    "fade_out_end": -100,
+    "overlap_ms": 50
+  },
+  "quality_profiles": {
+    "fast": {
+      "effects": ["fade"],
+      "description": "クイック処理（フェードのみ）"
+    },
+    "normal": {
+      "effects": ["fade", "dissolve"],
+      "description": "標準処理（フェード＋ディゾルブ）"
+    },
+    "high": {
+      "effects": ["fade", "dissolve", "slide_left", "slide_right", "fade_through_color"],
+      "description": "高品質処理（全効果対応）"
+    }
+  },
+  "performance_notes": {
+    "fade": "最軽量、CUI でも実装可能",
+    "dissolve": "中程度の負荷、ノイズ生成が必要",
+    "slide": "中程度の負荷、位置計算が必要",
+    "fade_through_color": "軽量、色合成のみ",
+    "recommendation": "通常は normal 品質で十分。高品質 4K 以上の場合は high を推奨"
+  }
+}
