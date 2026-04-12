@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aviutl>
+  <project
+    width="1920"
+    height="1080"
+    video_rate="30"
+    video_scale="1"
+    audio_rate="44100"
+    audio_ch="2"
+    sample_rate="44100"
+    length="589"
+  >
+    <!-- Track: 01_intro.wav -->
+    <object
+      index="0"
+      name="01_intro.wav"
+      src="D:\ProjectPool2\hirotoitpost\GitHub\VibeCoding\examples\07-advanced\aviutl_voicevox_pipeline\output\voice\01_intro.wav"
+      start="0"
+      end="589"
+      layer="0"
+      time="0"
+      x="0"
+      y="0"
+      scale_x="1"
+      scale_y="1"
+      alpha="255"
+      rotate="0"
+    />
+  </project>
+</aviutl>

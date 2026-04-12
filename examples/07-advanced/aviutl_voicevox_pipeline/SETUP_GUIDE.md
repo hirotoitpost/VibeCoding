@@ -27,14 +27,24 @@ AVIUTL_ROOT=C:\AviUtl
 PSDTOOLKIT_ROOT=C:\AviUtl\plugins\PSDToolKit
 VOICEVOX_ROOT=C:\Program Files\VOICEVOX
 VOICEVOX_PORT=50021
+
+# 話し手設定（2人体制）
+SPEAKER_1_ID=8          # 進行役
+SPEAKER_1_STYLE_ID=8
+SPEAKER_2_ID=3          # 相槌役
+SPEAKER_2_STYLE_ID=3
+
+# 立ち絵 PSD ファイル
+PSD_CHARACTER_1=C:\PSD_Assets\character_1.psd
+PSD_CHARACTER_2=C:\PSD_Assets\character_2.psd
 ```
 
 PowerShell で確認:
 ```powershell
-$env:AVIUTL_ROOT           # => C:\AviUtl
-$env:PSDTOOLKIT_ROOT       # => C:\AviUtl\plugins\PSDToolKit
-$env:VOICEVOX_ROOT         # => C:\Program Files\VOICEVOX
-$env:VOICEVOX_PORT         # => 50021
+$env:SPEAKER_1_ID        # => 8
+$env:SPEAKER_2_ID        # => 3
+$env:PSD_CHARACTER_1      # => C:\PSD_Assets\character_1.psd
+$env:PSD_CHARACTER_2      # => C:\PSD_Assets\character_2.psd
 ```
 
 ---
