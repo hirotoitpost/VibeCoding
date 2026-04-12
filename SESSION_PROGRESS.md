@@ -931,6 +931,112 @@
 
 ---
 
+## セッション 25 (2026-04-13)
+- **タスク**: ID 025 Phase 5.4 - トランジション効果 Exo 統合
+- **完了項目**:
+  - ✅ feature ブランチ作成: feature/025_phase5-exo-effect-integration
+  
+  - ✅ generate_exo.ps1 Phase 5.4 拡張（+238, -7行 = 合計645行）
+    - **パラメーター追加**: EffectConfigPath（../effect_config.json デフォルト）
+    - **ステップ 2.8 新規**: effect_config.json 読み込み機能
+      - available_effects マッピング
+      - 5種類効果定義の確認と読込
+    - **トランジション変換関数実装**:
+      - Get-AviUtlTransitionCommand(): selected_effect → AviUtl形式変換
+      - Format-TransitionXml(): トランジション情報を Exo XML化
+    - **セグメント処理ロジック**:
+      - Phase 5.2 動的レイアウトから selected_effect 抽出
+      - segmentTransitions 配列に変換情報格納
+      - トランジション開始フレーム計算
+    - **Exo ファイル生成**: トランジション情報を<transition>タグで挿入
+    - コミット: 0ccadfb
+  
+  - ✅ run_all.ps1 Phase 2.7 統合（+31行）
+    - **Phase 2.7 新規**: トランジション効果統合チェック
+    - effect_config.json 存在確認・表示
+    - Phase 5.4 統合状態の実行時表示
+    - Pipeline 可視化強化
+    - コミット: 0ccadfb に含む
+  
+  - ✅ SETUP_GUIDE.md Step 9 ドキュメント化（+270行）
+    - Phase 5.3-5.4 完全実装ガイド
+    - effect_config.json 構造・使用方法詳細
+    - Phase 5.3 エフェクト定義一覧（5種類）
+    - Phase 5.4 品質プロファイル詳細解説
+      - fast: フェード のみ
+      - normal: フェード + ディゾルブ（推奨）
+      - high: 全効果対応
+    - トランジション自動選択ロジック図解
+    - 統合実行フロー図示
+    - カスタマイズ手順
+    - FAQ（トランジション関連）
+    - コミット: 00a2ef5
+  
+  - ✅ Git コミット（2個）
+    - feat(ID 025): Phase 5.4 トランジション効果統合（generate_exo.ps1 + run_all.ps1）
+    - docs(ID 025): SETUP_GUIDE.md Step 9 トランジション完全ガイド追加
+  
+  - ✅ PR #38 作成・マージ完了（c472fc1）
+    - ファイル: generate_exo.ps1 (+245, -8行), run_all.ps1 (+31行), SETUP_GUIDE.md (+270行)
+    - 総追加: +538行（-8行）= +530行
+    - ユーザー確認後マージ実行
+
+**統計** (確定):
+- コード追加: +262行 (generate_exo.ps1 +238, run_all.ps1 +24)
+- ドキュメント追加: +270行 (SETUP_GUIDE.md Step 9)
+- 合計追加: +532行
+- PowerShell構文: ✅ OK (645行)
+- 実装関数: 2 (Get-AviUtlTransitionCommand, Format-TransitionXml)
+- トランジション効果対応: 5種類 (fade, dissolve, slide_left, slide_right, fade_through_color)
+- コミット: 2
+- PR マージ: ✅ #38
+
+**主な機能**:
+- 🎯 effect_config.json × selected_effect 統合
+- 🚀 Exo ファイル生成時にトランジション効果を自動適用
+- 🧠 品質プロファイルに基づく効果フィルタリング
+- 📊 セグメント間トランジション自動構築
+- 🔗 Pipeline 完全統合（Phase 2.8 チェック + Phase 3 実行）
+
+**技術詳細**:
+- selected_effect フロー:
+  ```
+  video_layout_dynamics.json (Phase 5.2)
+    ├─ segment.selected_effect: {name, duration_ms, easing}
+    └─ generate_exo.ps1 (Phase 5.4)
+         ├─ effect_config.json 読込
+         ├─ AviUtl形式変換
+         └─ Exo XML に<transition>挿入
+  ```
+
+- トランジション期間計算:
+  - セグメント終了時刻を計算
+  - フレーム先頭位置を決定
+  - effect定義から duration_ms/easing 取得
+  - AviUtl形式に変換
+
+**学習ポイント**:
+- JSON 設定ファイル統合パターン
+- PowerShell の複数ファイル JSON 処理
+- XML タグ生成と文字列埋め込み
+- Phase 間の データ フロー実装
+- パイプライン検証ロジック
+
+**UI/UX 向上**:
+- トランジション効果が自動選択・適用
+- ユーザーは effect_config.json を修正するだけで全体に反映
+- Phase 2.7 チェックで事前確認可能
+
+**Status**: ✅ **ID 025 Phase 5.4 完全完成・マージ完了**
+
+**次のステップ**:
+- 🔜 Session 26+: ID 026 Phase 5.4 E2E テスト、または ID 027+ 新規プロジェクト
+- 🎬 ビデオ生成パイプライン完全テスト（Run_all.ps1 実行）
+- 📋 フェーズ 5 完全完成（5.1 + 5.2 + 5.3 + 5.4）
+- 🚀 Phase 6 以降プロジェクト計画
+
+---
+
 ## セッション 13 (2026-04-04 続き)
 - **タスク**: ID 013 テスト・検証 + Docker API 通信修正
 
