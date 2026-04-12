@@ -196,6 +196,35 @@ else {
 }
 
 # ========================================
+# Phase 2.7: トランジション効果統合チェック (Phase 5.4)
+# ========================================
+if ($SkipPhase2) {
+    Write-Host "⏭️  Phase 2.7: トランジション効果統合チェック (スキップ)" -ForegroundColor Gray
+}
+else {
+    $effectConfigPath = Join-Path $projectRoot "effect_config.json"
+    
+    Write-Host ""
+    Write-Host "========================================" -ForegroundColor Yellow
+    Write-Host "[ Phase 2.7 ] トランジション効果統合チェック" -ForegroundColor Yellow
+    Write-Host "========================================" -ForegroundColor Yellow
+    Write-Host ""
+    
+    if (Test-Path $effectConfigPath) {
+        Write-Host "  ✅ effect_config.json が見つかりました" -ForegroundColor Green
+        Write-Host "     生成される Exo ファイルに selected_effect が統合されます (Phase 5.4)" -ForegroundColor Cyan
+        $PhaseResults += @{ Phase = "2.7"; Status = "Complete" }
+    }
+    else {
+        Write-Host "  ⚠️  effect_config.json が見つかりません: $effectConfigPath" -ForegroundColor Yellow
+        Write-Host "     Phase 5.4 トランジション効果は適用されません (デフォルト: フェード)" -ForegroundColor Gray
+        $PhaseResults += @{ Phase = "2.7"; Status = "Skipped" }
+    }
+    
+    Pause-IfInteractive
+}
+
+# ========================================
 # Phase 3: Exo 生成
 # ========================================
 if ($SkipPhase3) {
@@ -203,7 +232,7 @@ if ($SkipPhase3) {
 }
 else {
     $phase3Script = Join-Path $scriptsDir "generate_exo.ps1"
-    $phase3Success = Invoke-Phase "3" "Exo ファイル生成" $phase3Script
+    $phase3Success = Invoke-Phase "3" "Exo ファイル生成 (Phase 5.4: トランジション効果統合)" $phase3Script
     
     if (-not $phase3Success) {
         $ErrorCount++
