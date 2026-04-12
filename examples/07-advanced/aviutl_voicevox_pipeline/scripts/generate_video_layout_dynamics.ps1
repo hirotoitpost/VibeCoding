@@ -41,7 +41,7 @@ param(
     [string]$OutputPath = "video_layout_dynamics.json",
     [string]$LayoutConfigPath = "video_layout.json",
     [string]$SegmentInfoFile = "output/segments.json",
-    [string]$EffectConfigPath = "effect_config.json",
+    [string]$EffectConfigPath = "../effect_config.json",
     [ValidateSet("fast", "normal", "high")]
     [string]$QualityProfile = "normal"
 )
