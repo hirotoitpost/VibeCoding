@@ -106,9 +106,60 @@ catch {
 Write-Host ""
 
 # ========================================
-# 3. 出力ディレクトリチェック
+# 2.5 話し手設定チェック（2人体制）
 # ========================================
-Write-Host "[ 3/3 ] 出力ディレクトリ チェック..." -ForegroundColor Yellow
+Write-Host "[ 2.5/4 ] 話し手設定チェック..." -ForegroundColor Yellow
+
+$speaker1Id = if ($env:SPEAKER_1_ID) { $env:SPEAKER_1_ID } else { "未設定" }
+$speaker2Id = if ($env:SPEAKER_2_ID) { $env:SPEAKER_2_ID } else { "未設定" }
+$speaker1StyleId = if ($env:SPEAKER_1_STYLE_ID) { $env:SPEAKER_1_STYLE_ID } else { "未設定" }
+$speaker2StyleId = if ($env:SPEAKER_2_STYLE_ID) { $env:SPEAKER_2_STYLE_ID } else { "未設定" }
+
+if ($speaker1Id -eq "未設定" -or $speaker2Id -eq "未設定") {
+    Write-Host "  ⚠️  話し手の設定が完全ではありません" -ForegroundColor Yellow
+    Write-Host "     .env に SPEAKER_1_ID, SPEAKER_2_ID を設定してください" -ForegroundColor Gray
+} else {
+    Write-Host "  ✅ 話し手1 (進行役): Speaker ID $speaker1Id, Style $speaker1StyleId" -ForegroundColor Green
+    Write-Host "  ✅ 話し手2 (相槌役): Speaker ID $speaker2Id, Style $speaker2StyleId" -ForegroundColor Green
+}
+
+Write-Host ""
+
+# ========================================
+# 2.7 立ち絵設定チェック（PSD ファイル）
+# ========================================
+Write-Host "[ 2.7/4 ] 立ち絵設定チェック..." -ForegroundColor Yellow
+
+$psd1 = $env:PSD_CHARACTER_1
+$psd2 = $env:PSD_CHARACTER_2
+
+if ([string]::IsNullOrEmpty($psd1) -and [string]::IsNullOrEmpty($psd2)) {
+    Write-Host "  ⚠️  立ち絵 PSD ファイルが設定されていません" -ForegroundColor Yellow
+    Write-Host "     .env に PSD_CHARACTER_1, PSD_CHARACTER_2 を設定してください" -ForegroundColor Gray
+} else {
+    if (-not [string]::IsNullOrEmpty($psd1)) {
+        if (Test-Path $psd1) {
+            Write-Host "  ✅ 立ち絵1 (進行役): $psd1" -ForegroundColor Green
+        } else {
+            Write-Host "  ⚠️  立ち絵1 のパスが見つかりません: $psd1" -ForegroundColor Yellow
+        }
+    }
+    
+    if (-not [string]::IsNullOrEmpty($psd2)) {
+        if (Test-Path $psd2) {
+            Write-Host "  ✅ 立ち絵2 (相槌役): $psd2" -ForegroundColor Green
+        } else {
+            Write-Host "  ⚠️  立ち絵2 のパスが見つかりません: $psd2" -ForegroundColor Yellow
+        }
+    }
+}
+
+Write-Host ""
+
+# ========================================
+# 4. 出力ディレクトリチェック
+# ========================================
+Write-Host "[ 4/4 ] 出力ディレクトリ チェック..." -ForegroundColor Yellow
 
 $dirs = @(
     (Join-Path $projectRoot "output\voice"),
