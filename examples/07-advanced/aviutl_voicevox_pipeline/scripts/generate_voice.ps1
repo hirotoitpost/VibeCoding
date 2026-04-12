@@ -27,7 +27,8 @@ if (-not (Test-Path $OutputDir)) {
 # VOICEVOX 疎通確認
 try {
     Invoke-WebRequest -Uri "$VoicevoxUrl/version" -TimeoutSec 3 -ErrorAction Stop | Out-Null
-} catch {
+}
+catch {
     Write-Host "❌ VOICEVOX に接続できません。起動してから再実行してください。" -ForegroundColor Red
     exit 1
 }
@@ -77,7 +78,8 @@ foreach ($file in $scenarioFiles) {
 
         Write-Host "     ✅ 完了 ($([math]::Round($audioResponse.Content.Length / 1024, 1)) KB)" -ForegroundColor Green
         $successCount++
-    } catch {
+    }
+    catch {
         Write-Host "     ❌ エラー: $($_.Exception.Message)" -ForegroundColor Red
     }
 }
