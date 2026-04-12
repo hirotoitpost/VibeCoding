@@ -47,13 +47,22 @@ else {
     }
 
     # PSDToolKit チェック
-    $psdToolKit = Join-Path $env:AVIUTL_ROOT "plugins\PSDToolKit.auf"
-    if (Test-Path $psdToolKit) {
-        Write-Host "  ✅ PSDToolKit プラグイン: 導入済み" -ForegroundColor Green
+    if ([string]::IsNullOrEmpty($env:PSDTOOLKIT_ROOT)) {
+        Write-Host "  ⚠️  環境変数 PSDTOOLKIT_ROOT が設定されていません" -ForegroundColor Yellow
+        # デフォルトパスをチェック
+        $defaultPsdToolKit = Join-Path $env:AVIUTL_ROOT "plugins\PSDToolKit"
+        if (Test-Path $defaultPsdToolKit) {
+            Write-Host "     デフォルトパスで検出: $defaultPsdToolKit" -ForegroundColor Cyan
+        }
+        else {
+            Write-Host "     .env ファイルに PSDTOOLKIT_ROOT を設定してください" -ForegroundColor Gray
+        }
+    }
+    elseif (-not (Test-Path $env:PSDTOOLKIT_ROOT)) {
+        Write-Host "  ⚠️  PSDTOOLKIT_ROOT のパスが存在しません: $env:PSDTOOLKIT_ROOT" -ForegroundColor Yellow
     }
     else {
-        Write-Host "  ⚠️  PSDToolKit プラグイン: 未導入" -ForegroundColor Yellow
-        Write-Host "     SETUP_GUIDE.md の手順でインストールしてください" -ForegroundColor Gray
+        Write-Host "  ✅ PSDToolKit: $env:PSDTOOLKIT_ROOT" -ForegroundColor Green
     }
 }
 
@@ -68,9 +77,11 @@ Write-Host "[ 2/3 ] VOICEVOX チェック..." -ForegroundColor Yellow
 if ([string]::IsNullOrEmpty($env:VOICEVOX_ROOT)) {
     Write-Host "  ⚠️  環境変数 VOICEVOX_ROOT が設定されていません" -ForegroundColor Yellow
     Write-Host "     .env ファイルに VOICEVOX_ROOT=C:\\Program Files\\VOICEVOX を設定してください" -ForegroundColor Gray
-} elseif (-not (Test-Path $env:VOICEVOX_ROOT)) {
+}
+elseif (-not (Test-Path $env:VOICEVOX_ROOT)) {
     Write-Host "  ⚠️  VOICEVOX_ROOT のパスが存在しません: $env:VOICEVOX_ROOT" -ForegroundColor Yellow
-} else {
+}
+else {
     Write-Host "  ✅ VOICEVOX Root: $env:VOICEVOX_ROOT" -ForegroundColor Green
 }
 

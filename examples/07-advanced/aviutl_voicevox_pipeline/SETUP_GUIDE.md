@@ -24,12 +24,17 @@
 
 ```dotenv
 AVIUTL_ROOT=C:\AviUtl
+PSDTOOLKIT_ROOT=C:\AviUtl\plugins\PSDToolKit
+VOICEVOX_ROOT=C:\Program Files\VOICEVOX
+VOICEVOX_PORT=50021
 ```
 
 PowerShell で確認:
 ```powershell
-$env:AVIUTL_ROOT
-# 出力例: C:\AviUtl
+$env:AVIUTL_ROOT           # => C:\AviUtl
+$env:PSDTOOLKIT_ROOT       # => C:\AviUtl\plugins\PSDToolKit
+$env:VOICEVOX_ROOT         # => C:\Program Files\VOICEVOX
+$env:VOICEVOX_PORT         # => 50021
 ```
 
 ---
