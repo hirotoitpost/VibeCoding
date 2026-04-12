@@ -26,7 +26,8 @@
 
 param(
     [string]$OutputPath = "./project.exo",
-    [string]$LayoutConfigPath = "./video_layout.json"
+    [string]$LayoutConfigPath = "./video_layout.json",
+    [string]$DynamicsLayoutPath = "./video_layout_dynamics.json"
 )
 
 # ========================================
@@ -159,6 +160,43 @@ if (Test-Path $LayoutConfigPath) {
 else {
     Write-Host "  ⚠️  レイアウト JSON ファイルが見つかりません: $LayoutConfigPath" -ForegroundColor Yellow
     Write-Host "     generate_video_elements.ps1 を先に実行してください" -ForegroundColor Gray
+}
+
+# ========================================
+# ステップ 2.7: 動的レイアウト JSON 読込 (Phase 5.2)
+# ========================================
+
+Write-Host "`n[ 2.7/5 ] 動的レイアウト読込 (Phase 5.2)..." -ForegroundColor Yellow
+
+$dynamicLayout = $null
+$segments = @()
+
+# DynamicsLayoutPath が相対パスの場合、projectRoot 基準に
+if (-not [System.IO.Path]::IsPathRooted($DynamicsLayoutPath)) {
+    $DynamicsLayoutPath = Join-Path $projectRoot $DynamicsLayoutPath
+}
+
+if (Test-Path $DynamicsLayoutPath) {
+    try {
+        $dynamicLayout = Get-Content $DynamicsLayoutPath | ConvertFrom-Json
+        $segments = $dynamicLayout.segments
+        Write-Host "  ✅ 動的レイアウト読込成功" -ForegroundColor Green
+        Write-Host "     総セグメント数: $($segments.Count)" -ForegroundColor Cyan
+        Write-Host "     合計時間: $([System.Math]::Round($dynamicLayout.metadata.total_duration / 1000, 2))秒" -ForegroundColor Cyan
+        
+        # セグメント情報をログ出力
+        foreach ($segment in $segments) {
+            Write-Host "     Segment #$($segment.id): Speaker $($segment.speaker_name) ($($segment.duration)ms)" -ForegroundColor Cyan
+        }
+    }
+    catch {
+        Write-Host "  ⚠️  動的レイアウト JSON 読込エラー: $_" -ForegroundColor Yellow
+        Write-Host "     トランジション効果なしで Exo を生成します" -ForegroundColor Gray
+    }
+}
+else {
+    Write-Host "  ⚠️  動的レイアウト JSON ファイルが見つかりません: $DynamicsLayoutPath" -ForegroundColor Yellow
+    Write-Host "     generate_video_layout_dynamics.ps1 を先に実行してください（オプション）" -ForegroundColor Gray
 }
 
 Write-Host "`n[ 3/5 ] Exo ファイル生成..." -ForegroundColor Yellow

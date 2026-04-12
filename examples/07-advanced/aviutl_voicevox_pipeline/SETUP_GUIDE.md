@@ -323,11 +323,115 @@ Phase 5 では、背景、立ち絵、テロップ、字幕などの映像要素
 ### 統合実行（推奨）
 
 ```powershell
-# 全フェーズ自動実行（Phase 2 → 2.5 → 3 → 4）
+# 全フェーズ自動実行（Phase 2 → 2.5 → 2.6 → 3 → 4）
 .\run_all.ps1 -FastMode $true
 
 # または段階的実行
 .\run_all.ps1 -FastMode $false
+```
+
+---
+
+## Step 8: Phase 5.2 - 動的トランジション・テロップタイミング
+
+Phase 5.2 では、立ち絵の動的な表示/非表示切り替え、トランジション効果、テロップ表示タイミングを追加します。
+
+### 動的レイアウト生成スクリプト
+
+```powershell
+# Phase 5.1 レイアウト定義から、動的要素（トランジション・タイミング）を生成
+.\scripts\generate_video_layout_dynamics.ps1
+
+# 出力: video_layout_dynamics.json（トランジション・セグメント設定）
+# - セグメント: 各話者の発話区間
+# - 立ち絵表示/非表示タイミング
+# - フェード効果（300ms）
+# - テロップ自動タイミング計算
+```
+
+### 動的レイアウト設定（video_layout_dynamics.json）
+
+```json
+{
+  "segments": [
+    {
+      "id": 1,
+      "speaker_id": 8,
+      "speaker_name": "つむぎ",
+      "start_time": 0,
+      "end_time": 5000,
+      "visible_layers": [0, 1, 3, 4],
+      "transitions": {
+        "fade_in": 300,
+        "fade_out": 300,
+        "duration": 5000
+      },
+      "telop": {
+        "text": "これは解説です",
+        "display_time": 0,
+        "duration": 5000
+      }
+    }
+  ],
+  "transitions": {
+    "default_type": "fade",
+    "default_duration": 300
+  }
+}
+```
+
+### パイプラインフロー（更新版）
+
+```
+Phase 2: 音声生成 (VOICEVOX)
+    ↓
+Phase 2.5: 映像レイアウト定義 (video_layout.json)
+    ↓
+Phase 2.6: ⭐ 動的トランジション定義 (video_layout_dynamics.json) [NEW]
+    ↓
+Phase 3: Exo ファイル生成 (レイアウト + トランジション統合)
+    ↓
+Phase 4: AviUtl CUI エンコード
+    ↓
+✅ 動画ファイル完成
+```
+
+### 実行方法
+
+```powershell
+# 単一スクリプト実行
+.\scripts\generate_video_layout_dynamics.ps1
+
+# または統合パイプライン実行
+.\run_all.ps1 -FastMode $true
+
+# 結果確認
+Get-Content video_layout_dynamics.json | ConvertFrom-Json | Format-List
+
+# Exo 生成実行時、動的トランジションが自動適用される
+.\scripts\generate_exo.ps1
+```
+
+### ディレクトリ構成（Phase 5.2 後）
+
+```
+aviutl_voicevox_pipeline/
+├── scripts/
+│   ├── generate_voice.ps1
+│   ├── generate_video_elements.ps1             # Phase 5.1
+│   ├── generate_video_layout_dynamics.ps1      # Phase 5.2 [NEW]
+│   ├── generate_exo.ps1
+│   └── aviutl_runner.ps1
+├── output/
+│   ├── voice/
+│   │   └── *.wav
+│   ├── video/
+│   ├── video_layout.json                       # Phase 5.1 出力
+│   ├── video_layout_dynamics.json              # Phase 5.2 出力 [NEW]
+│   └── project.exo
+├── SETUP_GUIDE.md                              # このファイル
+├── run_all.ps1
+└── ...
 ```
 
 ---

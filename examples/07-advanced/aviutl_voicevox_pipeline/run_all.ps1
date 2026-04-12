@@ -169,6 +169,35 @@ else {
 }
 
 # ========================================
+# Phase 2.6: 動的レイアウト生成（トランジション・タイミング）
+# ========================================
+if ($SkipPhase2) {
+    Write-Host "⏭️  Phase 2.6: 動的レイアウト生成 (スキップ)" -ForegroundColor Gray
+}
+else {
+    $phase2_6Script = Join-Path $scriptsDir "generate_video_layout_dynamics.ps1"
+    
+    if (Test-Path $phase2_6Script) {
+        $phase2_6Success = Invoke-Phase "2.6" "動的レイアウト生成（トランジション・タイミング）" $phase2_6Script
+        
+        if (-not $phase2_6Success) {
+            Write-Host ""
+            Write-Host "  ⚠️  Phase 2.6 でエラーが発生しました（継続します）" -ForegroundColor Yellow
+        }
+        
+        $PhaseResults += @{ Phase = "2.6"; Status = "Complete" }
+    }
+    else {
+        Write-Host "⏭️  Phase 2.6: generate_video_layout_dynamics.ps1 が見つかりません (スキップ)" -ForegroundColor Gray
+        $PhaseResults += @{ Phase = "2.6"; Status = "Skipped" }
+    }
+    
+    Pause-IfInteractive
+}
+
+# ========================================
+# Phase 3: Exo 生成
+# ========================================
 if ($SkipPhase3) {
     Write-Host "⏭️  Phase 3: Exo 生成 (スキップ)" -ForegroundColor Gray
 }
