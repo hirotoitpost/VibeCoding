@@ -150,7 +150,24 @@ else {
 }
 
 # ========================================
-# Phase 3: Exo ファイル生成
+# Phase 2.5: 映像要素生成
+# ========================================
+if ($SkipPhase2) {
+    Write-Host "⏭️  Phase 2.5: 映像要素生成 (スキップ)" -ForegroundColor Gray
+}
+else {
+    $phase2_5Script = Join-Path $scriptsDir "generate_video_elements.ps1"
+    $phase2_5Success = Invoke-Phase "2.5" "映像要素生成（レイアウト・背景・立ち絵）" $phase2_5Script
+    
+    if (-not $phase2_5Success) {
+        Write-Host ""
+        Write-Host "  ⚠️  Phase 2.5 でエラーが発生しました（継続します）" -ForegroundColor Yellow
+    }
+    
+    $PhaseResults += @{ Phase = "2.5"; Status = "Complete" }
+    Pause-IfInteractive
+}
+
 # ========================================
 if ($SkipPhase3) {
     Write-Host "⏭️  Phase 3: Exo 生成 (スキップ)" -ForegroundColor Gray

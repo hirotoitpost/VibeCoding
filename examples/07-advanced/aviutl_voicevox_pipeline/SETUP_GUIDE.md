@@ -160,20 +160,22 @@ output/
 ```
 aviutl_voicevox_pipeline/
 ├── scripts/
-│   ├── check_env.ps1        # 環境チェック
-│   ├── generate_voice.ps1   # Phase 2: 音声一括生成（VOICEVOX）
-│   ├── generate_exo.ps1     # Phase 3: Exo ファイル生成
-│   ├── aviutl_runner.ps1    # Phase 4: AviUtl CUI 動画エンコード（新規）
-│   └── run_all.ps1          # 統合実行: Phase 2-4 一括実行（新規）
-├── scenarios/               # 台本テキストファイル
+│   ├── check_env.ps1            # 環境チェック
+│   ├── generate_voice.ps1       # Phase 2: 音声一括生成（VOICEVOX）
+│   ├── generate_video_elements.ps1  # Phase 2.5: 映像要素生成（新規）
+│   ├── generate_exo.ps1         # Phase 3: Exo ファイル生成（拡張版）
+│   ├── aviutl_runner.ps1        # Phase 4: AviUtl CUI 動画エンコード
+│   └── run_all.ps1              # 統合実行: Phase 2-2.5-3-4 一括実行（拡張版）
+├── scenarios/                   # 台本テキストファイル
 │   └── 01_intro.txt
 ├── output/
-│   ├── voice/               # Phase 2 出力: 生成された .wav ファイル
-│   ├── exo/                 # Phase 3 出力: Exo ファイル
-│   └── video/               # Phase 4 出力: 動画ファイル
-├── output_config.json       # エンコード出力形式設定（新規）
-├── project.exo              # AviUtl プロジェクトファイル（生成）
-└── SETUP_GUIDE.md           # このファイル
+│   ├── voice/                   # Phase 2 出力: 生成された .wav ファイル
+│   ├── exo/                     # Phase 3 出力: Exo ファイル
+│   └── video/                   # Phase 4 出力: 動画ファイル
+├── output_config.json           # エンコード出力形式設定
+├── video_layout.json            # Phase 5.1 出力: レイアウト設定（新規）
+├── project.exo                  # AviUtl プロジェクトファイル（生成）
+└── SETUP_GUIDE.md               # このファイル
 ```
 
 ---
@@ -193,28 +195,142 @@ aviutl_voicevox_pipeline/
     └────────────┬────────────────┘
                  │
                  ▼
-      ┌──────────────────────┐
-      │  Phase 3: Exo 生成   │
-      │ - メタデータ → Exo   │
-      │ - 出力: project.exo  │
-      └────────┬─────────────┘
+    ┌────────────────────────────┐
+    │ Phase 2.5: 映像要素生成 ✨ │
+    │ - 背景レイアウト            │
+    │ - 立ち絵配置                │
+    │ - テロップ・字幕定義        │
+    │ - 出力: video_layout.json   │
+    └────────────┬────────────────┘
+                 │
+                 ▼
+      ┌──────────────────────────┐
+      │  Phase 3: Exo 生成       │
+      │ - 音声 + 映像レイヤー    │
+      │ - メタデータ → Exo XML   │
+      │ - 出力: project.exo      │
+      └────────┬─────────────────┘
                │
                ▼
-      ┌──────────────────────┐
-      │  Phase 4: 動画エンコード │
-      │ - AviUtl CUI 実行     │
-      │ - 出力: video/*.mp4   │
-      └────────┬─────────────┘
+      ┌──────────────────────────┐
+      │  Phase 4: 動画エンコード  │
+      │ - AviUtl CUI 実行        │
+      │ - 出力: video/*.mp4      │
+      └────────┬─────────────────┘
                │
                ▼
     ┌────────────────────────────┐
     │  最終出力: 完成した解説動画 │
+    │  - 背景 + 立ち絵           │
+    │  - 音声 + テロップ         │
+    │  - テキスト字幕            │
     └────────────────────────────┘
 ```
 
 ---
 
-## トラブルシューティング
+## Step 7: Phase 5.1 - 映像要素生成（背景・立ち絵・テロップ）
+
+Phase 5 では、背景、立ち絵、テロップ、字幕などの映像要素を追加します。
+
+### パターン A: シンプル対話型（推奨）
+
+```
+テロップ（上部）
+┌─────────────────────────────────────┐
+│  つむぎ: 「これは解説です」         │
+└─────────────────────────────────────┘
+
+┌─────────────┐  ┌─────────────┐
+│             │  │             │
+│   立ち絵 1  │  │   立ち絵 2  │
+│  (つむぎ)   │  │  (ずんだ)   │
+│             │  │             │
+└─────────────┘  └─────────────┘
+   背景（薄紫グラデーション）
+
+字幕（下部）
+┌─────────────────────────────────────┐
+│  ← つむぎ | ずんだもん →            │
+└─────────────────────────────────────┘
+```
+
+### 映像要素生成スクリプト
+
+```powershell
+# Step 5.1: 映像要素の定義
+.\scripts\generate_video_elements.ps1
+
+# 出力: video_layout.json（レイアウト設定）
+# - 背景: 薄紫グラデーション (#E8D9F0 → #F5E6F0)
+# - 立ち絵: PSD ファイル (600×800px)
+# - テロップ: 話者セリフ表示エリア
+# - 字幕: 補足情報・キャラ名表示
+```
+
+### レイアウト設定（video_layout.json）
+
+```json
+{
+  "layers": [
+    {
+      "layer": 0,
+      "name": "背景",
+      "type": "color_gradient",
+      "color_top": "#E8D9F0",
+      "color_bottom": "#F5E6F0"
+    },
+    {
+      "layer": 1,
+      "name": "立ち絵_左",
+      "type": "psd_image",
+      "psdFile": "PSD_CHARACTER_1",
+      "x": 300,
+      "y": 540,
+      "width": 600,
+      "height": 800
+    },
+    {
+      "layer": 2,
+      "name": "立ち絵_右",
+      "type": "psd_image",
+      "psdFile": "PSD_CHARACTER_2",
+      "x": 1620,
+      "y": 540,
+      "width": 600,
+      "height": 800
+    },
+    {
+      "layer": 3,
+      "name": "テロップ",
+      "type": "text_box",
+      "x": 960,
+      "y": 140,
+      "fontSize": 48
+    },
+    {
+      "layer": 4,
+      "name": "字幕",
+      "type": "text_box",
+      "x": 960,
+      "y": 1000,
+      "fontSize": 20
+    }
+  ]
+}
+```
+
+### 統合実行（推奨）
+
+```powershell
+# 全フェーズ自動実行（Phase 2 → 2.5 → 3 → 4）
+.\run_all.ps1 -FastMode $true
+
+# または段階的実行
+.\run_all.ps1 -FastMode $false
+```
+
+---
 
 ### VOICEVOX に接続できない
 - VOICEVOX アプリを起動してください（タスクトレイを確認）
