@@ -47,9 +47,9 @@ Write-Host ""
 # ========================================
 
 $screenConfig = @{
-    width = 1920
-    height = 1080
-    fps = 30
+    width       = 1920
+    height      = 1080
+    fps         = 30
     aspectRatio = "16:9"
 }
 
@@ -68,47 +68,47 @@ $layers = @()
 
 # ===== Layer 0: 背景 =====
 $backgroundLayer = @{
-    layer = 0
-    name = "背景"
-    type = "color_gradient"
-    x = 960
-    y = 540
-    width = 1920
-    height = 1080
-    visible = $true
-    locked = $true
-    alpha = 255
-    color_top = "#E8D9F0"              # 薄紫（上）
+    layer        = 0
+    name         = "背景"
+    type         = "color_gradient"
+    x            = 960
+    y            = 540
+    width        = 1920
+    height       = 1080
+    visible      = $true
+    locked       = $true
+    alpha        = 255
+    color_top    = "#E8D9F0"              # 薄紫（上）
     color_bottom = "#F5E6F0"            # より薄い紫（下）
-    description = "グラデーション背景（将来: スライド背景対応予定）"
+    description  = "グラデーション背景（将来: スライド背景対応予定）"
 }
 $layers += $backgroundLayer
 Write-Host "  ✅ Layer 0: 背景（薄紫グラデーション）" -ForegroundColor Green
 
 # ===== Layer 1: 立ち絵 1 (左) =====
 $characterLeft = @{
-    layer = 1
-    name = "立ち絵_左"
-    type = "psd_image"
-    psdFile = $env:PSD_CHARACTER_1
-    x = 300                            # 左配置
-    y = 540                            # 中央縦
-    width = 600
-    height = 800
-    visible = $true
-    locked = $false
-    alpha = 255
-    scale_x = 1.0
-    scale_y = 1.0
-    rotate = 0
-    speaker = "SPEAKER_1"
-    characterName = "つむぎ"
-    characterId = $env:SPEAKER_1_ID
-    description = "進行役の立ち絵"
+    layer           = 1
+    name            = "立ち絵_左"
+    type            = "psd_image"
+    psdFile         = $env:PSD_CHARACTER_1
+    x               = 300                            # 左配置
+    y               = 540                            # 中央縦
+    width           = 600
+    height          = 800
+    visible         = $true
+    locked          = $false
+    alpha           = 255
+    scale_x         = 1.0
+    scale_y         = 1.0
+    rotate          = 0
+    speaker         = "SPEAKER_1"
+    characterName   = "つむぎ"
+    characterId     = $env:SPEAKER_1_ID
+    description     = "進行役の立ち絵"
     visibility_sync = @{
         show_when = "speaker_1_active"
-        fade_in = 0.3
-        fade_out = 0.3
+        fade_in   = 0.3
+        fade_out  = 0.3
     }
 }
 $layers += $characterLeft
@@ -116,28 +116,28 @@ Write-Host "  ✅ Layer 1: 立ち絵 1 (左側, 600x800px) - つむぎ" -Foregro
 
 # ===== Layer 2: 立ち絵 2 (右) =====
 $characterRight = @{
-    layer = 2
-    name = "立ち絵_右"
-    type = "psd_image"
-    psdFile = $env:PSD_CHARACTER_2
-    x = 1620                           # 右配置（1920 - 300）
-    y = 540                            # 中央縦
-    width = 600
-    height = 800
-    visible = $true
-    locked = $false
-    alpha = 255
-    scale_x = 1.0
-    scale_y = 1.0
-    rotate = 0
-    speaker = "SPEAKER_2"
-    characterName = "ずんだもん"
-    characterId = $env:SPEAKER_2_ID
-    description = "相槌役の立ち絵"
+    layer           = 2
+    name            = "立ち絵_右"
+    type            = "psd_image"
+    psdFile         = $env:PSD_CHARACTER_2
+    x               = 1620                           # 右配置（1920 - 300）
+    y               = 540                            # 中央縦
+    width           = 600
+    height          = 800
+    visible         = $true
+    locked          = $false
+    alpha           = 255
+    scale_x         = 1.0
+    scale_y         = 1.0
+    rotate          = 0
+    speaker         = "SPEAKER_2"
+    characterName   = "ずんだもん"
+    characterId     = $env:SPEAKER_2_ID
+    description     = "相槌役の立ち絵"
     visibility_sync = @{
         show_when = "speaker_2_active"
-        fade_in = 0.3
-        fade_out = 0.3
+        fade_in   = 0.3
+        fade_out  = 0.3
     }
 }
 $layers += $characterRight
@@ -145,30 +145,30 @@ Write-Host "  ✅ Layer 2: 立ち絵 2 (右側, 600x800px) - ずんだもん" -F
 
 # ===== Layer 3: テロップ (上部) =====
 $telop = @{
-    layer = 3
-    name = "テロップ"
-    type = "text_box"
-    x = 960                            # 中央
-    y = 140                            # 上部
-    width = 1800
-    height = 120
-    visible = $true
-    locked = $false
+    layer           = 3
+    name            = "テロップ"
+    type            = "text_box"
+    x               = 960                            # 中央
+    y               = 140                            # 上部
+    width           = 1800
+    height          = 120
+    visible         = $true
+    locked          = $false
     backgroundColor = "rgba(0,0,0,0.7)"  # 半透明黒背景
-    borderColor = "#E8D9F0"             # 薄紫枠
-    borderWidth = 2
-    text_config = @{
-        fontSize = 48
-        fontFamily = "メイリオ"
-        fontColor = "#FFFFFF"           # 白テキスト
-        fontBold = $true
-        alignment = "center"
+    borderColor     = "#E8D9F0"             # 薄紫枠
+    borderWidth     = 2
+    text_config     = @{
+        fontSize          = 48
+        fontFamily        = "メイリオ"
+        fontColor         = "#FFFFFF"           # 白テキスト
+        fontBold          = $true
+        alignment         = "center"
         verticalAlignment = "middle"
-        lineHeight = 1.4
-        lineLimit = 3
+        lineHeight        = 1.4
+        lineLimit         = 3
     }
-    padding = @{ top = 10; bottom = 10; left = 20; right = 20 }
-    description = "話者名＋セリフ表示"
+    padding         = @{ top = 10; bottom = 10; left = 20; right = 20 }
+    description     = "話者名＋セリフ表示"
     content_pattern = "{SPEAKER}: {TEXT}"
 }
 $layers += $telop
@@ -176,29 +176,29 @@ Write-Host "  ✅ Layer 3: テロップ (上部, 1800x120px)" -ForegroundColor G
 
 # ===== Layer 4: 字幕 (下部) =====
 $subtitle = @{
-    layer = 4
-    name = "字幕"
-    type = "text_box"
-    x = 960                            # 中央
-    y = 1000                           # 下部
-    width = 1200
-    height = 60
-    visible = $true
-    locked = $false
+    layer           = 4
+    name            = "字幕"
+    type            = "text_box"
+    x               = 960                            # 中央
+    y               = 1000                           # 下部
+    width           = 1200
+    height          = 60
+    visible         = $true
+    locked          = $false
     backgroundColor = "rgba(0,0,0,0.5)"  # 半透明黒背景
-    borderColor = "#F0F0F0"             # 淡色枠
-    borderWidth = 1
-    text_config = @{
-        fontSize = 20
-        fontFamily = "メイリオ"
-        fontColor = "#CCCCCC"           # グレーテキスト
-        fontBold = $false
-        alignment = "center"
+    borderColor     = "#F0F0F0"             # 淡色枠
+    borderWidth     = 1
+    text_config     = @{
+        fontSize          = 20
+        fontFamily        = "メイリオ"
+        fontColor         = "#CCCCCC"           # グレーテキスト
+        fontBold          = $false
+        alignment         = "center"
         verticalAlignment = "middle"
-        lineHeight = 1.3
+        lineHeight        = 1.3
     }
-    padding = @{ top = 5; bottom = 5; left = 15; right = 15 }
-    description = "補足情報・キャラ名表示"
+    padding         = @{ top = 5; bottom = 5; left = 15; right = 15 }
+    description     = "補足情報・キャラ名表示"
     content_pattern = "← {LEFT_CHARACTER} | {RIGHT_CHARACTER} →"
 }
 $layers += $subtitle
@@ -214,25 +214,25 @@ Write-Host "[ 3/4 ] 色・デザイン設定..." -ForegroundColor Yellow
 
 $designConfig = @{
     colorScheme = @{
-        background_top = "#E8D9F0"
+        background_top    = "#E8D9F0"
         background_bottom = "#F5E6F0"
-        accent_primary = "#6B4C8A"      # 紫（つむぎ）
-        accent_secondary = "#5BA3A3"    # 青緑（ずんだもん）
-        text_primary = "#FFFFFF"
-        text_secondary = "#CCCCCC"
-        border_color = "#E0D0E8"
+        accent_primary    = "#6B4C8A"      # 紫（つむぎ）
+        accent_secondary  = "#5BA3A3"    # 青緑（ずんだもん）
+        text_primary      = "#FFFFFF"
+        text_secondary    = "#CCCCCC"
+        border_color      = "#E0D0E8"
     }
-    typography = @{
-        fontFamily = "メイリオ"
-        fontSize_large = 48
+    typography  = @{
+        fontFamily      = "メイリオ"
+        fontSize_large  = 48
         fontSize_normal = 28
-        fontSize_small = 20
-        fontWeight = "bold"
+        fontSize_small  = 20
+        fontWeight      = "bold"
     }
-    animation = @{
+    animation   = @{
         transition_duration = 0.3
-        fade_in_duration = 0.5
-        fade_out_duration = 0.3
+        fade_in_duration    = 0.5
+        fade_out_duration   = 0.3
     }
 }
 
@@ -249,15 +249,15 @@ Write-Host ""
 Write-Host "[ 4/4 ] レイアウト構成情報..." -ForegroundColor Yellow
 
 $layoutInfo = @{
-    projectName = "VibeCoding 解説動画"
-    pattern = $Pattern
-    description = "パターン A: シンプル対話型（2人対話レイアウト）"
+    projectName  = "VibeCoding 解説動画"
+    pattern      = $Pattern
+    description  = "パターン A: シンプル対話型（2人対話レイアウト）"
     screenConfig = $screenConfig
     designConfig = $designConfig
-    layers = $layers
-    totalLayers = $layers.Count
-    createdAt = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    notes = @(
+    layers       = $layers
+    totalLayers  = $layers.Count
+    createdAt    = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    notes        = @(
         "将来: スライド/埋込み動画を背景に配置可能"
         "Layer 構成は AviUtl Exo ファイルに反映されます"
         "各レイヤーは独立して追加/削除/編集可能です"

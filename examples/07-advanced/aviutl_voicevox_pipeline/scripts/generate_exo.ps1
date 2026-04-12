@@ -87,12 +87,12 @@ foreach ($wav in $wavFiles) {
         $reader = New-Object System.IO.BinaryReader($fileStream)
         
         # WAV ヘッダー解析
-        $riff = $reader.ReadBytes(4) | ForEach-Object { [char]$_ } -Begin {$s=""} {$s += $_} -End {$s}
+        $riff = $reader.ReadBytes(4) | ForEach-Object { [char]$_ } -Begin { $s = "" } { $s += $_ } -End { $s }
         $fileSize = $reader.ReadInt32()
-        $wave = $reader.ReadBytes(4) | ForEach-Object { [char]$_ } -Begin {$s=""} {$s += $_} -End {$s}
+        $wave = $reader.ReadBytes(4) | ForEach-Object { [char]$_ } -Begin { $s = "" } { $s += $_ } -End { $s }
         
         # fmt サブチャンク探索
-        $fmt = $reader.ReadBytes(4) | ForEach-Object { [char]$_ } -Begin {$s=""} {$s += $_} -End {$s}
+        $fmt = $reader.ReadBytes(4) | ForEach-Object { [char]$_ } -Begin { $s = "" } { $s += $_ } -End { $s }
         $fmtSize = $reader.ReadInt32()
         $audioFormat = $reader.ReadInt16()
         $channels = $reader.ReadInt16()
@@ -109,11 +109,11 @@ foreach ($wav in $wavFiles) {
         $fileStream.Close()
         
         $metadata = @{
-            File = $wav.Name
-            FullPath = $wav.FullName
-            Duration = $durationSeconds
-            Channels = $channels
-            SampleRate = $sampleRate
+            File          = $wav.Name
+            FullPath      = $wav.FullName
+            Duration      = $durationSeconds
+            Channels      = $channels
+            SampleRate    = $sampleRate
             BitsPerSample = $bitsPerSample
             TimelineStart = $totalDuration
         }
@@ -365,11 +365,12 @@ if (Test-Path $OutputPath) {
     }
     Write-Host "`n  🎉 Exo ファイル生成成功！" -ForegroundColor Green
     Write-Host "     AviUtl で 'ファイル → 開く' で $OutputPath を選択してください" -ForegroundColor Cyan
-} else {
+}
+else {
     Write-Host "  ❌ Exo ファイル生成失敗" -ForegroundColor Red
     exit 1
 }
 
 Write-Host "`n========================================" -ForegroundColor Cyan
-Write-Host " 実行完了 (Phase 5.1: 映像レイヤー対応)" -ForegroundColor Cyan
+Write-Host " 実行完了 (Phase 5.1: 映像レイヤー対応)===================================`n" -ForegroundColor Cyan
 Write-Host "========================================`n" -ForegroundColor Cyan
