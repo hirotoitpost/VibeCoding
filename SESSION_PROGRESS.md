@@ -827,6 +827,110 @@
 
 ---
 
+## セッション 23 (2026-04-12 前半)
+- **タスク**: ID 023 Phase 5.2 動的レイアウト生成（タイミング・トランジション）
+- **完了項目**:
+  - ✅ generate_video_layout_dynamics.ps1 実装（380行）
+    - Step 1: 入力検証（video_layout.json、WAV ファイル確認）
+    - Step 2: セグメント情報抽出（WAV ファイルメタデータ解析、スピーカーID マッピング）
+    - Step 3: トランジション定義（4タイプ: fade, dissolve, slide_left, slide_right）
+    - Step 4: JSON 生成（video_layout_dynamics.json 出力）
+    - Step 5: ファイル保存
+  - ✅ run_all.ps1 統合 (Phase 2.6 追加)
+    - パイプライン: Phase 2（VOICEVOX音声）→ 2.5（映像要素）→ 2.6（動的レイアウト）→ Phase 3（Exo）
+  - ✅ SETUP_GUIDE.md 更新 (Phase 5.2 説明追加、90行追加)
+  - ✅ PR #33 + PR #34+PR #35 マージ完了（4commit、380行追加）
+  
+**統計**:
+- 新規ファイル: 1 (generate_video_layout_dynamics.ps1)
+- expand ファイル: 2 (run_all.ps1, SETUP_GUIDE.md)
+- 追加行数: 380行
+- PR マージ: ✅ #33, #34, #35
+
+**主な機能**:
+- 🎬 セグメント自動抽出（WAV ファイルから音声長を計算）
+- 🔄 トランジション効果自動配置（4タイプから選択）
+- ⏱️ タイミング計算（フェードイン/アウト：300ms）
+- 📊 レイヤー表示/非表示動的制御
+- 📄 JSON 出力（Phase 3 Exo 生成向け）
+
+**学習ポイント**:
+- PowerShell WAV ファイル解析（BinaryReader 使用）
+- JSON 階層構造の動的生成
+- セグメント・タイミング計算アルゴリズム
+- PowerShell パラメータ検証（Mandatory, ValidateSet）
+
+**Status**: ✅ **ID 023 Phase 5.2 完全完成・マージ完了**
+
+---
+
+## セッション 24 (2026-04-12 後半)
+- **タスク**: ID 024 Phase 5.3 トランジション効果最適化（dissolve、slide 等）
+- **完了項目**:
+  - ✅ effect_config.json 作成（5トランジション効果定義）
+    - 効果: fade (300ms), dissolve (500ms), slide_left (400ms), slide_right (400ms), fade_through_color (350ms)
+    - 品質プロファイル: fast（フェード），normal（フェード+ディゾルブ），high（全効果）
+    - エフェクト選択ルール: スピーカー変化検出・方向判定
+    - パフォーマンス設定: low, medium レベル分類
+  
+  - ✅ generate_video_layout_dynamics.ps1 Phase 5.3 拡張
+    - EffectConfigPath パラメータ追加（デフォルト: ../effect_config.json）
+    - QualityProfile パラメータ追加（ValidateSet: fast/normal/high）
+    - Select-TransitionEffect() ヘルパー関数実装
+    - セクション 2.5: Segment-level effect pre-selection（エフェクト事前選択）
+    - メタデータ: Phase 5.3 更新、quality_profile フィールド追加
+    - セグメント生成時にselected_effect 情報を追加
+  
+  - ✅ Git コミット（2個）
+    - feat(ID 024): Phase 5.3 トランジション効果最適化実装
+    - fix(ID 024): EffectConfigPath パス修正（../effect_config.json）
+  
+  - ✅ PR #36 作成・マージ完了（af02257）
+    - ファイル:effect_config.json (+131行)、generate_video_layout_dynamics.ps1 (+190, -21行)
+    - 総追加: 300行
+
+**統計**:
+- 新規ファイル: 1 (effect_config.json)
+- 拡張ファイル: 1 (generate_video_layout_dynamics.ps1)
+- 追加行数合計: 300行
+- コミット: 2
+- PR マージ: ✅ #36
+
+**主な機能**:
+- 🎨 5種トランジション効果（フェード、ディゾルブ、スライド左右、カラーフェード）
+- 🚀 品質プロファイル（3段階パフォーマンス調整）
+- 🧠 スマート効果選択（スピーカー変化に基づく自動選択）
+- ⚙️ エフェクト事前選択（セグメント処理時に metadata 生成）
+- 📝 JSON 設定管理（effect_config.json で一元化）
+
+**技術詳細**:
+- エフェクト選択ルール:
+  - 同スピーカー: fade
+  - 異スピーカー + 左→右: slide_left
+  - 異スピーカー + 右→左: slide_right
+  - デフォルト: dissolve
+- 品質フィルタリング: QualityProfile に応じて available_effects を制限
+
+**学習ポイント**:
+- JSON 設定ファイル管理パターン（effect_config.json）
+- ゲルパー関数設計（Select-TransitionEffect）
+- 品質プロファイルによるパフォーマンス制御
+- PowerShell JSON パース・条件分岐
+
+**UI/UX 向上**:
+- ユーザーが品質プロファイルを選択可能
+- スピーカー変化時に自動でより魅力的なエフェクトを選択
+- effect_config.json のカスタマイズで新規効果を追加可能
+
+**Status**: ✅ **ID 024 Phase 5.3 完全完成・マージ完了**
+
+**次のステップ**:
+- 🔜 Session 25+: ID 025 Phase 5.4 / または ID 020+ フェーズ 別プロジェクト
+- 📝 Exo 統合（generate_exo.ps1 Step 2.7.5）
+- 🎬 E2E 映像生成テスト
+
+---
+
 ## セッション 13 (2026-04-04 続き)
 - **タスク**: ID 013 テスト・検証 + Docker API 通信修正
 
