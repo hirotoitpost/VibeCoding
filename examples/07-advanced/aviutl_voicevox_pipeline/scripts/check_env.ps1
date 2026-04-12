@@ -62,15 +62,28 @@ Write-Host ""
 # ========================================
 # 2. VOICEVOX チェック
 # ========================================
-Write-Host "[ 2/3 ] VOICEVOX API チェック..." -ForegroundColor Yellow
+Write-Host "[ 2/3 ] VOICEVOX チェック..." -ForegroundColor Yellow
+
+# VOICEVOX_ROOT チェック
+if ([string]::IsNullOrEmpty($env:VOICEVOX_ROOT)) {
+    Write-Host "  ⚠️  環境変数 VOICEVOX_ROOT が設定されていません" -ForegroundColor Yellow
+    Write-Host "     .env ファイルに VOICEVOX_ROOT=C:\\Program Files\\VOICEVOX を設定してください" -ForegroundColor Gray
+} elseif (-not (Test-Path $env:VOICEVOX_ROOT)) {
+    Write-Host "  ⚠️  VOICEVOX_ROOT のパスが存在しません: $env:VOICEVOX_ROOT" -ForegroundColor Yellow
+} else {
+    Write-Host "  ✅ VOICEVOX Root: $env:VOICEVOX_ROOT" -ForegroundColor Green
+}
+
+# VOICEVOX API 疎通確認
+$voicevoxPort = if ($env:VOICEVOX_PORT) { $env:VOICEVOX_PORT } else { 50021 }
 
 try {
-    $response = Invoke-WebRequest -Uri "http://localhost:50021/version" -TimeoutSec 3 -ErrorAction Stop
+    $response = Invoke-WebRequest -Uri "http://localhost:$voicevoxPort/version" -TimeoutSec 3 -ErrorAction Stop
     $version = $response.Content.Trim('"')
-    Write-Host "  ✅ VOICEVOX 接続成功 (バージョン: $version)" -ForegroundColor Green
+    Write-Host "  ✅ VOICEVOX API 接続成功 (バージョン: $version、ポート: $voicevoxPort)" -ForegroundColor Green
 }
 catch {
-    Write-Host "  ❌ VOICEVOX に接続できません (http://localhost:50021)" -ForegroundColor Red
+    Write-Host "  ❌ VOICEVOX API に接続できません (http://localhost:$voicevoxPort)" -ForegroundColor Red
     Write-Host "     VOICEVOX を起動してから再実行してください" -ForegroundColor Gray
     $ErrorCount++
 }

@@ -8,8 +8,15 @@ param(
     [string]$InputDir = ".\scenarios",
     [string]$OutputDir = ".\output\voice",
     [int]$SpeakerId = 14,              # 14 = 春日部つむぎ (ノーマル)
-    [string]$VoicevoxUrl = "http://localhost:50021"
+    [string]$VoicevoxPort = $null      # $null = $env:VOICEVOX_PORT から取得
 )
+
+# 環境変数から VOICEVOX_PORT を取得
+if ([string]::IsNullOrEmpty($VoicevoxPort)) {
+    $VoicevoxPort = if ($env:VOICEVOX_PORT) { $env:VOICEVOX_PORT } else { 50021 }
+}
+
+$VoicevoxUrl = "http://localhost:$VoicevoxPort"
 
 Write-Host "=============================================" -ForegroundColor Cyan
 Write-Host " VOICEVOX 音声一括生成" -ForegroundColor Cyan
