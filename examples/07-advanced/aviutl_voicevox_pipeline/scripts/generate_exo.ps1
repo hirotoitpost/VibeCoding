@@ -1,11 +1,12 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    AviUtl Exo ファイル生成スクリプト（ID 017 Phase 3 → Phase 5.1 拡張版）
+    AviUtl Exo ファイル生成スクリプト（ID 017 Phase 3 → Phase 5.4 拡張版）
 
 .DESCRIPTION
     voice/ ディレクトリの .wav ファイルをタイムラインに配置し、
-    映像要素（背景、立ち絵、テロップ、字幕）を追加した AviUtl 互換の Exo ファイルを生成する。
+    映像要素（背景、立ち絵、テロップ、字幕）を追加し、
+    トランジション効果（Phase 5.3 effect_config）を適用した AviUtl 互換の Exo ファイルを生成する。
 
 .PARAMETER OutputPath
     生成する Exo ファイルの出力パス（デフォルト: ./project.exo）
@@ -14,20 +15,32 @@
     レイアウト設定 JSON ファイルのパス（デフォルト: ./video_layout.json）
     generate_video_elements.ps1 で生成されるファイル
 
+.PARAMETER DynamicsLayoutPath
+    動的レイアウト設定 JSON ファイルのパス（デフォルト: ./video_layout_dynamics.json）
+    generate_video_layout_dynamics.ps1 で生成されるファイル (Phase 5.2)
+    selected_effect フィールド含む (Phase 5.3)
+
+.PARAMETER EffectConfigPath
+    トランジション効果設定 JSON ファイルのパス（デフォルト: ../effect_config.json）
+    effect_config.json で生成されるファイル (Phase 5.3)
+
 .EXAMPLE
     .\generate_exo.ps1
-    .\generate_exo.ps1 -OutputPath "./output/timeline.exo" -LayoutConfigPath "./video_layout.json"
+    .\generate_exo.ps1 -OutputPath "./output/timeline.exo" -EffectConfigPath "../effect_config.json"
 
 .NOTES
     - AVIUTL_ROOT, VOICEVOX_PORT が設定されている必要があります
     - voice/ ディレクトリ内の .wav ファイルを時間順に配置します
-    - video_layout.json を使用して映像レイアウトを反映します
+    - video_layout.json を使用して映像レイアウトを反映します (Phase 5.1)
+    - video_layout_dynamics.json でセグメント情報とトランジション効果を反映します (Phase 5.2-5.3)
+    - effect_config.json でトランジション効果定義を参照します (Phase 5.3)
 #>
 
 param(
     [string]$OutputPath = "./project.exo",
     [string]$LayoutConfigPath = "./video_layout.json",
-    [string]$DynamicsLayoutPath = "./video_layout_dynamics.json"
+    [string]$DynamicsLayoutPath = "./video_layout_dynamics.json",
+    [string]$EffectConfigPath = "../effect_config.json"
 )
 
 # ========================================
@@ -40,8 +53,14 @@ $voiceDir = Join-Path $projectRoot "output\voice"
 $videoDir = Join-Path $projectRoot "output\video"
 
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host " AviUtl Exo ファイル生成 (ID 017 Phase 3)" -ForegroundColor Cyan
+Write-Host " AviUtl Exo ファイル生成 (Phase 5.4)" -ForegroundColor Cyan
 Write-Host "========================================`n" -ForegroundColor Cyan
+Write-Host "実装: ID 025 Phase 5.4 - トランジション効果統合" -ForegroundColor Green
+Write-Host "  ✅ Phase 5.1: 映像レイヤー (video_layout.json)" -ForegroundColor Gray
+Write-Host "  ✅ Phase 5.2: 動的レイアウト (video_layout_dynamics.json)" -ForegroundColor Gray
+Write-Host "  ✅ Phase 5.3: エフェクト定義 (effect_config.json)" -ForegroundColor Gray
+Write-Host "  🆕 Phase 5.4: トランジション統合 (selected_effect → Exo)" -ForegroundColor Green
+Write-Host ""
 
 # ========================================
 # ステップ 1: 入力ファイル確認
@@ -199,7 +218,160 @@ else {
     Write-Host "     generate_video_layout_dynamics.ps1 を先に実行してください（オプション）" -ForegroundColor Gray
 }
 
+# ========================================
+# ステップ 2.8: エフェクト設定読込 (Phase 5.4)
+# ========================================
+
+Write-Host "`n[ 2.8/5 ] エフェクト設定読込 (Phase 5.3 Effect Config)..." -ForegroundColor Yellow
+
+$effectConfig = $null
+$effectDefinitions = @{}
+
+# EffectConfigPath が相対パスの場合、projectRoot 基準に
+if (-not [System.IO.Path]::IsPathRooted($EffectConfigPath)) {
+    $EffectConfigPath = Join-Path $projectRoot $EffectConfigPath
+}
+
+if (Test-Path $EffectConfigPath) {
+    try {
+        $effectConfig = Get-Content $EffectConfigPath | ConvertFrom-Json
+        
+        # 利用可能なエフェクト定義をマップ化
+        if ($effectConfig.available_effects) {
+            foreach ($effect in $effectConfig.available_effects) {
+                $effectDefinitions[$effect.name] = $effect
+            }
+        }
+        
+        Write-Host "  ✅ エフェクト設定読込成功" -ForegroundColor Green
+        Write-Host "     利用可能エフェクト: $($effectDefinitions.Keys.Count) 種類" -ForegroundColor Cyan
+        foreach ($effectName in $effectDefinitions.Keys) {
+            $effect = $effectDefinitions[$effectName]
+            Write-Host "     - $effectName : $($effect.duration_ms)ms, $($effect.easing)" -ForegroundColor Gray
+        }
+    }
+    catch {
+        Write-Host "  ⚠️  エフェクト設定読込エラー: $_" -ForegroundColor Yellow
+        Write-Host "     デフォルトトランジション（フェード）で処理します" -ForegroundColor Gray
+    }
+}
+else {
+    Write-Host "  ⚠️  エフェクト設定ファイルが見つかりません: $EffectConfigPath" -ForegroundColor Yellow
+    Write-Host "     generate_video_layout_dynamics.ps1 (Phase 5.3) を先に実行してください（推奨）" -ForegroundColor Gray
+}
+
+
 Write-Host "`n[ 3/5 ] Exo ファイル生成..." -ForegroundColor Yellow
+
+# ========================================
+# ユーティリティ関数: トランジション変換 (Phase 5.4)
+# ========================================
+
+function Get-AviUtlTransitionCommand {
+    <#
+    .SYNOPSIS
+        Phase 5.3 selected_effect → AviUtl トランジションコマンド変換
+    
+    .PARAMETER SelectedEffect
+        selected_effect オブジェクト { name, duration_ms, easing, ... }
+    
+    .PARAMETER EffectDefinitions
+        effect_config.json から読み込んだエフェクト定義マップ
+    
+    .OUTPUT
+        AviUtl互換の<transition>タグ内容
+    #>
+    param(
+        [PSObject]$SelectedEffect,
+        [hashtable]$EffectDefinitions
+    )
+    
+    if (-not $SelectedEffect) {
+        # デフォルト: フェード（300ms）
+        return @{
+            type = "fade"
+            duration = 300
+            intensity = 100
+        }
+    }
+    
+    $effectName = $SelectedEffect.name
+    $duration = $SelectedEffect.duration_ms
+    
+    # エフェクト定義に基づいて AviUtl コマンド生成
+    if ($EffectDefinitions.ContainsKey($effectName)) {
+        $effectDef = $EffectDefinitions[$effectName]
+        
+        # AviUtl エフェクト名マッピング
+        $aviutlName = switch ($effectName) {
+            "fade" { "フェード" }
+            "dissolve" { "ディゾルブ" }
+            "slide_left" { "スライド" }
+            "slide_right" { "スライド" }
+            "fade_through_color" { "色を通して フェード" }
+            default { "フェード" }
+        }
+        
+        # スライド効果の方向設定
+        $params = @{}
+        if ($effectName -like "slide_*") {
+            $direction = if ($effectName -eq "slide_left") { 90 } else { 270 }
+            $params["direction"] = $direction
+        }
+        
+        return @{
+            type = $aviutlName
+            duration = $duration
+            easing = $effectDef.easing
+            intensity = 100
+            params = $params
+        }
+    }
+    else {
+        # デフォルト: フェード
+        return @{
+            type = "フェード"
+            duration = $duration
+            intensity = 100
+        }
+    }
+}
+
+function Format-TransitionXml {
+    <#
+    .SYNOPSIS
+        トランジション情報を Exo XML フォーマットに変換
+    
+    .PARAMETER Transition
+        トランジション情報オブジェクト
+    
+    .PARAMETER StartFrame
+        トランジション開始フレーム
+    #>
+    param(
+        [PSObject]$Transition,
+        [int]$StartFrame
+    )
+    
+    if (-not $Transition) { return "" }
+    
+    $xml = "        <!-- Transition: $($Transition.type) ($($Transition.duration)ms) -->`n" +
+           "        <transition`n" +
+           "          type=`"$($Transition.type)`"`n" +
+           "          frame=`"$StartFrame`"`n" +
+           "          duration=`"$($Transition.duration)`"`n" +
+           "          intensity=`"$($Transition.intensity)`"`n"
+    
+    if ($Transition.easing) {
+        $xml += "          easing=`"$($Transition.easing)`"`n"
+    }
+    
+    $xml += "        />`n"
+    
+    return $xml
+}
+
+
 
 # デフォルト設定（1920x1080, 30fps）
 $width = 1920
@@ -209,6 +381,43 @@ $audioRate = 44100
 
 # フレーム数計算
 $totalFrames = [int]($totalDuration * $videoRate)
+
+# ========================================
+# セグメント処理と トランジション情報構築 (Phase 5.4)
+# ========================================
+
+Write-Host "  📊 セグメント情報処理中..." -ForegroundColor Cyan
+
+$segmentTransitions = @()  # トランジション情報リスト
+
+if ($segments.Count -gt 1) {
+    for ($i = 0; $i -lt $segments.Count - 1; $i++) {
+        $currentSeg = $segments[$i]
+        $nextSeg = $segments[$i + 1]
+        
+        $transitionStartTime = ($currentSeg.start + $currentSeg.duration) / 1000  # ミリ秒を秒に変換
+        $transitionStartFrame = [int]($transitionStartTime * $videoRate)
+        
+        # selected_effect を取得
+        $selectedEffect = if ($currentSeg.selected_effect) { $currentSeg.selected_effect } else { $null }
+        
+        # トランジション情報生成
+        $transition = Get-AviUtlTransitionCommand -SelectedEffect $selectedEffect -EffectDefinitions $effectDefinitions
+        
+        $segmentTransitions += @{
+            segment_from = $currentSeg.id
+            segment_to = $nextSeg.id
+            start_frame = $transitionStartFrame
+            transition = $transition
+            effect_name = if ($selectedEffect) { $selectedEffect.name } else { "default_fade" }
+        }
+        
+        Write-Host "    ✅ Transition $($currentSeg.id)→$($nextSeg.id): $($transition.type) @ frame $transitionStartFrame" -ForegroundColor Green
+    }
+}
+else {
+    Write-Host "    ℹ️  セグメント1個のみ: トランジションなし" -ForegroundColor Gray
+}
 
 # XML ドキュメント作成
 $xmlDeclaration = '<?xml version="1.0" encoding="utf-8"?>'
@@ -225,6 +434,8 @@ $xmlDeclaration
     sample_rate="$audioRate"
     length="$totalFrames"
   >
+    <!-- Phase 5.4 実装: トランジション効果統合 -->
+    <!-- セグメント間トランジション定義 -->
 "@
 
 # ========================================
@@ -329,6 +540,26 @@ if ($layoutLayers.Count -gt 0) {
 }
 
 # ========================================
+# トランジション情報追加 (Phase 5.4)
+# ========================================
+
+Write-Host "  📊 トランジション情報追加中..." -ForegroundColor Cyan
+
+if ($segmentTransitions.Count -gt 0) {
+    $exoContent += "`n"
+    $exoContent += "    <!-- Transitions (Phase 5.4: selected_effect 統合) -->`n"
+    
+    foreach ($trans in $segmentTransitions) {
+        $transXml = Format-TransitionXml -Transition $trans.transition -StartFrame $trans.start_frame
+        $exoContent += $transXml
+        Write-Host "    ✅ Transition XML 追加: $($trans.effect_name) @ frame $($trans.start_frame)" -ForegroundColor Green
+    }
+}
+else {
+    Write-Host "    ℹ️  トランジション情報なし（セグメント1個 or selected_effect 未設定）" -ForegroundColor Gray
+}
+
+# ========================================
 # 音声トラック追加
 # ========================================
 
@@ -410,5 +641,5 @@ else {
 }
 
 Write-Host "`n========================================" -ForegroundColor Cyan
-Write-Host " 実行完了 (Phase 5.1: 映像レイヤー対応)===================================`n" -ForegroundColor Cyan
+Write-Host " 実行完了 (Phase 5.4: トランジション効果統合)===================================`n" -ForegroundColor Cyan
 Write-Host "========================================`n" -ForegroundColor Cyan
