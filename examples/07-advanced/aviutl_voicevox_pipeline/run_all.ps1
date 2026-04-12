@@ -52,13 +52,17 @@ $PhaseResults = @()
 
 # スクリプトパス設定
 if ([string]::IsNullOrEmpty($ScriptPath)) {
-    $ScriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
+    # run_all.ps1 ファイル自体のディレクトリ（プロジェクトルート）を取得
+    $scriptFile = $MyInvocation.MyCommand.Path
+    $ScriptPath = Split-Path -Parent $scriptFile
+    
     if ([string]::IsNullOrEmpty($ScriptPath)) {
         $ScriptPath = (Get-Location).Path
     }
 }
 
-$projectRoot = Split-Path -Parent $ScriptPath
+# $ScriptPath がプロジェクトルート（run_all.ps1 が存在するディレクトリ）
+$projectRoot = $ScriptPath
 $scriptsDir = Join-Path $projectRoot "scripts"
 
 Write-Host "==============================================" -ForegroundColor Cyan
@@ -69,6 +73,30 @@ Write-Host "📁 プロジェクトルート: $projectRoot" -ForegroundColor Gra
 Write-Host "📂 スクリプトディレクトリ: $scriptsDir" -ForegroundColor Gray
 Write-Host "⚡ FastMode: $FastMode" -ForegroundColor Gray
 Write-Host ""
+
+# ========================================
+# 環境変数設定（.env ファイル読込）
+# ========================================
+
+$envFile = Join-Path $projectRoot ".env"
+if (Test-Path $envFile) {
+    Write-Host "[ 環境設定 ] .env ファイルを読み込み中..." -ForegroundColor Cyan
+    Get-Content $envFile | Where-Object { $_ -match '^[^#]' -and $_ -match '=' } | ForEach-Object {
+        if ($_ -match '^([A-Z_]+)=(.+)$') {
+            $varName = $matches[1]
+            $varValue = $matches[2]
+            [Environment]::SetEnvironmentVariable($varName, $varValue, "Process")
+            if ($varName -like "PSD_*" -or $varName -like "*_PATH" -or $varName -like "*_ROOT") {
+                Write-Host "  ✅ $varName = $varValue" -ForegroundColor Green
+            }
+        }
+    }
+    Write-Host ""
+}
+else {
+    Write-Host "  ⚠️  .env ファイルが見つかりません: $envFile" -ForegroundColor Yellow
+    Write-Host ""
+}
 
 # ========================================
 # ユーティリティ関数
@@ -253,14 +281,31 @@ if ($SkipPhase4) {
 }
 else {
     $phase4Script = Join-Path $scriptsDir "aviutl_runner.ps1"
-    $exoFile = Join-Path $projectRoot "project.exo"
-    $configFile = Join-Path $projectRoot "output_config.json"
+    $exoFile = "./project.exo"  # 相対パス（現在のディレクトリから）
+    $configFile = "./output_config.json"
     
-    $phase4Success = Invoke-Phase "4" "AviUtl CUI 動画エンコード" $phase4Script @(
-        "-ExoFilePath", $exoFile,
-        "-OutputFormat", "mp4",
-        "-ConfigPath", $configFile
-    )
+    Write-Host ""
+    Write-Host "========================================" -ForegroundColor Yellow
+    Write-Host "[ Phase 4 ] AviUtl CUI 動画エンコード" -ForegroundColor Yellow
+    Write-Host "========================================" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "  🔄 実行開始: $(Get-Date -Format 'HH:mm:ss')" -ForegroundColor Cyan
+    
+    try {
+        & $phase4Script -ExoFilePath $exoFile -OutputFormat "mp4" -ConfigPath $configFile
+        $phase4Success = ($LASTEXITCODE -eq 0 -or $LASTEXITCODE -eq $null)
+        
+        if ($phase4Success) {
+            Write-Host "  ✅ 実行成功: $(Get-Date -Format 'HH:mm:ss')" -ForegroundColor Green
+        }
+        else {
+            Write-Host "  ⚠️  Exit Code: $LASTEXITCODE" -ForegroundColor Yellow
+        }
+    }
+    catch {
+        Write-Host "  ❌ エラー: $_" -ForegroundColor Red
+        $phase4Success = $false
+    }
     
     if (-not $phase4Success) {
         Write-Host ""

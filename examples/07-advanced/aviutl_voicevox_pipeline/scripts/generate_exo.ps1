@@ -289,8 +289,8 @@ function Get-AviUtlTransitionCommand {
     if (-not $SelectedEffect) {
         # デフォルト: フェード（300ms）
         return @{
-            type = "fade"
-            duration = 300
+            type      = "fade"
+            duration  = 300
             intensity = 100
         }
     }
@@ -320,18 +320,18 @@ function Get-AviUtlTransitionCommand {
         }
         
         return @{
-            type = $aviutlName
-            duration = $duration
-            easing = $effectDef.easing
+            type      = $aviutlName
+            duration  = $duration
+            easing    = $effectDef.easing
             intensity = 100
-            params = $params
+            params    = $params
         }
     }
     else {
         # デフォルト: フェード
         return @{
-            type = "フェード"
-            duration = $duration
+            type      = "フェード"
+            duration  = $duration
             intensity = 100
         }
     }
@@ -356,11 +356,11 @@ function Format-TransitionXml {
     if (-not $Transition) { return "" }
     
     $xml = "        <!-- Transition: $($Transition.type) ($($Transition.duration)ms) -->`n" +
-           "        <transition`n" +
-           "          type=`"$($Transition.type)`"`n" +
-           "          frame=`"$StartFrame`"`n" +
-           "          duration=`"$($Transition.duration)`"`n" +
-           "          intensity=`"$($Transition.intensity)`"`n"
+    "        <transition`n" +
+    "          type=`"$($Transition.type)`"`n" +
+    "          frame=`"$StartFrame`"`n" +
+    "          duration=`"$($Transition.duration)`"`n" +
+    "          intensity=`"$($Transition.intensity)`"`n"
     
     if ($Transition.easing) {
         $xml += "          easing=`"$($Transition.easing)`"`n"
@@ -406,10 +406,10 @@ if ($segments.Count -gt 1) {
         
         $segmentTransitions += @{
             segment_from = $currentSeg.id
-            segment_to = $nextSeg.id
-            start_frame = $transitionStartFrame
-            transition = $transition
-            effect_name = if ($selectedEffect) { $selectedEffect.name } else { "default_fade" }
+            segment_to   = $nextSeg.id
+            start_frame  = $transitionStartFrame
+            transition   = $transition
+            effect_name  = if ($selectedEffect) { $selectedEffect.name } else { "default_fade" }
         }
         
         Write-Host "    ✅ Transition $($currentSeg.id)→$($nextSeg.id): $($transition.type) @ frame $transitionStartFrame" -ForegroundColor Green
@@ -471,35 +471,44 @@ if ($layoutLayers.Count -gt 0) {
                 Write-Host "    ✅ Layer $($layer.layer): $($layer.name) (グラデーション背景)" -ForegroundColor Green
             }
             "psd_image" {
-                # PSD 立ち絵レイヤー
+                # PSD 立ち絵レイヤー (PSDToolKit XML/Lua フォーマット)
                 if (-not [string]::IsNullOrEmpty($layer.psdFile)) {
                     $psdPath = $layer.psdFile
+                    
+                    # 相対パスの場合、プロジェクトルートをベースに完全パスに変換
                     if (-not [System.IO.Path]::IsPathRooted($psdPath)) {
-                        $psdPath = Join-Path $projectRoot $psdPath
+                        # 相対パスを正規化（スラッシュをバックスラッシュに）
+                        $psdPath = $psdPath -replace '/', '\'
+                        # プロジェクトルートと結合
+                        $psdPath = "$projectRoot\$psdPath"
                     }
                     
+                    # パス正規化: 重複したセパレータを削除
+                    while ($psdPath -match '\\\\') {
+                        $psdPath = $psdPath -replace '\\\\', '\'
+                    }
+                    $psdPath = $psdPath -replace '\\\.\\', '\'
+                    $psdPath = $psdPath -replace '\.\\', '\'
+                    
                     if (Test-Path $psdPath) {
+                        # PSDToolKit 用に Windows パスをエスケープ（\\ に変換）
+                        $psdPathEscaped = $psdPath -replace '\\', '\\'
+                        $psdFilename = Split-Path -Leaf $psdPath
+                        
+                        # XML/Lua ハイブリッド形式で生成（PSDToolKit 公式パターン）
                         $exoContent += @"
 
     <!-- Layer $($layer.layer): $($layer.name) (PSD 立ち絵 - $($layer.characterName)) -->
-    <object
-      index="$($layer.layer)"
-      name="$($layer.name)"
-      src="$psdPath"
-      x="$($layer.x)"
-      y="$($layer.y)"
-      width="$($layer.width)"
-      height="$($layer.height)"
-      alpha="$($layer.alpha)"
-      scale_x="$($layer.scale_x)"
-      scale_y="$($layer.scale_y)"
-      rotate="$($layer.rotate)"
-      start="0"
-      end="$totalFrames"
-      locked="$($layer.locked)"
-    />
+    <!-- PSDToolKit XML/Lua フォーマット Integration (Phase 5.5.1) -->
+`<?-- $psdFilename
+o={
+  lipsync=2,
+  ptkf=`"$psdPathEscaped`",
+  ptkl=`"L.0 V._BAAaYw`"
+}PSD,subobj=require(`"PSDToolKit`").PSDState.init(obj,o)?>
 "@
-                        Write-Host "    ✅ Layer $($layer.layer): $($layer.name) ($($layer.characterName))" -ForegroundColor Green
+                        Write-Host "    ✅ Layer $($layer.layer): $($layer.name) ($($layer.characterName)) [PSDToolKit XML/Lua]" -ForegroundColor Green
+                        Write-Host "       PSD Path: $psdPath" -ForegroundColor Gray
                     }
                     else {
                         Write-Host "    ⚠️  PSD ファイルが見つかりません: $psdPath" -ForegroundColor Yellow

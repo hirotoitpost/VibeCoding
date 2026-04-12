@@ -277,9 +277,13 @@ Write-Host ""
 
 Write-Host "💾 JSON ファイル生成中..." -ForegroundColor Yellow
 
+# 出力ディレクトリ処理（相対パスでも絶対パスでも対応）
 $outputDir = Split-Path -Parent $OutputPath
-if (-not (Test-Path $outputDir)) {
-    New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+if (-not [string]::IsNullOrWhiteSpace($outputDir)) {
+    # 親ディレクトリが指定されている場合のみ作成
+    if (-not (Test-Path $outputDir)) {
+        New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+    }
 }
 
 $layoutInfo | ConvertTo-Json -Depth 10 | Out-File -FilePath $OutputPath -Encoding UTF8
