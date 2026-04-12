@@ -1,26 +1,32 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    AviUtl Exo ファイル生成スクリプト（ID 017 Phase 3）
+    AviUtl Exo ファイル生成スクリプト（ID 017 Phase 3 → Phase 5.1 拡張版）
 
 .DESCRIPTION
     voice/ ディレクトリの .wav ファイルをタイムラインに配置し、
-    AviUtl 互換の Exo ファイルを生成する。
+    映像要素（背景、立ち絵、テロップ、字幕）を追加した AviUtl 互換の Exo ファイルを生成する。
 
 .PARAMETER OutputPath
     生成する Exo ファイルの出力パス（デフォルト: ./project.exo）
 
+.PARAMETER LayoutConfigPath
+    レイアウト設定 JSON ファイルのパス（デフォルト: ./video_layout.json）
+    generate_video_elements.ps1 で生成されるファイル
+
 .EXAMPLE
     .\generate_exo.ps1
-    .\generate_exo.ps1 -OutputPath "./output/timeline.exo"
+    .\generate_exo.ps1 -OutputPath "./output/timeline.exo" -LayoutConfigPath "./video_layout.json"
 
 .NOTES
     - AVIUTL_ROOT, VOICEVOX_PORT が設定されている必要があります
     - voice/ ディレクトリ内の .wav ファイルを時間順に配置します
+    - video_layout.json を使用して映像レイアウトを反映します
 #>
 
 param(
-    [string]$OutputPath = "./project.exo"
+    [string]$OutputPath = "./project.exo",
+    [string]$LayoutConfigPath = "./video_layout.json"
 )
 
 # ========================================
@@ -125,10 +131,37 @@ foreach ($wav in $wavFiles) {
 Write-Host "  📊 合計時間: ${totalDuration}s" -ForegroundColor Cyan
 
 # ========================================
-# ステップ 3: Exo XML 生成
+# ステップ 2.5: レイアウト JSON 読込 (Phase 5.1)
 # ========================================
 
-Write-Host "`n[ 3/4 ] Exo ファイル生成..." -ForegroundColor Yellow
+Write-Host "`n[ 2.5/5 ] レイアウト設定読込 (Phase 5.1)..." -ForegroundColor Yellow
+
+# LayoutConfig パスが相対パスの場合、projectRoot 基準に
+if (-not [System.IO.Path]::IsPathRooted($LayoutConfigPath)) {
+    $LayoutConfigPath = Join-Path $projectRoot $LayoutConfigPath
+}
+
+$layoutLayers = @()
+
+if (Test-Path $LayoutConfigPath) {
+    try {
+        $layoutConfig = Get-Content $LayoutConfigPath | ConvertFrom-Json
+        $layoutLayers = $layoutConfig.layers
+        Write-Host "  ✅ レイアウト設定読込成功" -ForegroundColor Green
+        Write-Host "     パターン: $($layoutConfig.pattern) - $($layoutConfig.description)" -ForegroundColor Cyan
+        Write-Host "     総レイヤー数: $($layoutLayers.Count)" -ForegroundColor Cyan
+    }
+    catch {
+        Write-Host "  ⚠️  レイアウト JSON 読込エラー: $_" -ForegroundColor Yellow
+        Write-Host "     映像レイヤーなしで Exo を生成します" -ForegroundColor Gray
+    }
+}
+else {
+    Write-Host "  ⚠️  レイアウト JSON ファイルが見つかりません: $LayoutConfigPath" -ForegroundColor Yellow
+    Write-Host "     generate_video_elements.ps1 を先に実行してください" -ForegroundColor Gray
+}
+
+Write-Host "`n[ 3/5 ] Exo ファイル生成..." -ForegroundColor Yellow
 
 # デフォルト設定（1920x1080, 30fps）
 $width = 1920
@@ -156,8 +189,114 @@ $xmlDeclaration
   >
 "@
 
-# オブジェクト追加（簡易版：音声トラック）
-$trackId = 0
+# ========================================
+# 映像レイヤー追加 (Phase 5.1)
+# ========================================
+
+if ($layoutLayers.Count -gt 0) {
+    Write-Host "  📊 映像レイヤー追加中..." -ForegroundColor Cyan
+    
+    foreach ($layer in $layoutLayers) {
+        switch ($layer.type) {
+            "color_gradient" {
+                # 背景レイヤー（グラデーション）
+                $exoContent += @"
+
+    <!-- Layer $($layer.layer): $($layer.name) (背景) -->
+    <object
+      index="$($layer.layer)"
+      name="$($layer.name)"
+      type="color_gradient"
+      colorTop="$($layer.color_top)"
+      colorBottom="$($layer.color_bottom)"
+      x="$($layer.x)"
+      y="$($layer.y)"
+      width="$($layer.width)"
+      height="$($layer.height)"
+      alpha="$($layer.alpha)"
+      start="0"
+      end="$totalFrames"
+      locked="$($layer.locked)"
+    />
+"@
+                Write-Host "    ✅ Layer $($layer.layer): $($layer.name) (グラデーション背景)" -ForegroundColor Green
+            }
+            "psd_image" {
+                # PSD 立ち絵レイヤー
+                if (-not [string]::IsNullOrEmpty($layer.psdFile)) {
+                    $psdPath = $layer.psdFile
+                    if (-not [System.IO.Path]::IsPathRooted($psdPath)) {
+                        $psdPath = Join-Path $projectRoot $psdPath
+                    }
+                    
+                    if (Test-Path $psdPath) {
+                        $exoContent += @"
+
+    <!-- Layer $($layer.layer): $($layer.name) (PSD 立ち絵 - $($layer.characterName)) -->
+    <object
+      index="$($layer.layer)"
+      name="$($layer.name)"
+      src="$psdPath"
+      x="$($layer.x)"
+      y="$($layer.y)"
+      width="$($layer.width)"
+      height="$($layer.height)"
+      alpha="$($layer.alpha)"
+      scale_x="$($layer.scale_x)"
+      scale_y="$($layer.scale_y)"
+      rotate="$($layer.rotate)"
+      start="0"
+      end="$totalFrames"
+      locked="$($layer.locked)"
+    />
+"@
+                        Write-Host "    ✅ Layer $($layer.layer): $($layer.name) ($($layer.characterName))" -ForegroundColor Green
+                    }
+                    else {
+                        Write-Host "    ⚠️  PSD ファイルが見つかりません: $psdPath" -ForegroundColor Yellow
+                    }
+                }
+            }
+            "text_box" {
+                # テキストレイヤー
+                $exoContent += @"
+
+    <!-- Layer $($layer.layer): $($layer.name) (テキスト) -->
+    <object
+      index="$($layer.layer)"
+      name="$($layer.name)"
+      type="text"
+      text=""
+      x="$($layer.x)"
+      y="$($layer.y)"
+      width="$($layer.width)"
+      height="$($layer.height)"
+      fontSize="$($layer.text_config.fontSize)"
+      fontFamily="$($layer.text_config.fontFamily)"
+      fontColor="$($layer.text_config.fontColor)"
+      fontBold="$($layer.text_config.fontBold)"
+      alignment="$($layer.text_config.alignment)"
+      backgroundColor="$($layer.backgroundColor)"
+      borderColor="$($layer.borderColor)"
+      borderWidth="$($layer.borderWidth)"
+      start="0"
+      end="$totalFrames"
+      locked="$($layer.locked)"
+    />
+"@
+                Write-Host "    ✅ Layer $($layer.layer): $($layer.name) (テキスト)" -ForegroundColor Green
+            }
+        }
+    }
+}
+
+# ========================================
+# 音声トラック追加
+# ========================================
+
+Write-Host "  📊 音声トラック追加中..." -ForegroundColor Cyan
+
+$trackId = $layoutLayers.Count
 $currentFrame = 0
 
 foreach ($audio in $audioMetadata) {
@@ -167,14 +306,14 @@ foreach ($audio in $audioMetadata) {
     
     $exoContent += @"
 
-    <!-- Track: $($audio.File) -->
+    <!-- Audio Track: $($audio.File) -->
     <object
       index="$trackId"
       name="$($audio.File)"
       src="$($audio.FullPath)"
       start="$startFrame"
       end="$endFrame"
-      layer="0"
+      layer="$($layoutLayers.Count)"
       time="0"
       x="0"
       y="0"
@@ -184,6 +323,7 @@ foreach ($audio in $audioMetadata) {
       rotate="0"
     />
 "@
+    Write-Host "    ✅ 音声: $($audio.File) (${startFrame}f - ${endFrame}f)" -ForegroundColor Green
     
     $trackId++
 }
@@ -206,10 +346,10 @@ Write-Host "  ✅ Exo ファイル生成完了" -ForegroundColor Green
 Write-Host "     出力先: $OutputPath" -ForegroundColor Cyan
 
 # ========================================
-# ステップ 4: 確認
+# ステップ 5: 確認
 # ========================================
 
-Write-Host "`n[ 4/4 ] 出力確認..." -ForegroundColor Yellow
+Write-Host "`n[ 5/5 ] 出力確認..." -ForegroundColor Yellow
 
 if (Test-Path $OutputPath) {
     $fileSize = (Get-Item $OutputPath).Length
@@ -219,6 +359,10 @@ if (Test-Path $OutputPath) {
     Write-Host "     - フレームレート: ${videoRate} fps" -ForegroundColor Gray
     Write-Host "     - 長さ: $totalFrames フレーム (${totalDuration}s)" -ForegroundColor Gray
     Write-Host "     - 音声レート: $audioRate Hz" -ForegroundColor Gray
+    Write-Host "  🎨 映像レイヤー: $($layoutLayers.Count) レイヤー" -ForegroundColor Gray
+    foreach ($layer in $layoutLayers) {
+        Write-Host "     - Layer $($layer.layer): $($layer.name)" -ForegroundColor Gray
+    }
     Write-Host "`n  🎉 Exo ファイル生成成功！" -ForegroundColor Green
     Write-Host "     AviUtl で 'ファイル → 開く' で $OutputPath を選択してください" -ForegroundColor Cyan
 } else {
@@ -227,5 +371,5 @@ if (Test-Path $OutputPath) {
 }
 
 Write-Host "`n========================================" -ForegroundColor Cyan
-Write-Host " 実行完了" -ForegroundColor Cyan
+Write-Host " 実行完了 (Phase 5.1: 映像レイヤー対応)" -ForegroundColor Cyan
 Write-Host "========================================`n" -ForegroundColor Cyan
