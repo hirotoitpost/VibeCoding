@@ -1,0 +1,39 @@
+{
+  "comment": "AviUtl エンコード出力形式設定",
+  "profiles": {
+    "hd_mp4": {
+      "name": "HD MP4（標準）",
+      "format": "MP4",
+      "codec": "H.264",
+      "bitrate": "5000k",
+      "fps": 30,
+      "resolution": "1280x720",
+      "description": "HD 品質 MP4 (5000kbps, 720p, 30fps)"
+    },
+    "full_hd_mp4": {
+      "name": "Full HD MP4（高品質）",
+      "format": "MP4",
+      "codec": "H.264",
+      "bitrate": "10000k",
+      "fps": 30,
+      "resolution": "1920x1080",
+      "description": "Full HD 品質 MP4 (10000kbps, 1080p, 30fps)"
+    },
+    "avi": {
+      "name": "AVI（互換性重視）",
+      "format": "AVI",
+      "codec": "MPEG-2",
+      "bitrate": "8000k",
+      "fps": 30,
+      "resolution": "1280x720",
+      "description": "AVI 形式 (MPEG-2, 720p, 30fps)"
+    }
+  },
+  "default": "hd_mp4",
+  "notes": {
+    "bitrate": "ビットレート（k = kbps）。高いほど品質が良い",
+    "fps": "フレームレート（frames per second）",
+    "resolution": "解像度。AviUtl プロジェクト設定に依存",
+    "codec": "動画コーデック（参考情報）"
+  }
+}
