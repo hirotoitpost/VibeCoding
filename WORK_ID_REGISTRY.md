@@ -54,8 +54,9 @@ PR タイトル:
 | 019 | フェーズ 5.1 / 映像要素生成エンジン（レイアウト定義） | ✅完了 | PR #32 (ded5a49) | S22 | generate_video_elements.ps1 (390行), generate_exo.ps1拡張 (+140行), run_all.ps1拡張 (+30行), video_layout.json, SETUP_GUIDE.md (+60行) |
 | 020 | フェーズ 4 Prep / Speaker × PSD 環境変数・validate スクリプト | ✅完了 | PR #30 (f1d13d0) | S20 | check_env.ps1 拡張、SPEAKER_1/2_ID/STYLE_ID, PSD環境の統合 |
 | 021 | フェーズ 4 Impl / AviUtl CUI エンコーダー＆統合パイプライン | ✅完了 | PR #31 (6a0db13) | S21 | aviutl_runner.ps1 (226行), output_config.json (3profiles), run_all.ps1 (295行) |
+| 023 | フェーズ 5.2 / 動的トランジション・テロップタイミング生成エンジン | ✅完了 | PR #34 (81c9c6a) | S23 | generate_video_layout_dynamics.ps1 (380行), generate_exo.ps1拡張 (Step 2.7 +45行), run_all.ps1拡張 (+32行), SETUP_GUIDE.md (+90行) |
 
-**次に発行するID**: 022
+**次に発行するID**: 024
 
 ---
 
