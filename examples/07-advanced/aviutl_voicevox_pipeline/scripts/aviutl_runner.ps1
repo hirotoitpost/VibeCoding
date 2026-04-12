@@ -57,8 +57,14 @@ Write-Host "[ 1/4 ] Exo ファイル検証..." -ForegroundColor Yellow
 
 # Exo パスが相対パスの場合、プロジェクトルート基準に
 if (-not [System.IO.Path]::IsPathRooted($ExoFilePath)) {
+    # 相対パスから `./` や `.\` を取り除く
+    $ExoFilePath = $ExoFilePath -replace '^\\\.[\\/]+', ''  # .\xxx や ./xxx
+    $ExoFilePath = $ExoFilePath -replace '^\.[\\/]+', ''    # ./xxx や .\xxx（別パターン）
     $ExoFilePath = Join-Path $projectRoot $ExoFilePath
 }
+
+# パスを正規化（\.\ や /../ を解決）
+$ExoFilePath = [System.IO.Path]::GetFullPath($ExoFilePath)
 
 if (-not (Test-Path $ExoFilePath)) {
     Write-Host "  ❌ Exo ファイルが見つかりません: $ExoFilePath" -ForegroundColor Red

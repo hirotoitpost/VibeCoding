@@ -96,3 +96,9 @@ Write-Host ""
 Write-Host "=============================================" -ForegroundColor Cyan
 Write-Host " 完了: $successCount / $($scenarioFiles.Count) ファイル生成" -ForegroundColor Green
 Write-Host "=============================================" -ForegroundColor Cyan
+
+# スクリプト完了
+if ($successCount -eq 0) {
+    exit 1  # ファイル生成に失敗
+}
+exit 0  # 成功
