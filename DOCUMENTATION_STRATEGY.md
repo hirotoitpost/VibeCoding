@@ -22,7 +22,8 @@ VibeCoding プロジェクトのドキュメントは、以下の原則に基づ
 
 | ファイル | 行数 | 更新頻度 | 役割 |
 |---------|------|---------|------|
-| **agents.md** | 150-200 | 各セッション（最小限） | プロジェクト概要、ビジョン、コアプロセス、参照リンク一覧 |
+| **AGENTS_SIMPLIFIED.md** | 100-120 | 各セッション（最小限） | プロジェクト概要、実行チェックリスト、参照リンク一覧 | 
+| **agents.md** | 150-200 | 稀 | 元の詳細ガイド（サポート資料として保持） |
 | **README.md** | 20-50 | 稀 | GitHub 公開用の概要 |
 
 ### Tier 2: 運用ガイド
@@ -31,6 +32,8 @@ VibeCoding プロジェクトのドキュメントは、以下の原則に基づ
 |---------|------|---------|------|
 | **DEVELOPMENT_PROCESS.md** | 70-100 | 問題発生時 | 6ステップデバッグワークフロー、AI指示パターン |
 | **GIT_WORKFLOW.md** | 150-200 | 各セッション | ブランチ戦略、コミット規約、PR手順 |
+| **GIT_COMMIT_CONVENTION.md** | 100-120 | 新規トピック追加時 | コミットメッセージ規約、Type 定義、例集 |
+| **PULL_REQUEST_GUIDELINES.md** | 120-140 | 新規パターン発見時 | PR メッセージテンプレート、チェックリスト |
 | **MERGE_CONFLICT_GUIDE.md** | 150-200 | 競合発生時 | 7ステップ競合解消プロセス、トラブルシューティング |
 | **COMPLIANCE_SECURITY.md** | 100-150 | フェーズ変更時 | セキュリティチェックリスト、ライセンス確認 |
 
@@ -39,7 +42,9 @@ VibeCoding プロジェクトのドキュメントは、以下の原則に基づ
 | ファイル | 行数 | 更新頻度 | 役割 |
 |---------|------|---------|------|
 | **LEARNING_PATH.md** | 200-300 | 各フェーズ完了時 | 学習ロードマップ、各フェーズのマイルストーン |
-| **APP_CANDIDATES.md** | 200-300 | フェーズ開始時 | アプリケーション候補、技術スタック、要件 |
+| **APP_CANDIDATES_OVERVIEW.md** | 80-100 | 新規フェーズ時 | 難易度定義、プロジェクト分布、テンプレート概要 |
+| **APP_CANDIDATES.md** | 200-300 | フェーズ開始時 | アプリケーション候補詳細、技術スタック、要件 |
+| **APP_CANDIDATES_TEMPLATE.md** | 40-60 | 新規ドキュメント作成時 | プロジェクト作成テンプレート |
 | **SETUP.md** | 100-150 | 環境変更時 | 開発環境セットアップ手順 |
 
 ### Tier 4: レジストリ・記録
@@ -64,12 +69,19 @@ VibeCoding プロジェクトのドキュメントは、以下の原則に基づ
 | **examples/01-basic/weather-tool/** | README.md, TROUBLESHOOTING.md | 天気情報ツールドキュメント |
 | **examples/02-intermediate/web-accounting-app/** | README.md, TESTING_AND_VALIDATION.md | Web家計簿ドキュメント |
 
+### Tier 7: 補助ガイド・チェックリスト（管理用）
+
+| ファイル | 行数 | 用途 | 更新頻度 |
+|---------|------|------|---------|
+| **DOCUMENTATION_CREATION_CHECKLIST.md** | 200-250 | 新規ドキュメント作成時の確認フロー | 随時 |
+| **APP_CANDIDATES_TEMPLATE.md** | 40-60 | プロジェクト作成テンプレート | フェーズ開始時 |
+
 ---
 
-## 参照関係図
+## 参照関係図 (アップデート: 2026-04-13)
 
 ```
-agents.md (中央ハブ)
+AGENTS_SIMPLIFIED.md (中央クイックハブ)
 │
 ├─ Tier 2: 運用ガイド ─────────────────────────
 │  ├─ DEVELOPMENT_PROCESS.md
@@ -79,17 +91,22 @@ agents.md (中央ハブ)
 │
 ├─ Tier 3: ロードマップ ──────────────────────
 │  ├─ LEARNING_PATH.md
+│  ├─ APP_CANDIDATES_OVERVIEW.md (新)
 │  ├─ APP_CANDIDATES.md
+│  ├─ APP_CANDIDATES_TEMPLATE.md (新)
 │  └─ SETUP.md
 │
 ├─ Tier 4: レジストリ ────────────────────────
 │  ├─ WORK_ID_REGISTRY.md
-│  └─ SESSION_PROGRESS.md
+│  └─ SESSION_PROGRESS.md ← 拡張完了 (17→148行)
 │
 └─ Tier 5: 知識・理論 ────────────────────────
    ├─ docs/vibe_coding_theory.md
    ├─ docs/vibe_coding_instruction_design.md
    └─ docs/vibe_coding_guide.md
+
+【参考】agents.md
+  └─ 詳細ガイド（サポート資料として保持）
 ```
 
 ---
@@ -213,41 +230,76 @@ git commit -m "docs: [新規ファイル] を追加"
 
 ---
 
-## 実装状況（2026年3月29日）
+## 実装状況（2026年4月13日 Session 27 完全アップデート）
 
-### 実装済み ✅
-- agents.md (モジュール化完成)
+### ✅ Tier 1-5 実装済み
+- **AGENTS_SIMPLIFIED.md** (117行)
+- **APP_CANDIDATES_OVERVIEW.md** (70行)
+- **APP_CANDIDATES_TEMPLATE.md** (55行)
+- **APP_CANDIDATES.md** (200行の基礎・初級版に分割)
+- **APP_CANDIDATES_ADVANCED.md** ← NEW (150行の中級・発展)
+- **APP_CANDIDATES_SPECIAL.md** ← NEW (150行の特殊プロジェクト)
+- **SESSION_PROGRESS.md** ← EXPANDED (17→148行)
 - DEVELOPMENT_PROCESS.md
 - GIT_WORKFLOW.md
 - MERGE_CONFLICT_GUIDE.md
 - LEARNING_PATH.md
-- APP_CANDIDATES.md
 - SETUP.md
 - WORK_ID_REGISTRY.md
-- SESSION_PROGRESS.md ← NEW
-- COMPLIANCE_SECURITY.md ← NEW
+- COMPLIANCE_SECURITY.md
 - docs/vibe_coding_theory.md
 - docs/vibe_coding_instruction_design.md
 
-### 計画中 ⏳
-- TESTING_STRATEGY.md (Phase 3.3)
+### ✅ Tier 2 新規スキル化ドキュメント
+- **GIT_COMMIT_CONVENTION.md** ← NEW (120行)
+- **PULL_REQUEST_GUIDELINES.md** ← NEW (140行)
+
+### ✅ Tier 7 補助ガイド・チェックリスト
+- **DOCUMENTATION_CREATION_CHECKLIST.md** ← NEW (220行)
+
+### ⏳ 計画中
+- TESTING_STRATEGY.md (Phase 3.3 完了後)
 - DEPLOYMENT_GUIDE.md (Phase 4)
-- TROUBLESHOOTING_LIBRARY.md (Phase 4)
-- docs/vibe_coding_guide.md (Phase 3.2以降)
+- TROUBLESHOOTING_LIBRARY.md (Phase 4-5)
+- docs/vibe_coding_guide.md (実装中)
 
 ---
 
-## ドキュメント行数集計（2026年3月29日）
+## ドキュメント行数集計（2026年4月13日 最終版）
 
-| ファイル | 行数 |
-|---------|------|
-| agents.md | 150-180 |
-| SESSION_PROGRESS.md | 200+ |
-| WORK_ID_REGISTRY.md | 100+ |
-| COMPLIANCE_SECURITY.md | 120+ |
-| DOCUMENTATION_STRATEGY.md | 280 |
-| DEVELOPMENT_PROCESS.md | 70+ |
-| GIT_WORKFLOW.md | 150+ |
+| ファイル | 行数 | 状態 | Tier |
+|---------|------|------|------|
+| **SESSION_PROGRESS.md** | 148 | ✅ 拡張完了 | 4 |
+| **AGENTS_SIMPLIFIED.md** | 117 | ✅ 新規作成 | 1 |
+| **DOCUMENTATION_CREATION_CHECKLIST.md** | 220 | ✅ 新規作成 | 7 |
+| **PULL_REQUEST_GUIDELINES.md** | 140 | ✅ 新規作成 | 2 |
+| **GIT_COMMIT_CONVENTION.md** | 120 | ✅ 新規作成 | 2 |
+| **DOCUMENTATION_STRATEGY.md** | 330 | ✅ 更新 | - |
+| **APP_CANDIDATES_SPECIAL.md** | 150 | ✅ 新規作成 | 3 |
+| **APP_CANDIDATES_ADVANCED.md** | 140 | ✅ 新規作成 | 3 |
+| **APP_CANDIDATES_OVERVIEW.md** | 70 | ✅ 新規作成 | 3 |
+| **APP_CANDIDATES.md** | 185 | ✅ 分割完了 | 3 |
+| **APP_CANDIDATES_TEMPLATE.md** | 55 | ✅ 新規作成 | 7 |
+| WORK_ID_REGISTRY.md | 215 | ✓ 適正 | 4 |
+| LEARNING_PATH.md | 314 | ⚠️ 上限近接 | 3 |
+| agents.md | 422 | ⚠️ 参考資料 | 1 |
+| docs/vibe_coding_instruction_design.md | 600+ | ⚠️ 監視対象 | 5 |
+
+**要点**:
+- ✅ **APP_CANDIDATES 体系**: 477行 → 4ファイル (185+140+150+70) に分割・モジュール化
+- ✅ **SESSION_PROGRESS.md**: 17行 → 148行 (全27セッション統計)
+- ✅ **スキル化ドキュメント**: GIT_COMMIT_CONVENTION, PULL_REQUEST_GUIDELINES 追加
+- ✅ **作成フロー確立**: DOCUMENTATION_CREATION_CHECKLIST で新規ドキュメント基準化
+
+---
+
+**最終更新**: 2026年4月13日 12:30 JST (Session 27)
+
+
+---
+
+**最終更新**: 2026年4月13日 12:00 JST
+
 | MERGE_CONFLICT_GUIDE.md | 150+ |
 | LEARNING_PATH.md | 300+ |
 | APP_CANDIDATES.md | 300+ |
