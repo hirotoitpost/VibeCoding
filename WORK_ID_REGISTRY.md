@@ -57,8 +57,9 @@ PR タイトル:
 | 023 | フェーズ 5.2 / 動的トランジション・テロップタイミング生成エンジン | ✅完了 | PR #34 (81c9c6a) | S23 | generate_video_layout_dynamics.ps1 (380行), generate_exo.ps1拡張 (Step 2.7 +45行), run_all.ps1拡張 (+32行), SETUP_GUIDE.md (+90行) |
 | 024 | フェーズ 5.3 / トランジション効果最適化（dissolve、slide等） | ✅完了 | PR #36 (af02257) | S24 | effect_config.json (+131行, 5効果定義), generate_video_layout_dynamics.ps1拡張 (+190, -21行, Phase 5.3統合, 品質プロファイル, エフェクト選択ロジック) |
 | 025 | フェーズ 5.4 / トランジション効果 Exo 統合（effect_config × selected_effect） | ✅完了 | PR #38 (c472fc1) | S25 | generate_exo.ps1 Phase 5.4拡張 (+238, -7行, Step 2.8エフェクト読込, トランジション変換関数), run_all.ps1拡張 (+31行, Phase 2.7統合チェック), SETUP_GUIDE.md (+270行, Step 9完全ガイド) |
+| 027 | フェーズ 5.1 / ドキュメント整理・SKILL体系確立 | ✅完了 | PR #41 (6b153b7) | S27 | .instructions.md (77行, Git規約SKILL), .instructions-doc.md (187行, ドキュメント管理SKILL), APP_CANDIDATES.md 703→172行 (66%削減), 新規9ファイル (743行), AGENTS_SIMPLIFIED.md, SESSION_PROGRESS_EXTENDED.md, GIT_COMMIT_CONVENTION.md, PULL_REQUEST_GUIDELINES.md, DOCUMENTATION_CREATION_CHECKLIST.md, APP_CANDIDATES_ADVANCED/OVERVIEW/SPECIAL/TEMPLATE.md, Tier体系確立 |
 
-**次に発行するID**: 026
+**次に発行するID**: 028
 
 ---
 
@@ -144,12 +145,13 @@ f1d13d0 feat(Phase 4 Prep): Add speaker and PSD environment variables for 2-spea
 ## 統計サマリー
 
 ### プロジェクト全体
-- **完了ID数**: 24
-- **総コミット数**: 50+ commits
-- **総行数追加**: 19,200+ lines
-- **PR数**: 11 (全マージ完了)
+- **完了ID数**: 27
+- **総コミット数**: 45+ commits
+- **総行数追加**: 20,451+ lines (実装 + テスト + ドキュメント)
+- **PR数**: 14 (全マージ完了)
 - **テスト成功率**: 100%
-- **ドキュメント行数**: 3,500+ lines (理論・ガイド・README含む)
+- **ドキュメント行数**: 4,000+ lines (理論・ガイド・SKILL・README含む)
+- **SKILL ファイル**: 2個 (.instructions.md: Git規約, .instructions-doc.md: ドキュメント管理)
 
 ### 技術スタック（フェーズ別）
 | フェーズ | 言語 | フレームワーク | テスト | 実装状況 |
@@ -234,36 +236,100 @@ f1d13d0 feat(Phase 4 Prep): Add speaker and PSD environment variables for 2-spea
 - ブロックチェーン統合: ✅ Sepolia testnet 本番運用確認
 - マルチ言語ドキュメント: ✅ 日本語版完備
 
+### フェーズ 5: VOICEVOX × AviUtl 動画生成パイプライン ✅ **進行中（ID 028へ）**
+
+#### フェーズ 5.1-5.0: 基盤構築 ✅ **完全完了**
+- **ID 016**: VOICEVOX + Shoost 音声生成パイプライン
+  * VOICEVOX API 統合、Speaker ID 8 (春日部つむぎ)
+  * Exo ファイル基本実装
+  * PR #21, #22 マージ完了
+  
+- **ID 017**: Exo ファイル生成（VOICEVOX × AviUtl）
+  * VOICEVOX_API_GUIDE.md 作成
+  * PR #29 マージ完了
+
+- **ID 018-020**: PSD 設定・環境変数統合
+  * 2スピーカー環境設定
+  * SPEAKER_1/2_ID, SPEAKER_1/2_STYLE_ID, PSD_CHARACTER_1/2
+  * check_env.ps1 拡張
+  * PR #20, #30 マージ完了
+
+#### フェーズ 5.2-5.4: 音声・映像・効果最適化 ✅ **完全完了**
+- **ID 019**: フェーズ 5.1 映像要素生成エンジン（レイアウト定義）
+  * generate_video_elements.ps1 (390行)
+  * video_layout.json (218行)
+  * PR #32 マージ完了
+
+- **ID 021**: フェーズ 4 AviUtl CUI エンコーダー統合
+  * aviutl_runner.ps1 (226行)
+  * output_config.json (3profiles)
+  * PR #31 マージ完了
+
+- **ID 023**: フェーズ 5.2 動的トランジション・テロップタイミング生成
+  * generate_video_layout_dynamics.ps1 (380行)
+  * video_layout_dynamics.json (108行)
+  * PR #34 マージ完了
+
+- **ID 024**: フェーズ 5.3 トランジション効果最適化
+  * effect_config.json (+131行, 5効果定義)
+  * generate_video_layout_dynamics.ps1 拡張
+  * PR #36 マージ完了
+
+- **ID 025**: フェーズ 5.4 トランジション効果 Exo 統合
+  * generate_exo.ps1 Phase 5.4拡張
+  * effect_config × selected_effect 統合
+  * PR #38 マージ完了
+
+#### フェーズ 5.0-5.1: ドキュメント整理・体系確立 ✅ **完全完了**
+- **ID 027**: ドキュメント整理・SKILL体系確立（管理インフラ）
+  * .instructions.md (77行, Git規約SKILL)
+  * .instructions-doc.md (187行, ドキュメント管理SKILL)
+  * APP_CANDIDATES.md 703→172行 (66%削減)
+  * AGENTS_SIMPLIFIED.md (89行)
+  * SESSION_PROGRESS_EXTENDED.md (162行)
+  * GIT_COMMIT_CONVENTION.md (90行)
+  * PULL_REQUEST_GUIDELINES.md (153行)
+  * DOCUMENTATION_CREATION_CHECKLIST.md (153行)
+  * APP_CANDIDATES_ADVANCED/OVERVIEW/SPECIAL/TEMPLATE.md
+  * DOCUMENTATION_STRATEGY.md Tier体系確立 (1-7 層)
+  * PR #41 マージ完了
+
+**フェーズ 5 統計（Session 27 時点）**:
+- 完了ID: 12個 (016-027)
+- 総コミット: 20+
+- 総行数追加: 5,850+ 行 (実装 + ドキュメント)
+- PR: 7個 (全マージ完了 #21-22, #29-32, #34, #36, #38, #41)
+- パイプライン: PowerShell 統一フロー、自動化スクリプト完成
+- ドキュメント: SKILL体系完成、Tier1-7体系確立
+
 ---
 
-## 次のID計画（ID 016 以降）
+## 次のID計画（ID 028 以降）
 
-### ID 016（候補）
-**フェーズ 3.3.C または フェーズ 4 プレ準備**
+### ID 028（計画中）
+**フェーズ 5.5.2**: INI形式 Exo ファイル完全実装
 
-**オプション A: Web3 拡張（推定難易度 ⭐⭐⭐⭐）**
-- Web3 Frontend v2 (Wagmi/Viem への移行 + Advanced Hooks)
-- DAO スマートコントラクト (OpenZeppelin Governance)
-- NFT DApp (ERC-721 実装)
-- Staking メカニズム
+**概要**:
+- フェーズ 5 の最終段階：AviUtl 標準形式（INI）での Exo ファイル生成
+- generate_exo.ps1 の完全書き直し（テキスト形式 → INI 形式）
+- Layer4.exo 標準形式への準拠確認
 
-**オプション B: Infra / DevOps（推定難易度 ⭐⭐⭐）**
-- CI/CD Pipeline セットアップ (GitHub Actions)
-- Monitoring & Logging (ELK Stack / Prometheus)
-- Infrastructure as Code (Terraform / Bicep for Azure)
+**要件**:
+- Layer4.exo (C:\AviUtl\1.tutorial\exo\Layer4.exo) パターン分析済み
+- [exedit], [N], [N.M] セクション構造に対応
+- PSDToolKit 互換性確認（type=0, filter=2）
+- 既存 video_layout.json, video_layout_dynamics.json のマッピング
 
-**オプション C: フェーズ 4 準備（推定難易度 ⭐⭐）**
-- ナレッジシェア資料作成 (スライド + 記事)
-- ビデオ解説コンテンツ制作
-- プロジェクト総括ドキュメント
+**技術**:
+- PowerShell
+- INI ファイル生成ロジック
+- パース・整形・検証
 
-**推定期間**: 3-5日  
-**予定セッション**: Session 17+
+**推定期間**: 2-3日（ブロック解除後）  
+**予定セッション**: Session 28+  
+**難易度**: ⭐⭐⭐  
 
 ---
 
-**最終更新**: 2026年4月5日 (Session 16 完了 - ID 015 Web3 Frontend テスト＋ドキュメント化 + PR #18 マージ完了)  
+**最終更新**: 2026年4月14日 (Session 27 完了 - ID 027 ドキュメント整理・SKILL体系確立 + PR #41 マージ完了)  
 **管理者**: VibeCoding Learning Project AI Agent
-
-| 026 | フェーズ 5.5.1 / PSDToolKit フォーマット統合分析 | ✅分析完了 | - | S26 | Layer4.exo詳細解析、INI形式発見、パターン確定 |
-| 027 | フェーズ 5.5.2 / INI形式 Exo ファイル完全実装（繰延べ） | ⏳計画中 | - | S27+ | generate_exo.ps1 完全書き直し、INI形式対応 |

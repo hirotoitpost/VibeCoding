@@ -49,21 +49,27 @@
 ### 特殊パイプライン (Phase 3.3.D-5)
 - ✅ ID 016-017: VOICEVOX + AviUtl 動画生成
 - ✅ ID 018-026: 音声・映像・効果・フォーマット最適化
-- 🔄 ID 027: INI 形式 Exo 書き直し (進行中)
+- 🔄 ID 027: ドキュメント整理・SKILL 体系確立 → Phase 5.5.2 へ
 
 ---
 
-## ✅ Session 27 成果（ドキュメント整理）
+## ✅ Session 27 成果（ドキュメント整理 + SKILL 体系確立）
 
 | ドキュメント | 変更 | Status |
-|-----------|------|--------|
-| SESSION_PROGRESS_EXTENDED.md | NEW: 153行 | ✅ 詳細版作成 |
-| APP_CANDIDATES.md | 477→185行 | ✅ 基礎・初級版に分割 |
+|-----------|------|----------|
+| .instructions.md | NEW: 77行 | ✅ Git 規約 SKILL |
+| .instructions-doc.md | NEW: 187行 | ✅ ドキュメント管理 SKILL |
+| SESSION_PROGRESS_EXTENDED.md | NEW: 162行 | ✅ 詳細版作成 |
+| APP_CANDIDATES.md | 503→172行 | ✅ 基礎・初級版に最適化（66%削減） |
 | APP_CANDIDATES_ADVANCED.md | NEW: 67行 | ✅ 中級・発展プロジェクト |
-| APP_CANDIDATES_SPECIAL.md | NEW: 85行 | ✅ ID 016-017 特殊 |
-| GIT_COMMIT_CONVENTION.md | NEW: 90行 | ✅ コミット規約 |
-| PULL_REQUEST_GUIDELINES.md | NEW: 153行 | ✅ PR 規約 |
-| DOCUMENTATION_CREATION_CHECKLIST.md | NEW: 153行 | ✅ 作成フロー確立 |
+| APP_CANDIDATES_OVERVIEW.md | NEW: 48行 | ✅ 難易度定義・比較表 |
+| APP_CANDIDATES_SPECIAL.md | NEW: 85行 | ✅ ID 016-017 特殊プロジェクト |
+| APP_CANDIDATES_TEMPLATE.md | NEW: 42行 | ✅ プロジェクト作成テンプレート |
+| GIT_COMMIT_CONVENTION.md | NEW: 90行 | ✅ コミット規約・Type 定義 |
+| PULL_REQUEST_GUIDELINES.md | NEW: 153行 | ✅ PR メッセージテンプレート |
+| DOCUMENTATION_CREATION_CHECKLIST.md | NEW: 153行 | ✅ ドキュメント作成フロー確立 |
+| AGENTS_SIMPLIFIED.md | NEW: 89行 | ✅ agents.md 簡潔版 |
+| DOCUMENTATION_STRATEGY.md | UPDATE | ✅ Tier 体系拡張（1-7 定義） |
 
 ---
 
@@ -80,5 +86,5 @@
 
 ---
 
-**最終更新**: 2026年4月13日 (Session 27 進行中)  
-**バージョン**: 2.0 (簡潔版 + 詳細版リンク)
+**最終更新**: 2026年4月14日 (Session 27 完了 ✅)  
+**バージョン**: 2.1 (簡潔版 + 詳細版リンク + SKILL 体系統合)
