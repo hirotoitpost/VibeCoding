@@ -1,6 +1,643 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
+    AviUtl Exo ファイル生成スクリプト（Session 27 Phase 5.5.2 - INI形式）
+
+.DESCRIPTION
+    voice/ の .wav をタイムラインに配置し INI 形式 Exo を生成
+
+.EXAMPLE
+    .\generate_exo.ps1
+#>
+
+param(
+    [string]$OutputPath = "./project.exo",
+    [string]$LayoutConfigPath = "./video_layout.json"
+)
+
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$projectRoot = Split-Path -Parent $scriptRoot
+$voiceDir = Join-Path $projectRoot "output\voice"
+
+Write-Host "AviUtl INI形式 Exo 生成`n" -ForegroundColor Cyan
+
+# ステップ 1: INI ファイル確認
+Write-Host "[ 1/3 ] WAV ファイル確認..." -ForegroundColor Yellow
+
+if (-not (Test-Path $voiceDir)) {
+    Write-Host "  ❌ voice ディレクトリ: $voiceDir" -ForegroundColor Red
+    exit 1
+}
+
+$wavFiles = @(Get-ChildItem -Path $voiceDir -Filter "*.wav" -ErrorAction SilentlyContinue | Sort-Object Name)
+
+if ($wavFiles.Count -eq 0) {
+    Write-Host "  ⚠️  WAV ファイルなし" -ForegroundColor Yellow
+    exit 1
+}
+
+Write-Host "  ✅ $($wavFiles.Count) ファイル" -ForegroundColor Green
+
+# ステップ 2: メタデータ取得
+Write-Host "`n[ 2/3 ] メタデータ取得..." -ForegroundColor Yellow
+
+$audioData = @()
+$totalDuration = 0
+
+foreach ($wav in $wavFiles) {
+    try {
+        $fs = [System.IO.File]::OpenRead($wav.FullName)
+        $br = New-Object System.IO.BinaryReader($fs)
+        
+        $br.ReadBytes(4)
+        $riff_size = $br.ReadInt32()
+        $br.ReadBytes(4)
+        $br.ReadBytes(4)
+        $br.ReadInt32()
+        $br.ReadInt16()
+        $br.ReadInt16()
+        $br.ReadInt32()
+        $byte_rate = $br.ReadInt32()
+        $br.ReadInt16()
+        $br.ReadInt16()
+        
+        $duration = [double]($riff_size - 36) / $byte_rate
+        
+        $br.Close()
+        $fs.Close()
+        
+        $audioData += @{
+            File          = $wav.Name
+            FullPath      = $wav.FullName
+            Duration      = $duration
+            TimelineStart = $totalDuration
+        }
+        
+        $totalDuration += $duration
+        Write-Host "  ✅ $($wav.Name): $([math]::Round($duration, 2))s" -ForegroundColor Green
+    }
+    catch {
+        Write-Host "  ⚠️  $($wav.Name): エラー" -ForegroundColor Yellow
+    }
+}
+
+Write-Host "  📊 合計: $([math]::Round($totalDuration, 2))s" -ForegroundColor Cyan
+
+# ステップ 3: INI 生成
+Write-Host "`n[ 3/3 ] INI 生成..." -ForegroundColor Yellow
+
+$width = 1920
+$height = 1080
+$videoRate = 30
+$audioRate = 44100
+$totalFrames = [int]($totalDuration * $videoRate)
+
+$iniLines = @()
+
+# [exedit] ヘッダー
+$iniLines += "[exedit]"
+$iniLines += "width=$width"
+$iniLines += "height=$height"
+$iniLines += "rate=$videoRate"
+$iniLines += "scale=1"
+$iniLines += "length=$totalFrames"
+$iniLines += "audio_rate=$audioRate"
+$iniLines += "audio_ch=2"
+$iniLines += ""
+
+# 音声レイヤー
+foreach ($audio in $audioData) {
+    $startFr = [int]($audio.TimelineStart * $videoRate)
+    $endFr = [int](($audio.TimelineStart + $audio.Duration) * $videoRate)
+    
+    $iniLines += "[0]"
+    $iniLines += "start=$startFr"
+    $iniLines += "end=$endFr"
+    $iniLines += "layer=0"
+    $iniLines += ""
+    
+    $iniLines += "[0.0]"
+    $iniLines += "_name=$($audio.File)"
+    $iniLines += "type=0"
+    $iniLines += "filter=0"
+    $audioEsc = $audio.FullPath -replace '\\', '\\'
+    $iniLines += "file=`"$audioEsc`""
+    $iniLines += ""
+    
+    Write-Host "  ✅ 音声 layer" -ForegroundColor Green
+}
+
+# ファイル出力
+$outDir = Split-Path -Parent $OutputPath
+if (-not (Test-Path $outDir)) {
+    New-Item -ItemType Directory -Path $outDir -Force | Out-Null
+}
+
+$iniContent = $iniLines -join [System.Environment]::NewLine
+$utf8Bytes = [System.Text.Encoding]::UTF8.GetBytes($iniContent)
+$iniBytes = [System.Text.Encoding]::Convert([System.Text.Encoding]::UTF8, [System.Text.Encoding]::GetEncoding("shift_jis"), $utf8Bytes)
+[System.IO.File]::WriteAllBytes($OutputPath, $iniBytes)
+
+if (Test-Path $OutputPath) {
+    $fileSize = (Get-Item $OutputPath).Length
+    Write-Host "  ✅ 完了: $fileSize bytes" -ForegroundColor Green
+    Write-Host "  📄 $OutputPath`n" -ForegroundColor Cyan
+}
+else {
+    Write-Host "  ❌ 失敗`n" -ForegroundColor Red
+    exit 1
+}
+#Requires -Version 5.1
+<#
+.SYNOPSIS
+    AviUtl Exo ファイル生成スクリプト（ID 027 Phase 5.5.2 - INI形式実装）
+
+.DESCRIPTION
+    voice/ ディレクトリの .wav ファイルをタイムラインに配置し、
+    AviUtl 互換の INI 形式で Exo ファイルを生成する。
+
+.PARAMETER OutputPath
+    生成する Exo ファイルの出力パス（デフォルト: ./project.exo）
+
+.PARAMETER LayoutConfigPath
+    レイアウト設定 JSON ファイルのパス（デフォルト: ./video_layout.json）
+#>
+
+param(
+    [string]$OutputPath = "./project.exo",
+    [string]$LayoutConfigPath = "./video_layout.json"
+)
+
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$projectRoot = Split-Path -Parent $scriptRoot
+$voiceDir = Join-Path $projectRoot "output\voice"
+
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host " AviUtl INI形式 Exo ファイル生成" -ForegroundColor Cyan
+Write-Host "========================================`n" -ForegroundColor Cyan
+
+# Step 1: 入力ファイル確認
+Write-Host "[ 1/4 ] 入力ファイル確認..." -ForegroundColor Yellow
+
+if (-not (Test-Path $voiceDir)) {
+    Write-Host "  ❌ voice ディレクトリ: $voiceDir" -ForegroundColor Red
+    exit 1
+}
+
+$wavFiles = @(Get-ChildItem -Path $voiceDir -Filter "*.wav" -ErrorAction SilentlyContinue | Sort-Object Name)
+
+if ($wavFiles.Count -eq 0) {
+    Write-Host "  ⚠️  WAV ファイル無し" -ForegroundColor Yellow
+    exit 1
+}
+
+Write-Host "  ✅ WAV: $($wavFiles.Count) 個" -ForegroundColor Green
+
+# Step 2: WAV メタデータ取得
+Write-Host "`n[ 2/4 ] メタデータ取得..." -ForegroundColor Yellow
+
+$audioData = @()
+$totalDuration = 0
+
+foreach ($wav in $wavFiles) {
+    try {
+        $fs = [System.IO.File]::OpenRead($wav.FullName)
+        $br = New-Object System.IO.BinaryReader($fs)
+        
+        $br.ReadBytes(4)    # RIFF
+        $riff_size = $br.ReadInt32()
+        $br.ReadBytes(4)    # WAVE
+        $br.ReadBytes(4)    # fmt
+        $br.ReadInt32()     # fmt size
+        $br.ReadInt16()     # format
+        $br.ReadInt16()     # channels
+        $br.ReadInt32()     # sample_rate
+        $byte_rate = $br.ReadInt32()
+        $br.ReadInt16()     # block align
+        $br.ReadInt16()     # bits per sample
+        
+        $data_size = $riff_size - 36
+        $duration = [double]$data_size / $byte_rate
+        
+        $br.Close()
+        $fs.Close()
+        
+        $audioData += @{
+            File          = $wav.Name
+            FullPath      = $wav.FullName
+            Duration      = $duration
+            TimelineStart = $totalDuration
+        }
+        
+        $totalDuration += $duration
+        Write-Host "  ✅ $($wav.Name): $([math]::Round($duration, 2))s" -ForegroundColor Green
+    }
+    catch {
+        Write-Host "  ⚠️  エラー: $($wav.Name)" -ForegroundColor Yellow
+    }
+}
+
+Write-Host "  📊 合計: $([math]::Round($totalDuration, 2))s" -ForegroundColor Cyan
+
+# Step 2.5: レイアウト JSON 読込
+Write-Host "`n[ 2.5/4 ] レイアウト読込..." -ForegroundColor Yellow
+
+if (-not [System.IO.Path]::IsPathRooted($LayoutConfigPath)) {
+    $LayoutConfigPath = Join-Path $projectRoot $LayoutConfigPath
+}
+
+$layoutLayers = @()
+if (Test-Path $LayoutConfigPath) {
+    try {
+        $layoutConfig = Get-Content $LayoutConfigPath | ConvertFrom-Json
+        $layoutLayers = $layoutConfig.layers
+        Write-Host "  ✅ $($layoutLayers.Count) レイヤー" -ForegroundColor Green
+    }
+    catch {
+        Write-Host "  ⚠️  読込失敗" -ForegroundColor Yellow
+    }
+}
+
+# Step 3: INI 生成
+Write-Host "`n[ 3/4 ] INI生成..." -ForegroundColor Yellow
+
+$width = 1920
+$height = 1080
+$videoRate = 30
+$audioRate = 44100
+$totalFrames = [int]($totalDuration * $videoRate)
+
+$iniLines = @()
+
+# [exedit] ヘッダー
+$iniLines += "[exedit]"
+$iniLines += "width=$width"
+$iniLines += "height=$height"
+$iniLines += "rate=$videoRate"
+$iniLines += "scale=1"
+$iniLines += "length=$totalFrames"
+$iniLines += "audio_rate=$audioRate"
+$iniLines += "audio_ch=2"
+$iniLines += ""
+
+# 映像レイヤー
+Write-Host "  📊 映像レイヤー..." -ForegroundColor Cyan
+$layerIdx = 0
+foreach ($layer in $layoutLayers) {
+    $iniLines += "[$layerIdx]"
+    $iniLines += "start=0"
+    $iniLines += "end=$totalFrames"
+    $iniLines += "layer=$layerIdx"
+    $iniLines += ""
+    
+    if ($layer.type -eq "psd_image" -and -not [string]::IsNullOrEmpty($layer.psdFile)) {
+        $psdPath = $layer.psdFile
+        
+        if (-not [System.IO.Path]::IsPathRooted($psdPath)) {
+            $psdPath = $psdPath -replace '/', '\'
+            $psdPath = "$projectRoot\$psdPath"
+        }
+        
+        while ($psdPath -match '\\\\') {
+            $psdPath = $psdPath -replace '\\\\', '\'
+        }
+        
+        if (Test-Path $psdPath) {
+            $iniLines += "[$layerIdx.0]"
+            $iniLines += "_name=$($layer.name)"
+            $iniLines += "type=0"
+            $iniLines += "filter=2"
+            $iniLines += "name=PSDToolKit"
+            $psdEsc = $psdPath -replace '\\', '\\'
+            $iniLines += "param=file=`"$psdEsc`""
+            $iniLines += ""
+            
+            Write-Host "  ✅ Layer $layerIdx [PSD]" -ForegroundColor Green
+        }
+    }
+    
+    $layerIdx++
+}
+
+# 音声レイヤー
+Write-Host "  📊 音声レイヤー..." -ForegroundColor Cyan
+foreach ($audio in $audioData) {
+    $startFr = [int]($audio.TimelineStart * $videoRate)
+    $endFr = [int](($audio.TimelineStart + $audio.Duration) * $videoRate)
+    
+    $iniLines += "[$layerIdx]"
+    $iniLines += "start=$startFr"
+    $iniLines += "end=$endFr"
+    $iniLines += "layer=$layerIdx"
+    $iniLines += ""
+    
+    $iniLines += "[$layerIdx.0]"
+    $iniLines += "_name=$($audio.File)"
+    $iniLines += "type=0"
+    $iniLines += "filter=0"
+    $audioEsc = $audio.FullPath -replace '\\', '\\'
+    $iniLines += "file=`"$audioEsc`""
+    $iniLines += ""
+    
+    Write-Host "  ✅ 音声 $layerIdx" -ForegroundColor Green
+    $layerIdx++
+}
+
+# Step 4: ファイル出力
+Write-Host "`n[ 4/4 ] 出力..." -ForegroundColor Yellow
+
+$outDir = Split-Path -Parent $OutputPath
+if (-not (Test-Path $outDir)) {
+    New-Item -ItemType Directory -Path $outDir -Force | Out-Null
+}
+
+$iniContent = $iniLines -join [System.Environment]::NewLine
+$utf8Bytes = [System.Text.Encoding]::UTF8.GetBytes($iniContent)
+$iniBytes = [System.Text.Encoding]::Convert([System.Text.Encoding]::UTF8, [System.Text.Encoding]::GetEncoding("shift_jis"), $utf8Bytes)
+[System.IO.File]::WriteAllBytes($OutputPath, $iniBytes)
+
+if (Test-Path $OutputPath) {
+    $fileSize = (Get-Item $OutputPath).Length
+    Write-Host "  ✅ 完了: $($fileSize) bytes" -ForegroundColor Green
+    Write-Host "  📄 $OutputPath" -ForegroundColor Cyan
+    Write-Host "`n  🎉 INI Exo 生成成功" -ForegroundColor Green
+}
+else {
+    Write-Host "  ❌ 失敗" -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "`n========================================`n" -ForegroundColor Cyan
+#Requires -Version 5.1
+<#
+.SYNOPSIS
+    AviUtl Exo ファイル生成スクリプト（ID 027 Phase 5.5.2 - INI形式完全実装）
+
+.DESCRIPTION
+    voice/ ディレクトリの .wav ファイルをタイムラインに配置し、
+    AviUtl 互換の INI 形式で Exo ファイルを生成する。
+    
+    ✅ Session 27 INI形式完全書き直し版
+    - 形式: AviUtl標準 INI形式 ([exedit], [N], [N.M] セクション)
+    - PSDToolKit対応: filter=2
+    - 参考: C:\AviUtl\1.tutorial\exo\Layer4.exo
+
+.PARAMETER OutputPath
+    生成する Exo ファイルの出力パス（デフォルト: ./project.exo）
+
+.PARAMETER LayoutConfigPath
+    レイアウト設定 JSON ファイルのパス（デフォルト: ./video_layout.json）
+
+.PARAMETER DynamicsLayoutPath
+    動的レイアウト設定 JSON ファイルのパス（デフォルト: ./video_layout_dynamics.json）
+
+.EXAMPLE
+    .\generate_exo.ps1
+    .\generate_exo.ps1 -OutputPath "./output/timeline.exo"
+#>
+
+param(
+    [string]$OutputPath = "./project.exo",
+    [string]$LayoutConfigPath = "./video_layout.json",
+    [string]$DynamicsLayoutPath = "./video_layout_dynamics.json"
+)
+
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$projectRoot = Split-Path -Parent $scriptRoot
+$voiceDir = Join-Path $projectRoot "output\voice"
+
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host " AviUtl INI形式 Exo ファイル生成" -ForegroundColor Cyan
+Write-Host " (Phase 5.5.2: Session 27)" -ForegroundColor Cyan
+Write-Host "========================================`n" -ForegroundColor Cyan
+
+# ========================================
+# ステップ 1: 入力ファイル確認
+# ========================================
+
+Write-Host "[ 1/4 ] 入力ファイル確認..." -ForegroundColor Yellow
+
+if (-not (Test-Path $voiceDir)) {
+    Write-Host "  ❌ voice ディレクトリ未検出: $voiceDir" -ForegroundColor Red
+    exit 1
+}
+
+$wavFiles = @(Get-ChildItem -Path $voiceDir -Filter "*.wav" -ErrorAction SilentlyContinue | Sort-Object Name)
+
+if ($wavFiles.Count -eq 0) {
+    Write-Host "  ⚠️  WAV ファイル未検出" -ForegroundColor Yellow
+    exit 1
+}
+
+Write-Host "  ✅ WAV ファイル: $($wavFiles.Count) 個" -ForegroundColor Green
+
+# ========================================
+# ステップ 2: WAV メタデータ取得
+# ========================================
+
+Write-Host "`n[ 2/4 ] オーディオメタデータ取得..." -ForegroundColor Yellow
+
+$audioData = @()
+$totalDuration = 0
+
+foreach ($wav in $wavFiles) {
+    try {
+        $fs = [System.IO.File]::OpenRead($wav.FullName)
+        $br = New-Object System.IO.BinaryReader($fs)
+        
+        # WAV ヘッダー解析
+        $riff = $br.ReadBytes(4)
+        $riff_size = $br.ReadInt32()
+        $wave = $br.ReadBytes(4)
+        
+        # fmt チャンク
+        $fmt = $br.ReadBytes(4)
+        $fmt_size = $br.ReadInt32()
+        $audio_fmt = $br.ReadInt16()
+        $channels = $br.ReadInt16()
+        $sample_rate = $br.ReadInt32()
+        $byte_rate = $br.ReadInt32()
+        $block_align = $br.ReadInt16()
+        $bits_psample = $br.ReadInt16()
+        
+        # メタデータ計算
+        $data_size = $riff_size - 36
+        $duration = [double]$data_size / $byte_rate
+        
+        $br.Close()
+        $fs.Close()
+        
+        $audioData += @{
+            File          = $wav.Name
+            FullPath      = $wav.FullName
+            Duration      = $duration
+            TimelineStart = $totalDuration
+        }
+        
+        $totalDuration += $duration
+        
+        Write-Host "  ✅ $($wav.Name): $([math]::Round($duration, 2))s" -ForegroundColor Green
+    }
+    catch {
+        Write-Host "  ⚠️  解析エラー: $($wav.Name)" -ForegroundColor Yellow
+    }
+}
+
+Write-Host "  📊 合計時間: $([math]::Round($totalDuration, 2))s" -ForegroundColor Cyan
+
+# ========================================
+# ステップ 2.5: レイアウト JSON 読込
+# ========================================
+
+Write-Host "`n[ 2.5/4 ] レイアウト設定読込..." -ForegroundColor Yellow
+
+if (-not [System.IO.Path]::IsPathRooted($LayoutConfigPath)) {
+    $LayoutConfigPath = Join-Path $projectRoot $LayoutConfigPath
+}
+
+$layoutLayers = @()
+
+if (Test-Path $LayoutConfigPath) {
+    try {
+        $layoutConfig = Get-Content $LayoutConfigPath | ConvertFrom-Json
+        $layoutLayers = $layoutConfig.layers
+        Write-Host "  ✅ レイアウト: $($layoutLayers.Count) レイヤー" -ForegroundColor Green
+    }
+    catch {
+        Write-Host "  ⚠️  レイアウト JSON 読込失敗" -ForegroundColor Yellow
+    }
+}
+else {
+    Write-Host "  ⚠️  レイアウト JSON 未検出" -ForegroundColor Yellow
+}
+
+# ========================================
+# ステップ 3: INI ファイル生成
+# ========================================
+
+Write-Host "`n[ 3/4 ] INI ファイル生成..." -ForegroundColor Yellow
+
+$width = 1920
+$height = 1080
+$videoRate = 30
+$audioRate = 44100
+$totalFrames = [int]($totalDuration * $videoRate)
+
+$iniLines = @()
+
+# [exedit] ヘッダーセクション
+$iniLines += "[exedit]"
+$iniLines += "width=$width"
+$iniLines += "height=$height"
+$iniLines += "rate=$videoRate"
+$iniLines += "scale=1"
+$iniLines += "length=$totalFrames"
+$iniLines += "audio_rate=$audioRate"
+$iniLines += "audio_ch=2"
+$iniLines += ""
+
+# ========== レイアウトレイヤー処理
+Write-Host "  📊 映像レイヤー処理中..." -ForegroundColor Cyan
+
+$layerIdx = 0
+
+foreach ($layer in $layoutLayers) {
+    $iniLines += "[$layerIdx]"
+    $iniLines += "start=0"
+    $iniLines += "end=$totalFrames"
+    $iniLines += "layer=$layerIdx"
+    $iniLines += ""
+    
+    if ($layer.type -eq "psd_image" -and -not [string]::IsNullOrEmpty($layer.psdFile)) {
+        $psdPath = $layer.psdFile
+        
+        if (-not [System.IO.Path]::IsPathRooted($psdPath)) {
+            $psdPath = $psdPath -replace '/', '\'
+            $psdPath = "$projectRoot\$psdPath"
+        }
+        
+        # パス正規化
+        while ($psdPath -match '\\\\') {
+            $psdPath = $psdPath -replace '\\\\', '\'
+        }
+        
+        if (Test-Path $psdPath) {
+            $iniLines += "[$layerIdx.0]"
+            $iniLines += "_name=$($layer.name)"
+            $iniLines += "type=0"
+            $iniLines += "filter=2"
+            $iniLines += "name=PSDToolKit"
+            $psdEsc = $psdPath -replace '\\', '\\'
+            $iniLines += "param=file=`"$psdEsc`""
+            $iniLines += ""
+            
+            Write-Host "  ✅ レイヤー $layerIdx [PSD] ($($layer.name))" -ForegroundColor Green
+        }
+    }
+    
+    $layerIdx++
+}
+
+# ========== 音声レイヤー
+Write-Host "  📊 音声レイヤー処理中..." -ForegroundColor Cyan
+
+foreach ($audio in $audioData) {
+    $startFr = [int]($audio.TimelineStart * $videoRate)
+    $endFr = [int](($audio.TimelineStart + $audio.Duration) * $videoRate)
+    
+    $iniLines += "[$layerIdx]"
+    $iniLines += "start=$startFr"
+    $iniLines += "end=$endFr"
+    $iniLines += "layer=$layerIdx"
+    $iniLines += ""
+    
+    $iniLines += "[$layerIdx.0]"
+    $iniLines += "_name=$($audio.File)"
+    $iniLines += "type=0"
+    $iniLines += "filter=0"
+    $audioEsc = $audio.FullPath -replace '\\', '\\'
+    $iniLines += "file=`"$audioEsc`""
+    $iniLines += ""
+    
+    Write-Host "  ✅ 音声 $layerIdx ($($audio.File))" -ForegroundColor Green
+    $layerIdx++
+}
+
+# ========================================
+# ステップ 4: ファイル出力
+# ========================================
+
+Write-Host "`n[ 4/4 ] ファイル出力..." -ForegroundColor Yellow
+
+$outDir = Split-Path -Parent $OutputPath
+if (-not (Test-Path $outDir)) {
+    New-Item -ItemType Directory -Path $outDir -Force | Out-Null
+}
+
+$iniContent = $iniLines -join [System.Environment]::NewLine
+$utf8Bytes = [System.Text.Encoding]::UTF8.GetBytes($iniContent)
+$iniBytes = [System.Text.Encoding]::Convert([System.Text.Encoding]::UTF8, [System.Text.Encoding]::GetEncoding("shift_jis"), $utf8Bytes)
+[System.IO.File]::WriteAllBytes($OutputPath, $iniBytes)
+
+Write-Host "  ✅ ファイル出力完了" -ForegroundColor Green
+
+if (Test-Path $OutputPath) {
+    $fileSize = (Get-Item $OutputPath).Length
+    Write-Host "  📄 出力先: $OutputPath" -ForegroundColor Cyan
+    Write-Host "  📊 ファイルサイズ: $fileSize bytes" -ForegroundColor Cyan
+    Write-Host "  🎉 INI形式 Exo ファイル生成成功！" -ForegroundColor Green
+}
+else {
+    Write-Host "  ❌ ファイル生成失敗" -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "`n========================================" -ForegroundColor Cyan
+Write-Host " 完了" -ForegroundColor Cyan
+Write-Host "========================================`n" -ForegroundColor Cyan
+#Requires -Version 5.1
+<#
+.SYNOPSIS
     AviUtl Exo ファイル生成スクリプト（ID 017 Phase 3 → Phase 5.4 拡張版）
 
 .DESCRIPTION
