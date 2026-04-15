@@ -1,0 +1,58 @@
+/* VibeCoding Presentation Custom Styles */
+
+.reveal {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.reveal h1, .reveal h2, .reveal h3 {
+  font-family: 'Noto Sans JP', sans-serif;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.reveal p {
+  font-size: 24px;
+  line-height: 1.8;
+}
+
+.reveal code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+}
+
+.reveal strong {
+  color: #ffeb3b;
+  font-weight: bold;
+}
+
+.reveal em {
+  color: #81c784;
+  font-style: italic;
+}
+
+.slide-content {
+  text-align: left;
+  margin: 20px auto;
+  max-width: 90%;
+}
+
+.slide-content br {
+  margin: 10px 0;
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+  .reveal {
+    font-size: 24px;
+  }
+  
+  .reveal h1 {
+    font-size: 48px;
+  }
+  
+  .reveal h2 {
+    font-size: 36px;
+  }
+}
