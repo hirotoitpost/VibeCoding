@@ -137,6 +137,7 @@
 			"eval": false,
 			"Invoke-Expression": false,
 			"iex": false
-		}
+		},
+		"powershell.cwd": "VibeCoding"
 	}
 }
