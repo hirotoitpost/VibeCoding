@@ -1,0 +1,463 @@
+{
+  "metadata": {
+    "project": "VibeCoding ナレッジシェア",
+    "total_scenes": 33,
+    "total_duration": "888秒 (14分48秒)",
+    "speakers": {
+      "narrator": { "id": 0, "name": "ナレーター（男性）", "speed": 1.0 },
+      "assistant": { "id": 1, "name": "アシスタント（女性）", "speed": 1.0 }
+    }
+  },
+  "scenes": [
+    {
+      "part": "A",
+      "slide": 1,
+      "scene_id": "S01",
+      "title": "タイトル - イントロ",
+      "speaker": "narrator",
+      "duration": 18,
+      "output_file": "Part_A/S01_intro_title.wav",
+      "text": "こんにちは。今日は、VibeCoding プロジェクトで実装した6つの実践的なサンプルアプリケーションを通じて、AI駆動開発のパターン、学習成果、そしてベストプラクティスを紹介します。このセッションは 3 つのパートに分かれており、合計 30 分でお届けする予定です。では、早速始めていきましょう。"
+    },
+    {
+      "part": "A",
+      "slide": 2,
+      "scene_id": "S02",
+      "title": "今日のゴール",
+      "speaker": "narrator",
+      "duration": 32,
+      "output_file": "Part_A/S02_goals.wav",
+      "text": "今日のセッションでは、3つのポイントをお伝えします。まず 1 つ目は『段階的な技術パターン』です。単純な API 連携から始まり、Web アプリ、そして IoT、Web3 といった、技術が段階的に拡張していくパターンを見ていきます。2 つ目は『AI指示文の書き方』です。Vibe Coding では、自然言語で AI に指示を出すので、その効果的な書き方が重要になります。そして 3 つ目は『開発の効率化』です。従来の開発では数週間かかるようなプロジェクトが、Vibe Coding では数時間から 1 日で実装できます。その秘訣を紹介していきます。"
+    },
+    {
+      "part": "A",
+      "slide": 3,
+      "scene_id": "S03a",
+      "title": "従来開発 vs Vibe Coding (ナレーター導入)",
+      "speaker": "narrator",
+      "duration": 5,
+      "output_file": "Part_A/S03_comparison_narr1.wav",
+      "text": "では、従来の開発手法と Vibe Coding の違いを見てみましょう。"
+    },
+    {
+      "part": "A",
+      "slide": 3,
+      "scene_id": "S03b",
+      "title": "従来開発 vs Vibe Coding (アシスタント質問)",
+      "speaker": "assistant",
+      "duration": 10,
+      "output_file": "Part_A/S03_comparison_asst.wav",
+      "text": "従来開発だと、環境構築に 1 日、設計に 1～2 日、実装に 2～5 日…合わせると 1～3 週間かかりますね。"
+    },
+    {
+      "part": "A",
+      "slide": 3,
+      "scene_id": "S03c",
+      "title": "従来開発 vs Vibe Coding (ナレーター説明)",
+      "speaker": "narrator",
+      "duration": 15,
+      "output_file": "Part_A/S03_comparison_narr2.wav",
+      "text": "そうです。対して Vibe Coding では、明確で詳細な指示文さえあれば、AI がほぼすべてを一気に進めてくれます。もちろん、その指示文を作るのには工夫が必要ですが、それでも圧倒的に速いんです。"
+    },
+    {
+      "part": "A",
+      "slide": 4,
+      "scene_id": "S04",
+      "title": "プロジェクトの進化系",
+      "speaker": "narrator",
+      "duration": 28,
+      "output_file": "Part_A/S04_projects.wav",
+      "text": "今日紹介するのは Phase 3.1 から 3.3 の内容です。Phase 3.1 では、外部 API を使う基本的なパターンから始まります。シンプルな天気情報ツールですね。Phase 3.2 では、Web アプリと IoT、チャットボットという3つの異なる領域を経験します。これらを通じて、異なる技術スタックのパターンを学びます。そして Phase 3.3 では、マイクロサービスからブロックチェーン技術まで、より高度なアーキテクチャに挑戦していきます。"
+    },
+    {
+      "part": "A",
+      "slide": 5,
+      "scene_id": "S05",
+      "title": "段階的な技術進化",
+      "speaker": "narrator",
+      "duration": 25,
+      "output_file": "Part_A/S05_evolution.wav",
+      "text": "プロジェクトは段階的に技術を積み重ねる設計になっています。まずは API 統合の基本から。次に Web アプリの全層を経験。そして IoT とネットワークの考え方を学び、最後にマイクロサービスとブロックチェーンという低レイヤーの技術に触れます。このように段階的に学ぶことで、それぞれのパターンが身につきやすくなります。"
+    },
+    {
+      "part": "A",
+      "slide": 6,
+      "scene_id": "S06",
+      "title": "Part A まとめ",
+      "speaker": "narrator",
+      "duration": 15,
+      "output_file": "Part_A/S06_summary.wav",
+      "text": "Part A で習ったのは、Vibe Coding の基本的なパラダイムと、今日の学習ゴールです。では、次のパート『Part B-1』で、実際のプロジェクト実装を見ていきます。基礎から初級へ、どのように技術が進化していくのか、具体的なコード例も交えて紹介していきますので、ご期待ください。"
+    },
+    {
+      "part": "A",
+      "slide": 7,
+      "scene_id": "S07",
+      "title": "Preview",
+      "speaker": "narrator",
+      "duration": 20,
+      "output_file": "Part_A/S07_preview.wav",
+      "text": "では、Part B-1 へ参ります。次の 10 分間で、4つのプロジェクト（天気ツール、Web家計簿、IoTセンサー、チャットボット）を順番に紹介していきます。各プロジェクトでは、実行デモ、キーコード、アーキテクチャを一気に紹介するため、少し情報量が多くなるかもしれません。でもご心配なく。後ほど Q&A の時間を設けますので、その際に詳しくお聞きください。"
+    },
+    {
+      "part": "B1",
+      "slide": 8,
+      "scene_id": "B1S01",
+      "title": "Example 01: 天気情報ツール（概要）",
+      "speaker": "narrator",
+      "duration": 22,
+      "output_file": "Part_B1/B1S01_example01_overview.wav",
+      "text": "では『Example 01: 天気情報ツール』から始めます。これは Vibe Coding の『はじめの一歩』です。シンプルだけど、AI 駆動開発の基本が詰まっています。目的は、OpenWeatherMap という天気情報 API を使って、指定した都市の気温、天気状態、降水確率を表示するプログラム。実装時間は 2～4 時間、ファイル数も 1 つ、行数 150 行程度です。難易度は ⭐ の基礎レベルです。"
+    },
+    {
+      "part": "B1",
+      "slide": 9,
+      "scene_id": "B1S02a",
+      "title": "Example 01: アーキテクチャ(NAR1)",
+      "speaker": "narrator",
+      "duration": 22,
+      "output_file": "Part_B1/B1S02_arch_narr1.wav",
+      "text": "では、アーキテクチャを見てみましょう。ユーザーが都市名を入力したら、まずキャッシング層を確認します。直近 5 分間に取得した同じ都市のデータがあれば、それを使い回します。これで API コール数を削減できるんです。キャッシュなければ、OpenWeatherMap API にリクエスト。返ってきた JSON をパースして、日本語で表示します。ここで重要なのはエラーハンドリングです。API がダウンしたら？ネットワークが途絶えたら？こうした例外に対応するのが、実用的なプログラムの条件になります。"
+    },
+    {
+      "part": "B1",
+      "slide": 9,
+      "scene_id": "B1S02b",
+      "title": "Example 01: アーキテクチャ(ASST)",
+      "speaker": "assistant",
+      "duration": 7,
+      "output_file": "Part_B1/B1S02_arch_asst.wav",
+      "text": "つまり、単に API を叩くだけじゃなくて、キャッシング、エラー対応、設定管理…実務レベルのコーディング実践が学べるんですね。"
+    },
+    {
+      "part": "B1",
+      "slide": 9,
+      "scene_id": "B1S02c",
+      "title": "Example 01: アーキテクチャ(NAR2)",
+      "speaker": "narrator",
+      "duration": 6,
+      "output_file": "Part_B1/B1S02_arch_narr2.wav",
+      "text": "その通り。これが Vibe Coding の効果です。AI に『実務的なコードを書いてくれ』と指示すれば、自動的にこのレベルの実装が出てきます。"
+    },
+    {
+      "part": "B1",
+      "slide": 10,
+      "scene_id": "B1S03",
+      "title": "Example 01: コードハイライト",
+      "speaker": "narrator",
+      "duration": 25,
+      "output_file": "Part_B1/B1S03_code_highlight.wav",
+      "text": "実装のハイライトをお見せします。まずキャッシング機構。cache という辞書を用意して、city をキーに、データをバリューで保存します。CACHE_TTL で有効期限を 300 秒（5分）に設定。get_weather 関数内で、まずキャッシュを確認して、有効なら即座に返す。ないか期限切れなら API を呼び出すというロジックです。続いてエラーハンドリング。try-except で複数のエラーをキャッチしています。実務では こういった細かな対応が必須です。"
+    },
+    {
+      "part": "B1",
+      "slide": 11,
+      "scene_id": "B1S04",
+      "title": "Example 02: Web家計簿（概要）",
+      "speaker": "narrator",
+      "duration": 25,
+      "output_file": "Part_B1/B1S04_example02_overview.wav",
+      "text": "次は『Example 02: Web家計簿』です。これは難易度が ⭐⭐ に上がります。天気ツールとの大きな違いは『多層アーキテクチャ』です。フロントエンド（React）、バックエンド（Express）、データベース（SQLite）という 3つの層が存在します。実装時間は 8～12 時間、ファイル数は 15 ファイル、コード総行数は 6,000 行以上という規模。それでも、Vibe Coding では指示文一つでこの全体が実装できるんです。"
+    },
+    {
+      "part": "B1",
+      "slide": 12,
+      "scene_id": "B1S05a",
+      "title": "Example 02: 3層アーキテクチャ(NAR1)",
+      "speaker": "narrator",
+      "duration": 18,
+      "output_file": "Part_B1/B1S05_3layer_narr1.wav",
+      "text": "では、3層アーキテクチャを見てみましょう。最上層は React のフロントエンド。ユーザーは ここで収支を入力したり、グラフで月ごとの推移を見たり、履歴を管理したりします。中間層が Express のバックエンド。フロント からのリクエスト（JSON）を受け取って、データベースに対して CRUD 操作を実行。結果を JSON で返します。最下層はデータベース。SQLite や PostgreSQL を使って、収支データを永続化します。"
+    },
+    {
+      "part": "B1",
+      "slide": 12,
+      "scene_id": "B1S05b",
+      "title": "Example 02: 3層アーキテクチャ(ASST)",
+      "speaker": "assistant",
+      "duration": 8,
+      "output_file": "Part_B1/B1S05_3layer_asst.wav",
+      "text": "つまり、ユーザーがフロントで『追加』をクリックすると、フロント→バック→DB という流れでデータが保存される…と。"
+    },
+    {
+      "part": "B1",
+      "slide": 12,
+      "scene_id": "B1S05c",
+      "title": "Example 02: 3層アーキテクチャ(NAR2)",
+      "speaker": "narrator",
+      "duration": 9,
+      "output_file": "Part_B1/B1S05_3layer_narr2.wav",
+      "text": "その通り。そして逆に『一覧を表示してくれ』というクエリも同じルートを通ります。この3層分離により、保守性と拡張性が大幅に向上します。"
+    },
+    {
+      "part": "B1",
+      "slide": 13,
+      "scene_id": "B1S06",
+      "title": "Example 02: テスト戦略",
+      "speaker": "narrator",
+      "duration": 30,
+      "output_file": "Part_B1/B1S06_test_strategy.wav",
+      "text": "では、テスト戦略を紹介します。Web家計簿では 3つのレベルのテストを実装しました。まず Unit テスト。各関数のバリデーション、計算ロジックを検証します。次に統合テスト。API エンドポイント全体が正しく動作するか確認します。そして E2E テスト。Cypress というツールを使って、実際にブラウザを動かし、ユーザーのアクションをシミュレーション。20 以上のテストケースで全機能を検証しています。さらに Docker Compose で、フロント、バック、DB を一つのコマンドで　まとめて起動できるようにしました。これにより、環境構築の手間が大幅に削減されます。"
+    },
+    {
+      "part": "B1",
+      "slide": 14,
+      "scene_id": "B1S07",
+      "title": "Example 03: IoTセンサー（概要）",
+      "speaker": "narrator",
+      "duration": 25,
+      "output_file": "Part_B1/B1S07_example03_overview.wav",
+      "text": "次は『Example 03: IoTセンサーシミュレーター』です。これまでのプロジェクトとは視点が変わります。Web アプリではなく、IoT・ネットワークの領域です。目的は、複数のセンサーデータをMQTT というメッセージング プロトコルを使ってブローカー経由でリアルタイム配信すること。実装時間は 6～8 時間、ファイル数は 12、コード総行数は 4,800 行以上という規模。技術スタックも新しい要素が増えました。Mosquitto という MQTT ブローカー、Paho-MQTT という Python ライブラリ、そして WebSocket でリアルタイム通信…こうしたパターンを学びます。"
+    },
+    {
+      "part": "B1",
+      "slide": 15,
+      "scene_id": "B1S08a",
+      "title": "Example 03: MQTT & Pub/Sub(NAR1)",
+      "speaker": "narrator",
+      "duration": 16,
+      "output_file": "Part_B1/B1S08_mqtt_narr1.wav",
+      "text": "MQTT は Pub/Sub（パブ・サブ）というパターンです。複数のセンサーが Publisher の役割で、それぞれが MQTT ブローカーに data を Publish します。ブローカーは Subscriber たちにそのデータを配信します。この設計により、センサーと ダッシュボード間の結合度を下げることができます。センサーがダッシュボードのことを知らなくても、双方が独立に動作できるんです。"
+    },
+    {
+      "part": "B1",
+      "slide": 15,
+      "scene_id": "B1S08b",
+      "title": "Example 03: MQTT & Pub/Sub(ASST)",
+      "speaker": "assistant",
+      "duration": 6,
+      "output_file": "Part_B1/B1S08_mqtt_asst.wav",
+      "text": "つまり、センサーを追加を する時も、ブローカーと ダッシュボードに影響しないと。"
+    },
+    {
+      "part": "B1",
+      "slide": 15,
+      "scene_id": "B1S08c",
+      "title": "Example 03: MQTT & Pub/Sub(NAR2)",
+      "speaker": "narrator",
+      "duration": 12,
+      "output_file": "Part_B1/B1S08_mqtt_narr2.wav",
+      "text": "その通り。これが『マイクロサービス的思考』の端緒です。疎結合で スケーラブル、これが現代的なシステム設計の基本になります。"
+    },
+    {
+      "part": "B1",
+      "slide": 16,
+      "scene_id": "B1S09",
+      "title": "Example 04: チャットボット（概要）",
+      "speaker": "narrator",
+      "duration": 22,
+      "output_file": "Part_B1/B1S09_example04_overview.wav",
+      "text": "次は『Example 04: チャットボット Web App』です。このプロジェクトのポイントは、『Mock API パターン』を学ぶことです。実際の OpenAI API を使う前に、まずは Mock（偽物）の AI プロバイダーを作って、アーキテクチャを検証する…という手法ですね。これにより、本物の API に統合する際の修正作業を最小化できます。実装時間は 4～6 時間、ファイル数は 8、コード総行数は 1,200 行以上です。"
+    },
+    {
+      "part": "B1",
+      "slide": 17,
+      "scene_id": "B1S10",
+      "title": "Part B-1 まとめ",
+      "speaker": "narrator",
+      "duration": 28,
+      "output_file": "Part_B1/B1S10_summary.wav",
+      "text": "では、Part B-1 のまとめです。4つのプロジェクトを通じて、基本的な技術パターンを学びました。天気ツールで API 統合とキャッシングを。家計簿で 3層アーキテクチャとテスト戦略を。IoT センサーで Pub/Sub と マイクロサービス思考を。チャットボットで Mock/Stub パターンを。そして、すべてのプロジェクトに共通するスキルとして、AI指示文の書き方、テスト駆動設計、エラーハンドリング、環境管理、Git…こうしたエンジニアリング実践が自然と身につきます。では、Part B-2 へ参ります。ここからは、さらに高度な『マイクロサービス』と『ブロックチェーン』です。"
+    },
+    {
+      "part": "B2",
+      "slide": 18,
+      "scene_id": "B2S01",
+      "title": "Example 05: スマートホーム IoT（概要）",
+      "speaker": "narrator",
+      "duration": 28,
+      "output_file": "Part_B2/B2S01_example05_overview.wav",
+      "text": "では『Example 05: スマートホーム IoT ハブ』へ進みます。これは難易度 ⭐⭐⭐ の中級プロジェクトです。これまでのプロジェクトよりも、さらに複雑なアーキテクチャと複数の技術の統合を学びます。目的は、複数の IoT デバイス（温度センサー、湿度センサー、照明制御等）を、MQTT ブローカー経由で管理し、Web ダッシュボードからリアルタイムに監視・制御するシステムです。実装時間は 10～14 時間、ファイル数は 20、コード総行数は 8,000 行以上。技術スタックはより深まります。Express サーバー、React フロント、Docker マイクロサービス、MQTT、WebSocket、SQLite…すべてが統合されています。"
+    },
+    {
+      "part": "B2",
+      "slide": 19,
+      "scene_id": "B2S02a",
+      "title": "Example 05: マイクロサービス(NAR1)",
+      "speaker": "narrator",
+      "duration": 20,
+      "output_file": "Part_B2/B2S02_micro_narr1.wav",
+      "text": "では、マイクロサービスアーキテクチャを見てみましょう。このシステムは 4つの独立したサービスから構成されています。まず MQTT ブローカー。複数のセンサーとダッシュボードの通信媒体です。次に Python デバイスシミュレーター。複数のセンサーをシミュレートし、MQTT でデータを Publish します。そして Express REST API サーバー。ダッシュボードからのコマンドを受け取り、MQTT を通じてデバイスに指示を送信します。最後に React ダッシュボード。ユーザーは ここでリアルタイムにセンサーデータを監視し、デバイスを制御します。"
+    },
+    {
+      "part": "B2",
+      "slide": 19,
+      "scene_id": "B2S02b",
+      "title": "Example 05: マイクロサービス(ASST)",
+      "speaker": "assistant",
+      "duration": 12,
+      "output_file": "Part_B2/B2S02_micro_asst.wav",
+      "text": "つまり、各サービスが完全に独立していて、一つが落ちても他には影響しない…ということですね。"
+    },
+    {
+      "part": "B2",
+      "slide": 19,
+      "scene_id": "B2S02c",
+      "title": "Example 05: マイクロサービス(NAR2)",
+      "speaker": "narrator",
+      "duration": 12,
+      "output_file": "Part_B2/B2S02_micro_narr2.wav",
+      "text": "その通り。これが『現代的なシステム設計』です。スケーラビリティ、残存性、保守性…すべてが向上します。Docker Compose で、これら 4つのサービスを一発で起動できます。"
+    },
+    {
+      "part": "B2",
+      "slide": 20,
+      "scene_id": "B2S03",
+      "title": "Example 05: ダッシュボード UI",
+      "speaker": "narrator",
+      "duration": 20,
+      "output_file": "Part_B2/B2S03_dashboard.wav",
+      "text": "では、ダッシュボード UI を紹介します。React Vite でビルドされた高速な SPA です。画面には複数のウィジェットがあります。センサーデータを リアルタイム表示するグラフ、デバイスのオン/オフ切り替えボタン、接続状態インジケーター…。すべてが WebSocket で MQTT データと双方向に同期しています。E2E テストも充実。Cypress で 15 以上のテストケースを実装しており、UI の全機能を検証しています。"
+    },
+    {
+      "part": "B2",
+      "slide": 21,
+      "scene_id": "B2S04",
+      "title": "Example 05: Docker 統合",
+      "speaker": "narrator",
+      "duration": 25,
+      "output_file": "Part_B2/B2S04_docker.wav",
+      "text": "では、Docker 統合を紹介します。このプロジェクトは 4つのコンテナで構成されています。mosquitto ブローカー、Python センサーシミュレーター、Express API サーバー、React フロントエンド…すべてが docker-compose.yml で定義されています。ユーザーは たった 1 コマンド、docker-compose up を実行するだけで、全体のシステムが起動します。環境構築の手間がほぼゼロになります。これがコンテナ化のメリットです。さらに、本番環境での運用も考慮し、ヘルスチェック、ログ集約、リソース制限…こうした実務的な設定も組み込まれています。"
+    },
+    {
+      "part": "B2",
+      "slide": 22,
+      "scene_id": "B2S05",
+      "title": "Example 06: スマートコントラクト DApp（概要）",
+      "speaker": "narrator",
+      "duration": 28,
+      "output_file": "Part_B2/B2S05_example06_overview.wav",
+      "text": "では『Example 06: スマートコントラクト DApp』へ進みます。これは我々のカリキュラムの中で、最も高度なプロジェクトです。難易度 ⭐⭐⭐⭐。これまでの Web・IoT とは異なる、ブロックチェーンの世界です。目的は、Solidity で書かれた ERC-20 トークンスマートコントラクトをデプロイ、管理、そして フロントエンドから インタラクトすることです。実装時間は 8～10 時間、ファイル数は 18、コード総行数は 3,500 行以上。Hardhat、Solidity、Web3.js、MetaMask…すべてが統合されています。"
+    },
+    {
+      "part": "B2",
+      "slide": 23,
+      "scene_id": "B2S06a",
+      "title": "Example 06: Solidity & ERC-20(NAR1)",
+      "speaker": "narrator",
+      "duration": 20,
+      "output_file": "Part_B2/B2S06_solidity_narr1.wav",
+      "text": "では、Solidity と ERC-20 スマートコントラクトを見てみましょう。ERC-20 は、Ethereum ブロックチェーン上でトークンを定義する標準インターフェースです。我々の VibeCodingToken コントラクトは、このスタンダードに従い、トークン転送、承認、残高照会…といった機能を実装しています。コントラクトは Hardhat という開発環境で書かれ、テストされています。Unit テストが 14 個、すべてパスしています。"
+    },
+    {
+      "part": "B2",
+      "slide": 23,
+      "scene_id": "B2S06b",
+      "title": "Example 06: Solidity & ERC-20(ASST)",
+      "speaker": "assistant",
+      "duration": 8,
+      "output_file": "Part_B2/B2S06_solidity_asst.wav",
+      "text": "つまり、スマートコントラクトも従来のソフトウェアと同じく、テスト駆動で開発される…と。"
+    },
+    {
+      "part": "B2",
+      "slide": 23,
+      "scene_id": "B2S06c",
+      "title": "Example 06: Solidity & ERC-20(NAR2)",
+      "speaker": "narrator",
+      "duration": 10,
+      "output_file": "Part_B2/B2S06_solidity_narr2.wav",
+      "text": "その通り。ブロックチェーンとはいえ、本質はソフトウェアです。堅牢性、テスタビリティ、保守性…すべてが重要です。"
+    },
+    {
+      "part": "B2",
+      "slide": 24,
+      "scene_id": "B2S07",
+      "title": "Example 06: Hardhat フロー",
+      "speaker": "narrator",
+      "duration": 35,
+      "output_file": "Part_B2/B2S07_hardhat.wav",
+      "text": "では、Hardhat 開発フローを紹介します。Hardhat は、スマートコントラクト開発用の統合開発環境です。まずローカルで Hardhat ネットワークを起動。これは、Ethereum 互換の エフェメラル（一時的な）ブロックチェーンです。ここで、コントラクトをコンパイル、デプロイ、テストします。テストは全部通ったら、Sepolia testnet にデプロイ。本物の Ethereum testnet 上でテストします。最終的に、メインネットへのデプロイへと進みます。このフローにより、本番へのリスクを大幅に軽減できます。"
+    },
+    {
+      "part": "B2",
+      "slide": 25,
+      "scene_id": "B2S08",
+      "title": "Example 06: Web3 フロントエンド",
+      "speaker": "narrator",
+      "duration": 28,
+      "output_file": "Part_B2/B2S08_web3_fe.wav",
+      "text": "では、Web3 フロントエンドを紹介します。React で構築された SPA で、Web3.js と MetaMask を統合しています。ユーザーは MetaMask ウォレットをコネクト。その後、トークン転送、承認、残高確認…といった操作ができます。各操作は トランザクションとしてブロックチェーンに記録されます。フロントエンドでは、トランザクションの進捗をリアルタイムに表示。ユーザーに視覚的なフィードバックを提供しています。"
+    },
+    {
+      "part": "B2",
+      "slide": 26,
+      "scene_id": "B2S09",
+      "title": "Example 06: MetaMask トランザクション",
+      "speaker": "narrator",
+      "duration": 30,
+      "output_file": "Part_B2/B2S09_metamask.wav",
+      "text": "では、MetaMask との連携を見てみましょう。MetaMask は、Ethereum 対応のブラウザウォレット拡張機能です。ユーザーが『送信』をクリックすると、MetaMask が ポップアップ。トランザクション内容を確認できます。ガス代はいくら？トークン量は？受信者は正しい？こうした確認を経て、ユーザーが 『確認』をクリックしたら、トランザクションが ブロードキャストされ、ブロックチェーンに記録されます。このフローにより、ユーザーは完全なコントロール と透明性が得られます。"
+    },
+    {
+      "part": "B2",
+      "slide": 27,
+      "scene_id": "B2S10",
+      "title": "Part B-2 まとめ",
+      "speaker": "narrator",
+      "duration": 25,
+      "output_file": "Part_B2/B2S10_summary.wav",
+      "text": "では、Part B-2 のまとめです。2つのプロジェクトを通じて、『マイクロサービス』と『ブロックチェーン』という、現代的で高度なアーキテクチャを学びました。スマートホーム IoT では、複数サービスの統合、Docker コンテナ化、E2E テスト…について。スマートコントラクト DApp では、Solidity、Hardhat、Web3、MetaMask…について。さらに両者に共通する、『チーム開発のベストプラクティス』、『セキュリティ』、『パフォーマンス最適化』…こうしたスキルも習得しました。では、最終パート『Part C』へ進みます。ここでは『学習成果の総まとめ』と『次のステップ』を紹介します。"
+    },
+    {
+      "part": "C",
+      "slide": 28,
+      "scene_id": "CS01",
+      "title": "スキルまとめ",
+      "speaker": "narrator",
+      "duration": 30,
+      "output_file": "Part_C/CS01_skills.wav",
+      "text": "では『Part C: 学習成果』です。6つのプロジェクトを通じて、あなたが習得したスキルをまとめます。『API 統合とキャッシング』『多層 Web アーキテクチャ』『IoT・MQTT パターン』『Mock/Stub によるテスト設計』『マイクロサービス設計』『ブロックチェーン・スマートコントラクト』…こうした技術スキルですね。ただし、最も重要なのは『エンジニアリングマインドセット』です。AI 指示文の書き方、テスト駆動設計、エラーハンドリング、版管理…といった、どの技術でも通用する『本質的なスキル』が身についているんです。"
+    },
+    {
+      "part": "C",
+      "slide": 29,
+      "scene_id": "CS02",
+      "title": "ベストプラクティス",
+      "speaker": "narrator",
+      "duration": 45,
+      "output_file": "Part_C/CS02_best_practices.wav",
+      "text": "では、AI 指示文のベストプラクティスを紹介します。第 1 に『明確性』。何を作るのか、どのような形式のアウトプットが必要か、明確に指定しましょう。第 2 に『段階性』。複雑なシステムは、複数の小さなプロンプトに分割して、段階的に構築することが重要です。第 3 に『テスト駆動』。AI に『テストケースを含めて提案してくれ』と指示することで、より堅牢なコードが生成されます。第 4 に『反復改善』。一度で完璧なコードが生成されることはまれです。『このコードのこの部分を改善してくれ』という形で、フィードバックループを回すことが大切です。第 5 に『ドキュメント化』。コード生成後、ドキュメントも AI に作成させることで、チーム全体の理解度が上がるのです。"
+    },
+    {
+      "part": "C",
+      "slide": 30,
+      "scene_id": "CS03",
+      "title": "よくある落とし穴",
+      "speaker": "narrator",
+      "duration": 40,
+      "output_file": "Part_C/CS03_pitfalls.wav",
+      "text": "では、よくある落とし穴を紹介します。第 1 に『過度な要求』。『何でもかんでい AI に丸投げ』というアプローチは、往々にして失敗します。AI は本質的に『統計的な確率モデル』なので、完璧ではないんです。第 2 に『テスト不足』。AI が生成したコードは、必ず自分たちでテストすることが必須です。『AI が書いたから大丈夫』という甘えは禁物。第 3 に『環境管理の軽視』。『環境構築が簡単だから』という理由で、本番環境での考慮を後回しにすると、後で大きなトラブルになります。第 4 に『セキュリティの見落とし』。AI は一般的なパターンを生成しますが、特定のセキュリティリスクについては、人間の判断で補う必要があります。"
+    },
+    {
+      "part": "C",
+      "slide": 31,
+      "scene_id": "CS04",
+      "title": "技術進化系",
+      "speaker": "narrator",
+      "duration": 30,
+      "output_file": "Part_C/CS04_evolution.wav",
+      "text": "では、今後の技術進化を予想します。AI は引き続き進化し、より複雑なシステムの自動生成が可能になるでしょう。同時に、『人間の創意工夫』の価値が さらに高まります。なぜなら、AI が自動生成できるのは『既知のパターン』だけだからです。『新しいビジネスロジック』『新しいシステムアーキテクチャ』『新しいセキュリティ課題』…こうしたものは、結局のところ、人間の思考と判断が必要なんです。つまり、Vibe Coding で習得した『AI と人間の協働パラダイム』は、今後ますます重要になるでしょう。"
+    },
+    {
+      "part": "C",
+      "slide": 32,
+      "scene_id": "CS05",
+      "title": "次のステップ",
+      "speaker": "narrator",
+      "duration": 40,
+      "output_file": "Part_C/CS05_next_steps.wav",
+      "text": "では、次のステップを提案します。第 1 に『Deep Dive』。6つのプロジェクトの中で、特に興味のあるものを選び、さらに深掘りすること。例えば『マイクロサービス』なら、Kubernetes の学習へ進むもよし。『スマートコントラクト』なら、複雑な DeFi プロトコルの実装へ進むもよし。第 2 に『実務プロジェクト』。学習で得たスキルを、実際のビジネスプロジェクトに応用すること。ここで、理想と現実のギャップを埋めることができます。第 3 に『コミュニティへの貢献』。学習成果を『ブログ』『ナレッジシェア』『オープンソース貢献』として公開すること。これにより、ネットワークが広がり、さらなる学習機会が生まれます。"
+    },
+    {
+      "part": "C",
+      "slide": 33,
+      "scene_id": "CS06",
+      "title": "まとめ & Q&A",
+      "speaker": "narrator",
+      "duration": 35,
+      "output_file": "Part_C/CS06_conclusion.wav",
+      "text": "では、まとめです。今日は『Vibe Coding』という、AI 駆動開発のパラダイムを、6つの実践的なプロジェクトを通じて紹介しました。API 統合から始まり、Web アプリケーション、IoT、そしてブロックチェーン…という段階的な技術進化を体験しました。最も重要なのは『マインドセット』です。『AI に何ができるのか』『AI の限界は何か』『AI と人間をどう協働させるのか』…こうしたことが理解できるようになったと思います。これからのエンジニアは、単に『技術を知っている』だけでなく、『技術と人間の関係性を理解している』ことが重要になります。本ナレッジシェアが、そのきっかけになれば幸いです。それでは、質問・コメントをお待ちしています。ありがとうございました！"
+    }
+  ]
+}
