@@ -58,8 +58,9 @@ PR タイトル:
 | 024 | フェーズ 5.3 / トランジション効果最適化（dissolve、slide等） | ✅完了 | PR #36 (af02257) | S24 | effect_config.json (+131行, 5効果定義), generate_video_layout_dynamics.ps1拡張 (+190, -21行, Phase 5.3統合, 品質プロファイル, エフェクト選択ロジック) |
 | 025 | フェーズ 5.4 / トランジション効果 Exo 統合（effect_config × selected_effect） | ✅完了 | PR #38 (c472fc1) | S25 | generate_exo.ps1 Phase 5.4拡張 (+238, -7行, Step 2.8エフェクト読込, トランジション変換関数), run_all.ps1拡張 (+31行, Phase 2.7統合チェック), SETUP_GUIDE.md (+270行, Step 9完全ガイド) |
 | 027 | フェーズ 5.1 / ドキュメント整理・SKILL体系確立 | ✅完了 | PR #41 (6b153b7) | S27 | .instructions.md (77行, Git規約SKILL), .instructions-doc.md (187行, ドキュメント管理SKILL), APP_CANDIDATES.md 703→172行 (66%削減), 新規9ファイル (743行), AGENTS_SIMPLIFIED.md, SESSION_PROGRESS_EXTENDED.md, GIT_COMMIT_CONVENTION.md, PULL_REQUEST_GUIDELINES.md, DOCUMENTATION_CREATION_CHECKLIST.md, APP_CANDIDATES_ADVANCED/OVERVIEW/SPECIAL/TEMPLATE.md, Tier体系確立 |
+| 029 | フェーズ 5.1 / VOICEVOX 音声生成・ナレッジシェア資料完成 | ✅完了 | PR #44 (97edccd + 5ae17ab) | S22 | 45個音声ファイル自動生成 (Part A/B1/B2/C), VOICEVOX_GENERATION_GUIDE.md (7000+ 行), voicevox_batch_generator.py自動化, KNOWLEDGE_SHARE_SLIDES.md (1127行, 33枚 Marp プレゼンテーション), 日本語ナレーション・対話形式 |
 
-**次に発行するID**: 028
+**次に発行するID**: 030
 
 ---
 
@@ -294,9 +295,18 @@ f1d13d0 feat(Phase 4 Prep): Add speaker and PSD environment variables for 2-spea
   * DOCUMENTATION_STRATEGY.md Tier体系確立 (1-7 層)
   * PR #41 マージ完了
 
-**フェーズ 5 統計（Session 27 時点）**:
-- 完了ID: 12個 (016-027)
-- 総コミット: 20+
+- **ID 029**: VOICEVOX 音声生成・ナレッジシェア資料完成（Session 22） ✅ **完全完了**
+  * VOICEVOX_GENERATION_GUIDE.md (7,000+ 行ガイド)
+  * VOICEVOX_RUN_INSTRUCTION.md (300+ 行手順書)
+  * voicevox_batch_generator.py (API 自動化, 400+ 行)
+  * speech_data.json (45シーン完全セリフ, 600+ 行)
+  * KNOWLEDGE_SHARE_SLIDES.md (Marp プレゼンテーション, 33枚, 1,127 行)
+  * 音声ファイル (45個 WAV, 888秒超, Part A/B1/B2/C)
+  * PR #44 マージ完了
+
+**フェーズ 5 統計（Session 22 完了時点）**:
+- 完了ID: 13個 (016-027, 029)
+- 総コミット: 22+
 - 総行数追加: 5,850+ 行 (実装 + ドキュメント)
 - PR: 7個 (全マージ完了 #21-22, #29-32, #34, #36, #38, #41)
 - パイプライン: PowerShell 統一フロー、自動化スクリプト完成
