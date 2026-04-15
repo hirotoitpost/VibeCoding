@@ -13,7 +13,7 @@ import re
 import shutil
 from pathlib import Path
 from typing import Dict, List, Any
-from jinja2 import Environment, FileSystemLoader, Template
+from jinja2 import Environment
 
 class HTMLPresentationGenerator:
     """reveal.js プレゼンテーション自動生成クラス"""
@@ -58,7 +58,8 @@ class HTMLPresentationGenerator:
                 content = content[frontmatter_end + 4:].lstrip('\n')
         
         # --- で個別スライドに分割
-        slide_blocks = content.split('\n---\n')[1:]  # 最初の空要素スキップ
+        # 先頭スライドを落とさないように空要素のみ除外
+        slide_blocks = [b for b in content.split('\n---\n') if b.strip()]
         print(f"   [DEBUG] Total slide blocks split: {len(slide_blocks)}")
         
         # パート別スライド集約
@@ -71,6 +72,7 @@ class HTMLPresentationGenerator:
         
         current_part = 'A'  # デフォルト: Part A
         
+        global_slide_no = 1
         for block_idx, block in enumerate(slide_blocks):
             block = block.strip()
             if not block:
@@ -90,12 +92,71 @@ class HTMLPresentationGenerator:
             # スライドコンテンツをパース
             slide = self._parse_slide_content(block, current_part, block_idx)
             if slide:
-                parts[current_part]['slides'].append(slide)
-                print(f"   [DEBUG] Block {block_idx}: ✅ Added to Part {current_part} - Title: {slide['title'][:50]}...")
+                slide['global_slide_no'] = global_slide_no
+                split_slides = self._split_slide_for_viewport(slide)
+                parts[current_part]['slides'].extend(split_slides)
+                split_info = f" (+{len(split_slides)-1} split)" if len(split_slides) > 1 else ""
+                print(
+                    f"   [DEBUG] Block {block_idx}: ✅ Added to Part {current_part} "
+                    f"- Slide#{global_slide_no} - Title: {slide['title'][:50]}...{split_info}"
+                )
+                global_slide_no += 1
             else:
                 print(f"   [DEBUG] Block {block_idx}: ❌ Rejected (no title extracted)")
         
         return parts
+
+    def _split_slide_for_viewport(self, slide: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """16:9表示で見切れにくくするため、長いスライドを分割する。"""
+        lines = [line for line in slide['content'].split('\n') if line.strip()]
+        max_lines = 14
+        max_chars = 900
+
+        if len(lines) <= max_lines and len(slide['content']) <= max_chars:
+            slide['is_continuation'] = False
+            slide['split_index'] = 1
+            slide['split_total'] = 1
+            return [slide]
+
+        chunks: List[List[str]] = []
+        current_chunk: List[str] = []
+        current_chars = 0
+
+        for line in lines:
+            line_len = len(line)
+            need_new_chunk = (
+                len(current_chunk) >= max_lines
+                or (current_chars + line_len) > max_chars
+            )
+            if need_new_chunk and current_chunk:
+                chunks.append(current_chunk)
+                current_chunk = []
+                current_chars = 0
+
+            current_chunk.append(line)
+            current_chars += line_len
+
+        if current_chunk:
+            chunks.append(current_chunk)
+
+        result: List[Dict[str, Any]] = []
+        total_chunks = len(chunks)
+        for i, chunk_lines in enumerate(chunks, start=1):
+            suffix = "" if i == 1 else f" (続き {i-1})"
+            chunk_md = "\n".join(chunk_lines)
+            result.append({
+                'part': slide['part'],
+                'index': slide['index'],
+                'title': f"{slide['title']}{suffix}",
+                'content': chunk_md,
+                'html_content': self._markdown_to_html(chunk_md),
+                'global_slide_no': slide['global_slide_no'],
+                'is_continuation': i > 1,
+                'split_index': i,
+                'split_total': total_chunks,
+            })
+
+        return result
     
     def _parse_slide_content(self, content: str, part: str, slide_idx: int = 0) -> Dict[str, Any]:
         """個別スライドコンテンツをパース"""
@@ -167,6 +228,13 @@ class HTMLPresentationGenerator:
         """
         config = {}
         slide_counter = 1
+
+        # 手動確認しやすいように scene を global slide 番号でまとめる
+        scenes_by_global_slide: Dict[int, List[Dict[str, Any]]] = {}
+        for scene in speech_data:
+            slide_no = scene.get('slide')
+            if isinstance(slide_no, int):
+                scenes_by_global_slide.setdefault(slide_no, []).append(scene)
         
         for part_key in ['A', 'B1', 'B2', 'C']:
             part_data = slides[part_key]
@@ -175,32 +243,39 @@ class HTMLPresentationGenerator:
                 'slides': []
             }
             
-            # 各パートのスライド（スライド番号でマッピング）
+            # 各パートのスライド（global_slide_no でマッピング）
             for slide_idx, slide in enumerate(part_data['slides']):
-                # 対応する音声ファイル取得：part と slide 番号で検索
                 audio_files = []
+                audio_tracks = []
                 total_duration = 0
-                slide_number = slide_idx + 1  # スライド番号（1始まり）
-                
-                for scene in speech_data:
-                    # part と slide 番号の両方でマッチング
-                    if scene.get('part') == part_key and scene.get('slide') == slide_number:
-                        if 'output_file' in scene:
-                            # ファイルパスから Part_X/ を除去（ファイル名のみを保持）
-                            output_file = scene['output_file']
-                            # "Part_A/S01_intro_title.wav" → "S01_intro_title.wav"
-                            filename = Path(output_file).name
-                            audio_files.append(filename)
-                            print(f"   [AUDIO] Part {part_key}, Slide {slide_number}: {filename}")
-                        if 'duration' in scene:
-                            total_duration += scene['duration']
+                source_slide_no = slide['global_slide_no']
+                matched_scenes = scenes_by_global_slide.get(source_slide_no, [])
+
+                # 分割スライドは先頭だけ音声を持たせる
+                if slide.get('is_continuation'):
+                    matched_scenes = []
+
+                for scene in matched_scenes:
+                    if 'output_file' in scene:
+                        filename = Path(scene['output_file']).name
+                        audio_files.append(filename)
+                    audio_part = scene.get('part', part_key)
+                    audio_tracks.append({'part': audio_part, 'file': filename})
+                    print(f"   [AUDIO] Slide {source_slide_no}: {audio_part}/{filename}")
+                    if 'duration' in scene:
+                        total_duration += scene['duration']
                 
                 config[part_key]['slides'].append({
                     'slide_num': slide_counter,
+                    'source_slide_num': source_slide_no,
                     'title': slide['title'],
                     'content': slide['html_content'],
                     'audio_files': audio_files,
+                    'audio_tracks': audio_tracks,
                     'total_duration': total_duration,
+                    'is_continuation': slide.get('is_continuation', False),
+                    'split_index': slide.get('split_index', 1),
+                    'split_total': slide.get('split_total', 1),
                 })
                 
                 slide_counter += 1
@@ -236,7 +311,18 @@ class HTMLPresentationGenerator:
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
+        padding-top: 4vh;
+      }
+
+      .slide-content {
+        text-align: left;
+        max-width: 90%;
+        width: 90%;
+        margin: 1.2rem auto;
+        max-height: 62vh;
+        overflow-y: auto;
+        padding-right: 8px;
       }
       
       .audio-control {
@@ -300,13 +386,12 @@ class HTMLPresentationGenerator:
           </div>
           
           <!-- 音声埋め込み -->
-          {% if slide.audio_files %}
-          <audio id="audio-{{ part_key }}-{{ loop.index }}" style="margin-top: 30px; width: 80%;">
-            {% for audio_file in slide.audio_files %}
-            <source src="audio/{{ part_key }}/{{ audio_file }}" type="audio/wav">
+          {% if slide.audio_tracks %}
+          <div class="slide-audio" data-part="{{ part_key }}" data-source-slide="{{ slide.source_slide_num }}" style="display: none;">
+            {% for track in slide.audio_tracks %}
+            <audio class="slide-audio-item" preload="metadata" data-file="{{ track.file }}" src="audio/{{ track.part }}/{{ track.file }}"></audio>
             {% endfor %}
-            Your browser does not support the audio element.
-          </audio>
+          </div>
           {% endif %}
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
@@ -349,10 +434,10 @@ class HTMLPresentationGenerator:
     <script>
       Reveal.initialize({
         hash: true,
-        width: 960,
-        height: 700,
-        margin: 0.1,
-        minScale: 0.2,
+        width: 1600,
+        height: 900,
+        margin: 0.04,
+        minScale: 0.4,
         maxScale: 2.0,
         transition: 'slide',
         backgroundTransition: 'fade',
@@ -405,8 +490,14 @@ class HTMLPresentationGenerator:
 }
 
 .reveal p {
-  font-size: 24px;
-  line-height: 1.8;
+  font-size: 28px;
+  line-height: 1.45;
+}
+
+.reveal li {
+  font-size: 0.95em;
+  line-height: 1.35;
+  margin: 0.2em 0;
 }
 
 .reveal code {
@@ -428,8 +519,11 @@ class HTMLPresentationGenerator:
 
 .slide-content {
   text-align: left;
-  margin: 20px auto;
+  margin: 12px auto;
   max-width: 90%;
+  max-height: 62vh;
+  overflow-y: auto;
+  padding-right: 8px;
 }
 
 .slide-content br {
@@ -439,7 +533,7 @@ class HTMLPresentationGenerator:
 /* モバイル対応 */
 @media (max-width: 768px) {
   .reveal {
-    font-size: 24px;
+    font-size: 20px;
   }
   
   .reveal h1 {
@@ -447,7 +541,7 @@ class HTMLPresentationGenerator:
   }
   
   .reveal h2 {
-    font-size: 36px;
+    font-size: 34px;
   }
 }
 '''
@@ -461,83 +555,128 @@ class HTMLPresentationGenerator:
 class AudioSyncController {
   constructor() {
     this.currentAudio = null;
+    this.currentToken = 0;
     this.isAutoPlayEnabled = true;
     this.setupEventListeners();
   }
-  
+
   setupEventListeners() {
-    // スライド変更時のイベント
     Reveal.on('slidechanged', (event) => {
       this.onSlideChange(event);
     });
-    
-    // キーボードショートカット
+
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'p') this.toggleAudioPanel();
-      if (e.key === 'a') this.toggleAutoPlay();
+      if (e.key.toLowerCase() === 'p') this.toggleAudioPanel();
+      if (e.key.toLowerCase() === 'a') this.toggleAutoPlay();
     });
   }
-  
-  onSlideChange(event) {
-    // 前の音声を停止
+
+  stopCurrentAudio() {
     if (this.currentAudio) {
+      this.currentAudio.onended = null;
       this.currentAudio.pause();
       this.currentAudio.currentTime = 0;
+      this.currentAudio = null;
     }
-    
-    // 新しいスライドの音声を取得
-    const audioElement = event.currentSlide.querySelector('audio');
-    if (audioElement && this.isAutoPlayEnabled) {
-      this.currentAudio = audioElement;
-      
-      // 音声終了時に次スライドへ
-      audioElement.onended = () => {
-        setTimeout(() => Reveal.next(), 500);
+  }
+
+  async onSlideChange(event) {
+    this.currentToken += 1;
+    const token = this.currentToken;
+
+    this.stopCurrentAudio();
+    if (!this.isAutoPlayEnabled) return;
+
+    const audioNodes = Array.from(event.currentSlide.querySelectorAll('.slide-audio-item'));
+    if (audioNodes.length === 0) {
+      this.updateAudioPanel(null, 0, 0);
+      return;
+    }
+
+    for (let i = 0; i < audioNodes.length; i += 1) {
+      if (token !== this.currentToken) return;
+
+      const audio = audioNodes[i];
+      this.currentAudio = audio;
+      this.updateAudioPanel(audio, i + 1, audioNodes.length);
+
+      const completed = await this.playSingleAudio(audio, token);
+      if (!completed) return;
+    }
+
+    if (token === this.currentToken) {
+      setTimeout(() => {
+        if (token === this.currentToken) Reveal.next();
+      }, 250);
+    }
+  }
+
+  playSingleAudio(audio, token) {
+    return new Promise((resolve) => {
+      const cleanup = () => {
+        audio.onended = null;
+        audio.onerror = null;
       };
-      
-      // 再生開始
-      audioElement.play().catch(err => {
-        console.warn('Audio playback failed:', err);
-      });
-      
-      this.updateAudioPanel(audioElement);
-    }
-  }
-  
-  updateAudioPanel(audioElement) {
-    const panel = document.getElementById('audio-panel');
-    if (panel) {
-      panel.style.display = 'block';
-      const currentDiv = document.getElementById('current-audio');
-      if (currentDiv) {
-        const src = audioElement.querySelector('source')?.src || 'Unknown';
-        const duration = audioElement.duration.toFixed(1);
-        currentDiv.innerHTML = `
-          <p style="position: relative; margin: 0;">
-            <strong>${src.split('/').pop()}</strong><br/>
-            <audio controls style="width: 100%; margin-top: 8px;">
-              ${audioElement.innerHTML}
-            </audio>
-          </p>
-        `;
+
+      audio.onended = () => {
+        cleanup();
+        resolve(token === this.currentToken);
+      };
+
+      audio.onerror = () => {
+        cleanup();
+        console.warn('Audio load/play error:', audio.currentSrc || audio.src);
+        resolve(token === this.currentToken);
+      };
+
+      audio.currentTime = 0;
+      const playPromise = audio.play();
+      if (playPromise && typeof playPromise.then === 'function') {
+        playPromise.catch((err) => {
+          cleanup();
+          if (err && err.name !== 'AbortError') {
+            console.warn('Audio playback failed:', err);
+          }
+          resolve(false);
+        });
       }
-    }
+    });
   }
-  
+
+  updateAudioPanel(audio, sequence, total) {
+    const panel = document.getElementById('audio-panel');
+    const currentDiv = document.getElementById('current-audio');
+    if (!panel || !currentDiv) return;
+
+    panel.style.display = 'block';
+    if (!audio) {
+      currentDiv.innerHTML = '<p style="margin:0;">このスライドに音声はありません</p>';
+      return;
+    }
+
+    const fileName = (audio.dataset.file || audio.currentSrc || '').split('/').pop();
+    currentDiv.innerHTML = `
+      <p style="margin:0; line-height:1.5;">
+        <strong>${fileName}</strong><br/>
+        <span>${sequence}/${total} トラック</span>
+      </p>
+    `;
+  }
+
   toggleAudioPanel() {
     const panel = document.getElementById('audio-panel');
     if (panel) {
       panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
     }
   }
-  
+
   toggleAutoPlay() {
     this.isAutoPlayEnabled = !this.isAutoPlayEnabled;
+    if (!this.isAutoPlayEnabled) this.stopCurrentAudio();
     console.log(`Auto-play ${this.isAutoPlayEnabled ? 'enabled' : 'disabled'}`);
   }
 }
 
-// 初期化
 window.addEventListener('DOMContentLoaded', () => {
   new AudioSyncController();
   console.log('✅ AudioSyncController initialized');
@@ -546,6 +685,56 @@ window.addEventListener('DOMContentLoaded', () => {
 '''
         (self.output_dir / "audio_sync.js").write_text(audio_sync_js, encoding='utf-8')
         print("✅ Created audio_sync.js")
+
+    def save_mapping_report(self, config: Dict[str, Any], speech_data: List[Dict[str, Any]]):
+        """スライド↔音声マッピングの検証レポートを保存（手動確認用）。"""
+        used_audio = set()
+        mapped_rows = []
+
+        for part_key in ['A', 'B1', 'B2', 'C']:
+            for slide in config.get(part_key, {}).get('slides', []):
+                for track in slide.get('audio_tracks', []):
+                    used_audio.add((track.get('part'), track.get('file')))
+                mapped_rows.append({
+                    'part': part_key,
+                    'slide_num': slide.get('slide_num'),
+                    'source_slide_num': slide.get('source_slide_num'),
+                    'title': slide.get('title'),
+                    'audio_files': slide.get('audio_files', []),
+                    'audio_tracks': slide.get('audio_tracks', []),
+                    'is_continuation': slide.get('is_continuation', False),
+                })
+
+        all_audio = []
+        for scene in speech_data:
+            part = scene.get('part')
+            if part in ['A', 'B1', 'B2', 'C'] and scene.get('output_file'):
+                all_audio.append((part, Path(scene['output_file']).name, scene.get('slide'), scene.get('scene_id')))
+
+        unmapped_audio = [
+            {
+                'part': p,
+                'file': f,
+                'source_slide_num': s,
+                'scene_id': sid,
+            }
+            for (p, f, s, sid) in all_audio
+            if (p, f) not in used_audio
+        ]
+
+        report = {
+            'summary': {
+                'mapped_slide_count': len(mapped_rows),
+                'total_audio_scene_count': len(all_audio),
+                'unmapped_audio_count': len(unmapped_audio),
+            },
+            'slides': mapped_rows,
+            'unmapped_audio': unmapped_audio,
+        }
+
+        report_path = self.output_dir / "audio_slide_mapping_report.json"
+        report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
+        print(f"✅ Saved {report_path}")
     
     def save_config_json(self, config: Dict[str, Any]):
         """設定 JSON を保存"""
@@ -579,6 +768,7 @@ window.addEventListener('DOMContentLoaded', () => {
         print("⚙️  Generating configuration...")
         config = self.generate_presentation_config(speech_data, slides)
         self.save_config_json(config)
+        self.save_mapping_report(config, speech_data)
         print("   ✅ Config generated\n")
         
         # 4. HTML 生成

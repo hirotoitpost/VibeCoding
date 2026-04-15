@@ -1,0 +1,742 @@
+{
+  "summary": {
+    "mapped_slide_count": 49,
+    "total_audio_scene_count": 45,
+    "unmapped_audio_count": 0
+  },
+  "slides": [
+    {
+      "part": "A",
+      "slide_num": 1,
+      "source_slide_num": 1,
+      "title": "VibeCoding",
+      "audio_files": [
+        "S01_intro_title.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "A",
+          "file": "S01_intro_title.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "A",
+      "slide_num": 2,
+      "source_slide_num": 2,
+      "title": "今日のゴール",
+      "audio_files": [
+        "S02_goals.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "A",
+          "file": "S02_goals.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "A",
+      "slide_num": 3,
+      "source_slide_num": 3,
+      "title": "開発フロー比較",
+      "audio_files": [
+        "S03_comparison_narr1.wav",
+        "S03_comparison_asst.wav",
+        "S03_comparison_narr2.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "A",
+          "file": "S03_comparison_narr1.wav"
+        },
+        {
+          "part": "A",
+          "file": "S03_comparison_asst.wav"
+        },
+        {
+          "part": "A",
+          "file": "S03_comparison_narr2.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "A",
+      "slide_num": 4,
+      "source_slide_num": 4,
+      "title": "プロジェクトの進化系",
+      "audio_files": [
+        "S04_projects.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "A",
+          "file": "S04_projects.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "A",
+      "slide_num": 5,
+      "source_slide_num": 5,
+      "title": "技術スタック進化",
+      "audio_files": [
+        "S05_evolution.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "A",
+          "file": "S05_evolution.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 6,
+      "source_slide_num": 6,
+      "title": "Part A で習ったこと",
+      "audio_files": [
+        "S06_summary.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "A",
+          "file": "S06_summary.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 7,
+      "source_slide_num": 7,
+      "title": "Preview: Part B-1",
+      "audio_files": [
+        "S07_preview.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "A",
+          "file": "S07_preview.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 8,
+      "source_slide_num": 8,
+      "title": "Example 01: 天気情報ツール",
+      "audio_files": [
+        "B1S01_example01_overview.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B1",
+          "file": "B1S01_example01_overview.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 9,
+      "source_slide_num": 9,
+      "title": "Example 01: アーキテクチャ",
+      "audio_files": [
+        "B1S02_arch_narr1.wav",
+        "B1S02_arch_asst.wav",
+        "B1S02_arch_narr2.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B1",
+          "file": "B1S02_arch_narr1.wav"
+        },
+        {
+          "part": "B1",
+          "file": "B1S02_arch_asst.wav"
+        },
+        {
+          "part": "B1",
+          "file": "B1S02_arch_narr2.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 10,
+      "source_slide_num": 9,
+      "title": "Example 01: アーキテクチャ (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "B1",
+      "slide_num": 11,
+      "source_slide_num": 10,
+      "title": "Example 01: コードハイライト",
+      "audio_files": [
+        "B1S03_code_highlight.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B1",
+          "file": "B1S03_code_highlight.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 12,
+      "source_slide_num": 10,
+      "title": "Example 01: コードハイライト (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "B1",
+      "slide_num": 13,
+      "source_slide_num": 11,
+      "title": "Example 02: Web家計簿",
+      "audio_files": [
+        "B1S04_example02_overview.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B1",
+          "file": "B1S04_example02_overview.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 14,
+      "source_slide_num": 12,
+      "title": "Example 02: 3層アーキテクチャ",
+      "audio_files": [
+        "B1S05_3layer_narr1.wav",
+        "B1S05_3layer_asst.wav",
+        "B1S05_3layer_narr2.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B1",
+          "file": "B1S05_3layer_narr1.wav"
+        },
+        {
+          "part": "B1",
+          "file": "B1S05_3layer_asst.wav"
+        },
+        {
+          "part": "B1",
+          "file": "B1S05_3layer_narr2.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 15,
+      "source_slide_num": 12,
+      "title": "Example 02: 3層アーキテクチャ (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "B1",
+      "slide_num": 16,
+      "source_slide_num": 13,
+      "title": "Example 02: テスト戦略",
+      "audio_files": [
+        "B1S06_test_strategy.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B1",
+          "file": "B1S06_test_strategy.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 17,
+      "source_slide_num": 13,
+      "title": "Example 02: テスト戦略 (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "B1",
+      "slide_num": 18,
+      "source_slide_num": 14,
+      "title": "Example 03: IoTセンサーシミュレーター",
+      "audio_files": [
+        "B1S07_example03_overview.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B1",
+          "file": "B1S07_example03_overview.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 19,
+      "source_slide_num": 15,
+      "title": "Example 03: MQTT & Pub/Sub",
+      "audio_files": [
+        "B1S08_mqtt_narr1.wav",
+        "B1S08_mqtt_asst.wav",
+        "B1S08_mqtt_narr2.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B1",
+          "file": "B1S08_mqtt_narr1.wav"
+        },
+        {
+          "part": "B1",
+          "file": "B1S08_mqtt_asst.wav"
+        },
+        {
+          "part": "B1",
+          "file": "B1S08_mqtt_narr2.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 20,
+      "source_slide_num": 15,
+      "title": "Example 03: MQTT & Pub/Sub (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "B1",
+      "slide_num": 21,
+      "source_slide_num": 16,
+      "title": "Example 04: チャットボット Web App",
+      "audio_files": [
+        "B1S09_example04_overview.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B1",
+          "file": "B1S09_example04_overview.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 22,
+      "source_slide_num": 17,
+      "title": "Part B-1 まとめ",
+      "audio_files": [
+        "B1S10_summary.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B1",
+          "file": "B1S10_summary.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 23,
+      "source_slide_num": 17,
+      "title": "Part B-1 まとめ (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "B1",
+      "slide_num": 24,
+      "source_slide_num": 32,
+      "title": "まとめ & 質問受付",
+      "audio_files": [
+        "CS05_next_steps.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "C",
+          "file": "CS05_next_steps.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B1",
+      "slide_num": 25,
+      "source_slide_num": 32,
+      "title": "まとめ & 質問受付 (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "B1",
+      "slide_num": 26,
+      "source_slide_num": 33,
+      "title": "資料ダウンロード & フィードバック",
+      "audio_files": [
+        "CS06_conclusion.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "C",
+          "file": "CS06_conclusion.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B2",
+      "slide_num": 27,
+      "source_slide_num": 18,
+      "title": "Example 05: スマートホーム IoT ハブ",
+      "audio_files": [
+        "B2S01_example05_overview.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B2",
+          "file": "B2S01_example05_overview.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B2",
+      "slide_num": 28,
+      "source_slide_num": 19,
+      "title": "Example 05: マイクロサービスアーキテクチャ",
+      "audio_files": [
+        "B2S02_micro_narr1.wav",
+        "B2S02_micro_asst.wav",
+        "B2S02_micro_narr2.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B2",
+          "file": "B2S02_micro_narr1.wav"
+        },
+        {
+          "part": "B2",
+          "file": "B2S02_micro_asst.wav"
+        },
+        {
+          "part": "B2",
+          "file": "B2S02_micro_narr2.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B2",
+      "slide_num": 29,
+      "source_slide_num": 19,
+      "title": "Example 05: マイクロサービスアーキテクチャ (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "B2",
+      "slide_num": 30,
+      "source_slide_num": 20,
+      "title": "Example 05: ダッシュボード UI",
+      "audio_files": [
+        "B2S03_dashboard.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B2",
+          "file": "B2S03_dashboard.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B2",
+      "slide_num": 31,
+      "source_slide_num": 20,
+      "title": "Example 05: ダッシュボード UI (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "B2",
+      "slide_num": 32,
+      "source_slide_num": 21,
+      "title": "Example 05: Docker Compose 統合実行",
+      "audio_files": [
+        "B2S04_docker.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B2",
+          "file": "B2S04_docker.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B2",
+      "slide_num": 33,
+      "source_slide_num": 22,
+      "title": "Example 06: スマートコントラクト DApp",
+      "audio_files": [
+        "B2S05_example06_overview.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B2",
+          "file": "B2S05_example06_overview.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B2",
+      "slide_num": 34,
+      "source_slide_num": 23,
+      "title": "Example 06: Solidity ERC-20",
+      "audio_files": [
+        "B2S06_solidity_narr1.wav",
+        "B2S06_solidity_asst.wav",
+        "B2S06_solidity_narr2.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B2",
+          "file": "B2S06_solidity_narr1.wav"
+        },
+        {
+          "part": "B2",
+          "file": "B2S06_solidity_asst.wav"
+        },
+        {
+          "part": "B2",
+          "file": "B2S06_solidity_narr2.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B2",
+      "slide_num": 35,
+      "source_slide_num": 23,
+      "title": "Example 06: Solidity ERC-20 (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "B2",
+      "slide_num": 36,
+      "source_slide_num": 24,
+      "title": "Example 06: Hardhat 開発フロー",
+      "audio_files": [
+        "B2S07_hardhat.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B2",
+          "file": "B2S07_hardhat.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B2",
+      "slide_num": 37,
+      "source_slide_num": 24,
+      "title": "Example 06: Hardhat 開発フロー (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "B2",
+      "slide_num": 38,
+      "source_slide_num": 25,
+      "title": "Example 06 拡張: Web3 フロントエンド",
+      "audio_files": [
+        "B2S08_web3_fe.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B2",
+          "file": "B2S08_web3_fe.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B2",
+      "slide_num": 39,
+      "source_slide_num": 26,
+      "title": "Web3 フロー: MetaMask & TX",
+      "audio_files": [
+        "B2S09_metamask.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B2",
+          "file": "B2S09_metamask.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B2",
+      "slide_num": 40,
+      "source_slide_num": 26,
+      "title": "Web3 フロー: MetaMask & TX (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "B2",
+      "slide_num": 41,
+      "source_slide_num": 27,
+      "title": "Part B-2 まとめ",
+      "audio_files": [
+        "B2S10_summary.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "B2",
+          "file": "B2S10_summary.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "B2",
+      "slide_num": 42,
+      "source_slide_num": 27,
+      "title": "Part B-2 まとめ (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "C",
+      "slide_num": 43,
+      "source_slide_num": 28,
+      "title": "習得したスキル - 全体まとめ",
+      "audio_files": [
+        "CS01_skills.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "C",
+          "file": "CS01_skills.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "C",
+      "slide_num": 44,
+      "source_slide_num": 28,
+      "title": "習得したスキル - 全体まとめ (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "C",
+      "slide_num": 45,
+      "source_slide_num": 29,
+      "title": "AI指示文の書き方 - ベストプラクティス",
+      "audio_files": [
+        "CS02_best_practices.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "C",
+          "file": "CS02_best_practices.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "C",
+      "slide_num": 46,
+      "source_slide_num": 29,
+      "title": "AI指示文の書き方 - ベストプラクティス (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "C",
+      "slide_num": 47,
+      "source_slide_num": 30,
+      "title": "よくある落とし穴 & 解決方法",
+      "audio_files": [
+        "CS03_pitfalls.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "C",
+          "file": "CS03_pitfalls.wav"
+        }
+      ],
+      "is_continuation": false
+    },
+    {
+      "part": "C",
+      "slide_num": 48,
+      "source_slide_num": 30,
+      "title": "よくある落とし穴 & 解決方法 (続き 1)",
+      "audio_files": [],
+      "audio_tracks": [],
+      "is_continuation": true
+    },
+    {
+      "part": "C",
+      "slide_num": 49,
+      "source_slide_num": 31,
+      "title": "次のステップ & 応用方向",
+      "audio_files": [
+        "CS04_evolution.wav"
+      ],
+      "audio_tracks": [
+        {
+          "part": "C",
+          "file": "CS04_evolution.wav"
+        }
+      ],
+      "is_continuation": false
+    }
+  ],
+  "unmapped_audio": []
+}
