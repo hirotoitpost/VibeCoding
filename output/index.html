@@ -24,7 +24,18 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
+        padding-top: 4vh;
+      }
+
+      .slide-content {
+        text-align: left;
+        max-width: 90%;
+        width: 90%;
+        margin: 1.2rem auto;
+        max-height: 62vh;
+        overflow-y: auto;
+        padding-right: 8px;
       }
       
       .audio-control {
@@ -75,11 +86,31 @@
         <section>
           <h2>Part A: イントロダクション</h2>
           <p style="font-size: 18px; margin-top: 30px;">
-            📊 4 スライド
+            📊 5 スライド
           </p>
         </section>
         
         <!-- 各スライド -->
+        
+        <section>
+          <h2>VibeCoding</h2>
+          <div class="slide-content">
+            ## エンジニア向け ナレッジシェア<br/>### AI駆動開発 - 基礎から中級へ
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="A" data-source-slide="1" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="S01_intro_title.wav" src="audio/A/S01_intro_title.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 18秒
+          </p>
+        </section>
         
         <section>
           <h2>今日のゴール</h2>
@@ -89,16 +120,15 @@
           
           <!-- 音声埋め込み -->
           
-          <audio id="audio-A-1" style="margin-top: 30px; width: 80%;">
+          <div class="slide-audio" data-part="A" data-source-slide="2" style="display: none;">
             
-            <source src="audio/A/S01_intro_title.wav" type="audio/wav">
+            <audio class="slide-audio-item" preload="metadata" data-file="S02_goals.wav" src="audio/A/S02_goals.wav"></audio>
             
-            Your browser does not support the audio element.
-          </audio>
+          </div>
           
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 18秒
+            ⏱️ 32秒
           </p>
         </section>
         
@@ -110,16 +140,19 @@
           
           <!-- 音声埋め込み -->
           
-          <audio id="audio-A-2" style="margin-top: 30px; width: 80%;">
+          <div class="slide-audio" data-part="A" data-source-slide="3" style="display: none;">
             
-            <source src="audio/A/S02_goals.wav" type="audio/wav">
+            <audio class="slide-audio-item" preload="metadata" data-file="S03_comparison_narr1.wav" src="audio/A/S03_comparison_narr1.wav"></audio>
             
-            Your browser does not support the audio element.
-          </audio>
+            <audio class="slide-audio-item" preload="metadata" data-file="S03_comparison_asst.wav" src="audio/A/S03_comparison_asst.wav"></audio>
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="S03_comparison_narr2.wav" src="audio/A/S03_comparison_narr2.wav"></audio>
+            
+          </div>
           
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 32秒
+            ⏱️ 30秒
           </p>
         </section>
         
@@ -131,20 +164,15 @@
           
           <!-- 音声埋め込み -->
           
-          <audio id="audio-A-3" style="margin-top: 30px; width: 80%;">
+          <div class="slide-audio" data-part="A" data-source-slide="4" style="display: none;">
             
-            <source src="audio/A/S03_comparison_narr1.wav" type="audio/wav">
+            <audio class="slide-audio-item" preload="metadata" data-file="S04_projects.wav" src="audio/A/S04_projects.wav"></audio>
             
-            <source src="audio/A/S03_comparison_asst.wav" type="audio/wav">
-            
-            <source src="audio/A/S03_comparison_narr2.wav" type="audio/wav">
-            
-            Your browser does not support the audio element.
-          </audio>
+          </div>
           
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 30秒
+            ⏱️ 28秒
           </p>
         </section>
         
@@ -156,16 +184,15 @@
           
           <!-- 音声埋め込み -->
           
-          <audio id="audio-A-4" style="margin-top: 30px; width: 80%;">
+          <div class="slide-audio" data-part="A" data-source-slide="5" style="display: none;">
             
-            <source src="audio/A/S04_projects.wav" type="audio/wav">
+            <audio class="slide-audio-item" preload="metadata" data-file="S05_evolution.wav" src="audio/A/S05_evolution.wav"></audio>
             
-            Your browser does not support the audio element.
-          </audio>
+          </div>
           
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 28秒
+            ⏱️ 25秒
           </p>
         </section>
         
@@ -176,7 +203,7 @@
         <section>
           <h2>Part B-1: 基本プロジェクト</h2>
           <p style="font-size: 18px; margin-top: 30px;">
-            📊 14 スライド
+            📊 21 スライド
           </p>
         </section>
         
@@ -190,9 +217,15 @@
           
           <!-- 音声埋め込み -->
           
+          <div class="slide-audio" data-part="B1" data-source-slide="6" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="S06_summary.wav" src="audio/A/S06_summary.wav"></audio>
+            
+          </div>
+          
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 0秒
+            ⏱️ 15秒
           </p>
         </section>
         
@@ -204,9 +237,15 @@
           
           <!-- 音声埋め込み -->
           
+          <div class="slide-audio" data-part="B1" data-source-slide="7" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="S07_preview.wav" src="audio/A/S07_preview.wav"></audio>
+            
+          </div>
+          
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 0秒
+            ⏱️ 20秒
           </p>
         </section>
         
@@ -218,16 +257,46 @@
           
           <!-- 音声埋め込み -->
           
+          <div class="slide-audio" data-part="B1" data-source-slide="8" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S01_example01_overview.wav" src="audio/B1/B1S01_example01_overview.wav"></audio>
+            
+          </div>
+          
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 0秒
+            ⏱️ 22秒
           </p>
         </section>
         
         <section>
           <h2>Example 01: アーキテクチャ</h2>
           <div class="slide-content">
-            <code>`</code><br/>ユーザー入力（都市名）<br/>    ↓<br/>キャッシング層（5分間保持）<br/>    ↓<br/>API リクエスト → OpenWeatherMap<br/>    ↓<br/>JSON パース＆エラーハンドリング<br/>    ↓<br/>日本語で結果表示<br/><code>`</code><br/><br/>## ✨ 学習ポイント<br/>✅ 外部API統合の基本フロー<br/>✅ エラーハンドリング戦略<br/>✅ 環境変数による設定管理<br/>✅ キャッシング実装
+            <code>`</code><br/>ユーザー入力（都市名）<br/>    ↓<br/>キャッシング層（5分間保持）<br/>    ↓<br/>API リクエスト → OpenWeatherMap<br/>    ↓<br/>JSON パース＆エラーハンドリング<br/>    ↓<br/>日本語で結果表示<br/><code>`</code><br/>## ✨ 学習ポイント<br/>✅ 外部API統合の基本フロー<br/>✅ エラーハンドリング戦略
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="B1" data-source-slide="9" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S02_arch_narr1.wav" src="audio/B1/B1S02_arch_narr1.wav"></audio>
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S02_arch_asst.wav" src="audio/B1/B1S02_arch_asst.wav"></audio>
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S02_arch_narr2.wav" src="audio/B1/B1S02_arch_narr2.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 35秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>Example 01: アーキテクチャ (続き 1)</h2>
+          <div class="slide-content">
+            ✅ 環境変数による設定管理<br/>✅ キャッシング実装
           </div>
           
           <!-- 音声埋め込み -->
@@ -241,7 +310,27 @@
         <section>
           <h2>Example 01: コードハイライト</h2>
           <div class="slide-content">
-            ## キャッシング実装<br/><code>`</code>python<br/>cache = {}<br/>CACHE_TTL = 300  # 5分<br/><br/>def get_weather(city):<br/>  if cache_valid(city):<br/>    return cache[city]<br/>  data = api_call(city)<br/>  cache[city] = data<br/>  return data<br/><code>`</code><br/><br/>## エラーハンドリング<br/><code>`</code>python<br/>try:<br/>  response = requests.get(...)<br/>except requests.ConnectionError:<br/>  print("ネットワークエラー")<br/>except KeyError:<br/>  print("都市が見つかりません")<br/><code>`</code>
+            ## キャッシング実装<br/><code>`</code>python<br/>cache = {}<br/>CACHE_TTL = 300  # 5分<br/>def get_weather(city):<br/>  if cache_valid(city):<br/>    return cache[city]<br/>  data = api_call(city)<br/>  cache[city] = data<br/>  return data<br/><code>`</code><br/>## エラーハンドリング<br/><code>`</code>python<br/>try:
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="B1" data-source-slide="10" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S03_code_highlight.wav" src="audio/B1/B1S03_code_highlight.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 25秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>Example 01: コードハイライト (続き 1)</h2>
+          <div class="slide-content">
+              response = requests.get(...)<br/>except requests.ConnectionError:<br/>  print("ネットワークエラー")<br/>except KeyError:<br/>  print("都市が見つかりません")<br/><code>`</code>
           </div>
           
           <!-- 音声埋め込み -->
@@ -260,16 +349,46 @@
           
           <!-- 音声埋め込み -->
           
+          <div class="slide-audio" data-part="B1" data-source-slide="11" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S04_example02_overview.wav" src="audio/B1/B1S04_example02_overview.wav"></audio>
+            
+          </div>
+          
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 0秒
+            ⏱️ 25秒
           </p>
         </section>
         
         <section>
           <h2>Example 02: 3層アーキテクチャ</h2>
           <div class="slide-content">
-            <code>`</code><br/>┌─────────────────────────┐<br/>│  フロントエンド (React) │<br/>│  - 入力フォーム          │<br/>│  - 一覧表示              │<br/>│  - グラフ表示            │<br/>└─────────────┬───────────┘<br/>      HTTP(JSON)<br/>┌─────────────↓───────────┐<br/>│ バックエンド (Express)  │<br/>│  - POST /api/items      │<br/>│  - GET /api/items       │<br/>│  - PUT /api/items/:id   │<br/>│  - DELETE /api/items/:id│<br/>└─────────────┬───────────┘<br/>        SQL<br/>┌─────────────↓───────────┐<br/>│DB (SQLite/PostgreSQL)   │<br/>│  - items テーブル        │<br/>└─────────────────────────┘<br/><code>`</code>
+            <code>`</code><br/>┌─────────────────────────┐<br/>│  フロントエンド (React) │<br/>│  - 入力フォーム          │<br/>│  - 一覧表示              │<br/>│  - グラフ表示            │<br/>└─────────────┬───────────┘<br/>      HTTP(JSON)<br/>┌─────────────↓───────────┐<br/>│ バックエンド (Express)  │<br/>│  - POST /api/items      │<br/>│  - GET /api/items       │<br/>│  - PUT /api/items/:id   │<br/>│  - DELETE /api/items/:id│
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="B1" data-source-slide="12" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S05_3layer_narr1.wav" src="audio/B1/B1S05_3layer_narr1.wav"></audio>
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S05_3layer_asst.wav" src="audio/B1/B1S05_3layer_asst.wav"></audio>
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S05_3layer_narr2.wav" src="audio/B1/B1S05_3layer_narr2.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 35秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>Example 02: 3層アーキテクチャ (続き 1)</h2>
+          <div class="slide-content">
+            └─────────────┬───────────┘<br/>        SQL<br/>┌─────────────↓───────────┐<br/>│DB (SQLite/PostgreSQL)   │<br/>│  - items テーブル        │<br/>└─────────────────────────┘<br/><code>`</code>
           </div>
           
           <!-- 音声埋め込み -->
@@ -283,21 +402,34 @@
         <section>
           <h2>Example 02: テスト戦略</h2>
           <div class="slide-content">
-            ## 🧪 3層テスト<br/><code>`</code><br/>Unit テスト (関数)<br/>  ├─ バリデーション<br/>  └─ 計算ロジック<br/>       ↓<br/>統合テスト (API)<br/>  ├─ エンドポイント検証<br/>  └─ ステータスコード確認<br/>       ↓<br/>E2E テスト (Cypress)<br/>  ├─ UI 操作シミュレーション<br/>  └─ 20+ テストケース<br/><code>`</code><br/><br/>## 📦 Docker Compose 統合<br/>- フロント、バック、DB をコンテナで一括起動・検証
+            ## 🧪 3層テスト<br/><code>`</code><br/>Unit テスト (関数)<br/>  ├─ バリデーション<br/>  └─ 計算ロジック<br/>       ↓<br/>統合テスト (API)<br/>  ├─ エンドポイント検証<br/>  └─ ステータスコード確認<br/>       ↓<br/>E2E テスト (Cypress)<br/>  ├─ UI 操作シミュレーション<br/>  └─ 20+ テストケース<br/><code>`</code>
           </div>
           
           <!-- 音声埋め込み -->
           
-          <audio id="audio-B1-8" style="margin-top: 30px; width: 80%;">
+          <div class="slide-audio" data-part="B1" data-source-slide="13" style="display: none;">
             
-            <source src="audio/B1/B1S01_example01_overview.wav" type="audio/wav">
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S06_test_strategy.wav" src="audio/B1/B1S06_test_strategy.wav"></audio>
             
-            Your browser does not support the audio element.
-          </audio>
+          </div>
           
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 22秒
+            ⏱️ 30秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>Example 02: テスト戦略 (続き 1)</h2>
+          <div class="slide-content">
+            ## 📦 Docker Compose 統合<br/>- フロント、バック、DB をコンテナで一括起動・検証
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 0秒
           </p>
         </section>
         
@@ -309,41 +441,53 @@
           
           <!-- 音声埋め込み -->
           
-          <audio id="audio-B1-9" style="margin-top: 30px; width: 80%;">
+          <div class="slide-audio" data-part="B1" data-source-slide="14" style="display: none;">
             
-            <source src="audio/B1/B1S02_arch_narr1.wav" type="audio/wav">
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S07_example03_overview.wav" src="audio/B1/B1S07_example03_overview.wav"></audio>
             
-            <source src="audio/B1/B1S02_arch_asst.wav" type="audio/wav">
-            
-            <source src="audio/B1/B1S02_arch_narr2.wav" type="audio/wav">
-            
-            Your browser does not support the audio element.
-          </audio>
+          </div>
           
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 35秒
+            ⏱️ 25秒
           </p>
         </section>
         
         <section>
           <h2>Example 03: MQTT &amp; Pub/Sub</h2>
           <div class="slide-content">
-            <code>`</code><br/>センサー① (温度)    センサー② (湿度)<br/>     ↓                    ↓<br/>┌──────────────────────────┐<br/>│   MQTT ブローカー         │<br/>│   (Mosquitto)            │<br/>│   topics:                │<br/>│   ├─ /sensors/temp       │<br/>│   ├─ /sensors/humidity   │<br/>│   └─ /sensors/pressure   │<br/>└──────────────────────────┘<br/>            ↑↓<br/>  Web ダッシュボード<br/>  (Node.js + WebSocket)<br/>  リアルタイム更新<br/><code>`</code><br/><br/>## 💡 メリット<br/>✅ スケーラブル＆疎結合<br/>✅ リアルタイム性能<br/>✅ センサー独立動作
+            <code>`</code><br/>センサー① (温度)    センサー② (湿度)<br/>     ↓                    ↓<br/>┌──────────────────────────┐<br/>│   MQTT ブローカー         │<br/>│   (Mosquitto)            │<br/>│   topics:                │<br/>│   ├─ /sensors/temp       │<br/>│   ├─ /sensors/humidity   │<br/>│   └─ /sensors/pressure   │<br/>└──────────────────────────┘<br/>            ↑↓<br/>  Web ダッシュボード<br/>  (Node.js + WebSocket)
           </div>
           
           <!-- 音声埋め込み -->
           
-          <audio id="audio-B1-10" style="margin-top: 30px; width: 80%;">
+          <div class="slide-audio" data-part="B1" data-source-slide="15" style="display: none;">
             
-            <source src="audio/B1/B1S03_code_highlight.wav" type="audio/wav">
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S08_mqtt_narr1.wav" src="audio/B1/B1S08_mqtt_narr1.wav"></audio>
             
-            Your browser does not support the audio element.
-          </audio>
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S08_mqtt_asst.wav" src="audio/B1/B1S08_mqtt_asst.wav"></audio>
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S08_mqtt_narr2.wav" src="audio/B1/B1S08_mqtt_narr2.wav"></audio>
+            
+          </div>
           
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 25秒
+            ⏱️ 34秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>Example 03: MQTT &amp; Pub/Sub (続き 1)</h2>
+          <div class="slide-content">
+              リアルタイム更新<br/><code>`</code><br/>## 💡 メリット<br/>✅ スケーラブル＆疎結合<br/>✅ リアルタイム性能<br/>✅ センサー独立動作
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 0秒
           </p>
         </section>
         
@@ -355,62 +499,83 @@
           
           <!-- 音声埋め込み -->
           
-          <audio id="audio-B1-11" style="margin-top: 30px; width: 80%;">
+          <div class="slide-audio" data-part="B1" data-source-slide="16" style="display: none;">
             
-            <source src="audio/B1/B1S04_example02_overview.wav" type="audio/wav">
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S09_example04_overview.wav" src="audio/B1/B1S09_example04_overview.wav"></audio>
             
-            Your browser does not support the audio element.
-          </audio>
+          </div>
           
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 25秒
+            ⏱️ 22秒
           </p>
         </section>
         
         <section>
           <h2>Part B-1 まとめ</h2>
           <div class="slide-content">
-            ## 4つのプロジェクトから学んだこと<br/><br/>### 1️⃣ 天気情報ツール<br/>API 統合, キャッシング<br/><br/>### 2️⃣ Web家計簿<br/>3層アーキテクチャ, テスト<br/><br/>### 3️⃣ IoTセンサー<br/>Pub/Sub, マイクロサービス思考<br/><br/>### 4️⃣ チャットボット<br/>Mock/Stub, アダプター<br/><br/>## 🎯 共通スキル習得<br/>- AI 指示文の書き方<br/>- テスト駆動設計<br/>- エラーハンドリング<br/>- 環境管理（Docker等）<br/>- Version Control (Git)
+            ## 4つのプロジェクトから学んだこと<br/>### 1️⃣ 天気情報ツール<br/>API 統合, キャッシング<br/>### 2️⃣ Web家計簿<br/>3層アーキテクチャ, テスト<br/>### 3️⃣ IoTセンサー<br/>Pub/Sub, マイクロサービス思考<br/>### 4️⃣ チャットボット<br/>Mock/Stub, アダプター<br/>## 🎯 共通スキル習得<br/>- AI 指示文の書き方<br/>- テスト駆動設計<br/>- エラーハンドリング<br/>- 環境管理（Docker等）
           </div>
           
           <!-- 音声埋め込み -->
           
-          <audio id="audio-B1-12" style="margin-top: 30px; width: 80%;">
+          <div class="slide-audio" data-part="B1" data-source-slide="17" style="display: none;">
             
-            <source src="audio/B1/B1S05_3layer_narr1.wav" type="audio/wav">
+            <audio class="slide-audio-item" preload="metadata" data-file="B1S10_summary.wav" src="audio/B1/B1S10_summary.wav"></audio>
             
-            <source src="audio/B1/B1S05_3layer_asst.wav" type="audio/wav">
-            
-            <source src="audio/B1/B1S05_3layer_narr2.wav" type="audio/wav">
-            
-            Your browser does not support the audio element.
-          </audio>
+          </div>
           
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 35秒
+            ⏱️ 28秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>Part B-1 まとめ (続き 1)</h2>
+          <div class="slide-content">
+            - Version Control (Git)
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 0秒
           </p>
         </section>
         
         <section>
           <h2>まとめ &amp; 質問受付</h2>
           <div class="slide-content">
-            ## ✅ 本日のセッションで習ったこと<br/><br/>📍 <strong>Part A</strong>: Vibe Coding 基礎<br/>- AI駆動開発のパラダイム<br/><br/>📍 <strong>Part B-1</strong>: 基礎から初級へ<br/>- 4つのプロジェクトパターン<br/><br/>📍 <strong>Part B-2</strong>: 初級から中級へ<br/>- マイクロサービス / ブロックチェーン<br/><br/>📍 <strong>Part C</strong>: 学習成果<br/>- 共通スキル習得 / ベストプラクティス<br/><br/>## 💡 キーメッセージ<br/><br/>> <strong>「Vibe Coding とは、AI に明確に指示することで実装を高速化するパラダイムです。その本質は『AI に何ができるか』を見極めることにあります。」</strong><br/><br/>## 🎯 次回以降<br/>- 質問受付開始<br/>- デモ・ハンズオン可能<br/>- グループ実装始動<br/><br/><strong>ご視聴ありがとうございました！</strong>
+            ## ✅ 本日のセッションで習ったこと<br/>📍 <strong>Part A</strong>: Vibe Coding 基礎<br/>- AI駆動開発のパラダイム<br/>📍 <strong>Part B-1</strong>: 基礎から初級へ<br/>- 4つのプロジェクトパターン<br/>📍 <strong>Part B-2</strong>: 初級から中級へ<br/>- マイクロサービス / ブロックチェーン<br/>📍 <strong>Part C</strong>: 学習成果<br/>- 共通スキル習得 / ベストプラクティス<br/>## 💡 キーメッセージ<br/>> <strong>「Vibe Coding とは、AI に明確に指示することで実装を高速化するパラダイムです。その本質は『AI に何ができるか』を見極めることにあります。」</strong><br/>## 🎯 次回以降<br/>- 質問受付開始<br/>- デモ・ハンズオン可能
           </div>
           
           <!-- 音声埋め込み -->
           
-          <audio id="audio-B1-13" style="margin-top: 30px; width: 80%;">
+          <div class="slide-audio" data-part="B1" data-source-slide="32" style="display: none;">
             
-            <source src="audio/B1/B1S06_test_strategy.wav" type="audio/wav">
+            <audio class="slide-audio-item" preload="metadata" data-file="CS05_next_steps.wav" src="audio/C/CS05_next_steps.wav"></audio>
             
-            Your browser does not support the audio element.
-          </audio>
+          </div>
           
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 30秒
+            ⏱️ 40秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>まとめ &amp; 質問受付 (続き 1)</h2>
+          <div class="slide-content">
+            - グループ実装始動<br/><strong>ご視聴ありがとうございました！</strong>
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 0秒
           </p>
         </section>
         
@@ -422,16 +587,15 @@
           
           <!-- 音声埋め込み -->
           
-          <audio id="audio-B1-14" style="margin-top: 30px; width: 80%;">
+          <div class="slide-audio" data-part="B1" data-source-slide="33" style="display: none;">
             
-            <source src="audio/B1/B1S07_example03_overview.wav" type="audio/wav">
+            <audio class="slide-audio-item" preload="metadata" data-file="CS06_conclusion.wav" src="audio/C/CS06_conclusion.wav"></audio>
             
-            Your browser does not support the audio element.
-          </audio>
+          </div>
           
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 25秒
+            ⏱️ 35秒
           </p>
         </section>
         
@@ -442,7 +606,7 @@
         <section>
           <h2>Part B-2: 発展プロジェクト</h2>
           <p style="font-size: 18px; margin-top: 30px;">
-            📊 10 スライド
+            📊 16 スライド
           </p>
         </section>
         
@@ -456,16 +620,46 @@
           
           <!-- 音声埋め込み -->
           
+          <div class="slide-audio" data-part="B2" data-source-slide="18" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S01_example05_overview.wav" src="audio/B2/B2S01_example05_overview.wav"></audio>
+            
+          </div>
+          
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 0秒
+            ⏱️ 28秒
           </p>
         </section>
         
         <section>
           <h2>Example 05: マイクロサービスアーキテクチャ</h2>
           <div class="slide-content">
-            <code>`</code><br/>┌────────────────────────┐<br/>│   React Dashboard      │<br/>│  (UI / デバイス制御)   │<br/>└────────────┬───────────┘<br/>       HTTP REST<br/>┌────────────↓───────────┐<br/>│  Express API Server    │<br/>│  (/devices, /sensors)  │<br/>└────────────┬───────────┘<br/>      MQTT Pub/Sub<br/>┌────────────↓───────────┐<br/>│  MQTT Broker           │<br/>│  (Mosquitto)           │<br/>└────────────┬───────────┘<br/>      │<br/>      ├─ 温度センサー<br/>      ├─ 湿度センサー<br/>      ├─ ライト<br/>      └─ エアコン<br/><br/>🐳 Docker Compose で<br/>   4つのコンテナを一括管理<br/><code>`</code>
+            <code>`</code><br/>┌────────────────────────┐<br/>│   React Dashboard      │<br/>│  (UI / デバイス制御)   │<br/>└────────────┬───────────┘<br/>       HTTP REST<br/>┌────────────↓───────────┐<br/>│  Express API Server    │<br/>│  (/devices, /sensors)  │<br/>└────────────┬───────────┘<br/>      MQTT Pub/Sub<br/>┌────────────↓───────────┐<br/>│  MQTT Broker           │<br/>│  (Mosquitto)           │
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="B2" data-source-slide="19" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S02_micro_narr1.wav" src="audio/B2/B2S02_micro_narr1.wav"></audio>
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S02_micro_asst.wav" src="audio/B2/B2S02_micro_asst.wav"></audio>
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S02_micro_narr2.wav" src="audio/B2/B2S02_micro_narr2.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 44秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>Example 05: マイクロサービスアーキテクチャ (続き 1)</h2>
+          <div class="slide-content">
+            └────────────┬───────────┘<br/>      │<br/>      ├─ 温度センサー<br/>      ├─ 湿度センサー<br/>      ├─ ライト<br/>      └─ エアコン<br/>🐳 Docker Compose で<br/>   4つのコンテナを一括管理<br/><code>`</code>
           </div>
           
           <!-- 音声埋め込み -->
@@ -479,7 +673,27 @@
         <section>
           <h2>Example 05: ダッシュボード UI</h2>
           <div class="slide-content">
-            <code>`</code><br/>┌──────────────────────────┐<br/>│ 🏠 スマートホーム        │<br/>├──────────────────────────┤<br/>│ 📊 リアルタイムセンサー  │<br/>│                          │<br/>│ 🌡️  温度: 22.5°C      │<br/>│ 💧 湿度: 65%            │<br/>│ 🌊 気圧: 1013hPa       │<br/>├──────────────────────────┤<br/>│ 🎛️  デバイスコントロール│<br/>│                          │<br/>│ 💡 リビングライト [ON/OFF]<br/>│ 🌡️  エアコン: 22℃ [↑/↓]<br/>│ 🪟 カーテン [開く/閉じる]<br/>├──────────────────────────┤<br/>│ 📈 グラフ (24時間)        │<br/>│ [温度・湿度の推移チャート]<br/>└──────────────────────────┘<br/><br/>WebSocket でリアルタイム更新<br/>API レスポンス < 100ms<br/><code>`</code>
+            <code>`</code><br/>┌──────────────────────────┐<br/>│ 🏠 スマートホーム        │<br/>├──────────────────────────┤<br/>│ 📊 リアルタイムセンサー  │<br/>│                          │<br/>│ 🌡️  温度: 22.5°C      │<br/>│ 💧 湿度: 65%            │<br/>│ 🌊 気圧: 1013hPa       │<br/>├──────────────────────────┤<br/>│ 🎛️  デバイスコントロール│<br/>│                          │<br/>│ 💡 リビングライト [ON/OFF]<br/>│ 🌡️  エアコン: 22℃ [↑/↓]
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="B2" data-source-slide="20" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S03_dashboard.wav" src="audio/B2/B2S03_dashboard.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 20秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>Example 05: ダッシュボード UI (続き 1)</h2>
+          <div class="slide-content">
+            │ 🪟 カーテン [開く/閉じる]<br/>├──────────────────────────┤<br/>│ 📈 グラフ (24時間)        │<br/>│ [温度・湿度の推移チャート]<br/>└──────────────────────────┘<br/>WebSocket でリアルタイム更新<br/>API レスポンス < 100ms<br/><code>`</code>
           </div>
           
           <!-- 音声埋め込み -->
@@ -498,9 +712,15 @@
           
           <!-- 音声埋め込み -->
           
+          <div class="slide-audio" data-part="B2" data-source-slide="21" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S04_docker.wav" src="audio/B2/B2S04_docker.wav"></audio>
+            
+          </div>
+          
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 0秒
+            ⏱️ 25秒
           </p>
         </section>
         
@@ -512,16 +732,46 @@
           
           <!-- 音声埋め込み -->
           
+          <div class="slide-audio" data-part="B2" data-source-slide="22" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S05_example06_overview.wav" src="audio/B2/B2S05_example06_overview.wav"></audio>
+            
+          </div>
+          
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 0秒
+            ⏱️ 28秒
           </p>
         </section>
         
         <section>
           <h2>Example 06: Solidity ERC-20</h2>
           <div class="slide-content">
-            <code>`</code>solidity<br/>pragma solidity ^0.8.20;<br/><br/>contract VibeCodingToken is<br/>    ERC20("VibeCoding", "VBC")<br/>{<br/>  // Mint: 新規トークン発行<br/>  function mint(uint256 amount)<br/>    public { ... }<br/>  <br/>  // Transfer: 送信<br/>  function transfer(addr, amt)<br/>    public { ... }<br/>  <br/>  // Approve: 自動脱出許可<br/>  function approve(addr, amt)<br/>    public { ... }<br/>}<br/><code>`</code><br/><br/>## ✨ ERC-20 標準仕様<br/>- トークン名・シンボル管理<br/>- 残高管理<br/>- 送受信（transfer）<br/>- 承認・委任（approve）<br/>- イベント emit
+            <code>`</code>solidity<br/>pragma solidity ^0.8.20;<br/>contract VibeCodingToken is<br/>    ERC20("VibeCoding", "VBC")<br/>{<br/>  // Mint: 新規トークン発行<br/>  function mint(uint256 amount)<br/>    public { ... }<br/>  // Transfer: 送信<br/>  function transfer(addr, amt)<br/>    public { ... }<br/>  // Approve: 自動脱出許可<br/>  function approve(addr, amt)<br/>    public { ... }
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="B2" data-source-slide="23" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S06_solidity_narr1.wav" src="audio/B2/B2S06_solidity_narr1.wav"></audio>
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S06_solidity_asst.wav" src="audio/B2/B2S06_solidity_asst.wav"></audio>
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S06_solidity_narr2.wav" src="audio/B2/B2S06_solidity_narr2.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 38秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>Example 06: Solidity ERC-20 (続き 1)</h2>
+          <div class="slide-content">
+            }<br/><code>`</code><br/>## ✨ ERC-20 標準仕様<br/>- トークン名・シンボル管理<br/>- 残高管理<br/>- 送受信（transfer）<br/>- 承認・委任（approve）<br/>- イベント emit
           </div>
           
           <!-- 音声埋め込み -->
@@ -535,7 +785,27 @@
         <section>
           <h2>Example 06: Hardhat 開発フロー</h2>
           <div class="slide-content">
-            <code>`</code><br/>1️⃣ コード実装 (Solidity)<br/>      ↓<br/>2️⃣ コンパイル ($ hardhat compile)<br/>   ✅ Bytecode 生成<br/>   ✅ ABI 生成<br/>      ↓<br/>3️⃣ テスト ($ hardhat test)<br/>   ✅ 14/14 テスト PASS<br/>   ✅ ガス推定<br/>      ↓<br/>4️⃣ Testnet デプロイ (Sepolia)<br/>   ($ hardhat run scripts/deploy.ts)<br/>   ✅ Contract アドレス取得<br/>      ↓<br/>5️⃣ Testnet で動作確認<br/>   (Etherscan で TX確認)<br/>   ✅ TX ハッシュ確認<br/>   ✅ ブロック確認<br/><code>`</code>
+            <code>`</code><br/>1️⃣ コード実装 (Solidity)<br/>      ↓<br/>2️⃣ コンパイル ($ hardhat compile)<br/>   ✅ Bytecode 生成<br/>   ✅ ABI 生成<br/>      ↓<br/>3️⃣ テスト ($ hardhat test)<br/>   ✅ 14/14 テスト PASS<br/>   ✅ ガス推定<br/>      ↓<br/>4️⃣ Testnet デプロイ (Sepolia)<br/>   ($ hardhat run scripts/deploy.ts)<br/>   ✅ Contract アドレス取得
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="B2" data-source-slide="24" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S07_hardhat.wav" src="audio/B2/B2S07_hardhat.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 35秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>Example 06: Hardhat 開発フロー (続き 1)</h2>
+          <div class="slide-content">
+                  ↓<br/>5️⃣ Testnet で動作確認<br/>   (Etherscan で TX確認)<br/>   ✅ TX ハッシュ確認<br/>   ✅ ブロック確認<br/><code>`</code>
           </div>
           
           <!-- 音声埋め込み -->
@@ -554,16 +824,42 @@
           
           <!-- 音声埋め込み -->
           
+          <div class="slide-audio" data-part="B2" data-source-slide="25" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S08_web3_fe.wav" src="audio/B2/B2S08_web3_fe.wav"></audio>
+            
+          </div>
+          
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 0秒
+            ⏱️ 28秒
           </p>
         </section>
         
         <section>
           <h2>Web3 フロー: MetaMask &amp; TX</h2>
           <div class="slide-content">
-            <code>`</code><br/>フロント (React)<br/>  ├─ 「送信」ボタンクリック<br/>  └─ ethers.js.contract.transfer()<br/>       ↓<br/>MetaMask ウォレット<br/>  ├─ 「トランザクションを確認」<br/>  ├─ TX内容表示：<br/>  │  ├─ 送信先アドレス<br/>  │  ├─ 金額<br/>  │  └─ ガス代（手数料）<br/>  └─ ユーザーが『OK』or『キャンセル』<br/>       ↓<br/>スマートコントラクト<br/>  ├─ Transfer ロジック実行<br/>  └─ イベント emit (Transfer)<br/>       ↓<br/>ブロックチェーン<br/>  ├─ TX ハッシュ生成<br/>  ├─ ブロック確認<br/>  └─ 永続記録<br/><code>`</code><br/><br/>⏱️ 処理時間: 5～15秒 | 💰 ガス代: テストトークン
+            <code>`</code><br/>フロント (React)<br/>  ├─ 「送信」ボタンクリック<br/>  └─ ethers.js.contract.transfer()<br/>       ↓<br/>MetaMask ウォレット<br/>  ├─ 「トランザクションを確認」<br/>  ├─ TX内容表示：<br/>  │  ├─ 送信先アドレス<br/>  │  ├─ 金額<br/>  │  └─ ガス代（手数料）<br/>  └─ ユーザーが『OK』or『キャンセル』<br/>       ↓<br/>スマートコントラクト
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="B2" data-source-slide="26" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S09_metamask.wav" src="audio/B2/B2S09_metamask.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 30秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>Web3 フロー: MetaMask &amp; TX (続き 1)</h2>
+          <div class="slide-content">
+              ├─ Transfer ロジック実行<br/>  └─ イベント emit (Transfer)<br/>       ↓<br/>ブロックチェーン<br/>  ├─ TX ハッシュ生成<br/>  ├─ ブロック確認<br/>  └─ 永続記録<br/><code>`</code><br/>⏱️ 処理時間: 5～15秒 | 💰 ガス代: テストトークン
           </div>
           
           <!-- 音声埋め込み -->
@@ -577,7 +873,27 @@
         <section>
           <h2>Part B-2 まとめ</h2>
           <div class="slide-content">
-            ## 2つの大型プロジェクト<br/><br/>### 1️⃣ スマートホーム IoT ハブ<br/>マイクロサービス + Docker Compose + リアルタイム通信<br/><br/>### 2️⃣ スマートコントラクト<br/>Blockchain 基礎 + ブロックチェーン概念 + Web3 フロントエンド<br/><br/>## ✨ 習得するアーキテクチャパターン<br/>- マイクロサービス<br/>- 分散システム<br/>- ブロックチェーン<br/>- Web3 スタック<br/><br/>## 🎓 エンジニアとしてステップアップ<br/>- 複雑なシステム設計<br/>- 複数技術スタック統合<br/>- 本番環境での検証<br/>- 新しいパラダイム（Blockchain）
+            ## 2つの大型プロジェクト<br/>### 1️⃣ スマートホーム IoT ハブ<br/>マイクロサービス + Docker Compose + リアルタイム通信<br/>### 2️⃣ スマートコントラクト<br/>Blockchain 基礎 + ブロックチェーン概念 + Web3 フロントエンド<br/>## ✨ 習得するアーキテクチャパターン<br/>- マイクロサービス<br/>- 分散システム<br/>- ブロックチェーン<br/>- Web3 スタック<br/>## 🎓 エンジニアとしてステップアップ<br/>- 複雑なシステム設計<br/>- 複数技術スタック統合<br/>- 本番環境での検証
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="B2" data-source-slide="27" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="B2S10_summary.wav" src="audio/B2/B2S10_summary.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 25秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>Part B-2 まとめ (続き 1)</h2>
+          <div class="slide-content">
+            - 新しいパラダイム（Blockchain）
           </div>
           
           <!-- 音声埋め込み -->
@@ -595,7 +911,7 @@
         <section>
           <h2>Part C: 学習成果</h2>
           <p style="font-size: 18px; margin-top: 30px;">
-            📊 4 スライド
+            📊 7 スライド
           </p>
         </section>
         
@@ -604,7 +920,27 @@
         <section>
           <h2>習得したスキル - 全体まとめ</h2>
           <div class="slide-content">
-            ## 【技術基盤】<br/>✅ API 統合 (外部サービス)<br/>✅ Full Stack 開発（Web）<br/>✅ IoT・センサー制御<br/>✅ マイクロサービスアーキテクチャ<br/>✅ ブロックチェーン・Web3<br/>✅ コンテナ化・Docker Compose<br/><br/>## 【エンジニアリング実践】<br/>✅ テスト駆動開発 (TDD)<br/>✅ エラーハンドリング戦略<br/>✅ 環境管理・設定管理<br/>✅ ログ・デバッグ手法<br/>✅ Git / PR ワークフロー<br/>✅ ドキュメント管理<br/><br/>## 【AI活用スキル】<br/>✅ 効果的な AI 指示文の書き方<br/>✅ Vibe Coding ベストプラクティス<br/>✅ AI出力のコードレビュー手法<br/>✅ Mock/Stub による検証設計
+            ## 【技術基盤】<br/>✅ API 統合 (外部サービス)<br/>✅ Full Stack 開発（Web）<br/>✅ IoT・センサー制御<br/>✅ マイクロサービスアーキテクチャ<br/>✅ ブロックチェーン・Web3<br/>✅ コンテナ化・Docker Compose<br/>## 【エンジニアリング実践】<br/>✅ テスト駆動開発 (TDD)<br/>✅ エラーハンドリング戦略<br/>✅ 環境管理・設定管理<br/>✅ ログ・デバッグ手法<br/>✅ Git / PR ワークフロー<br/>✅ ドキュメント管理
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="C" data-source-slide="28" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="CS01_skills.wav" src="audio/C/CS01_skills.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 30秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>習得したスキル - 全体まとめ (続き 1)</h2>
+          <div class="slide-content">
+            ## 【AI活用スキル】<br/>✅ 効果的な AI 指示文の書き方<br/>✅ Vibe Coding ベストプラクティス<br/>✅ AI出力のコードレビュー手法<br/>✅ Mock/Stub による検証設計
           </div>
           
           <!-- 音声埋め込み -->
@@ -618,7 +954,27 @@
         <section>
           <h2>AI指示文の書き方 - ベストプラクティス</h2>
           <div class="slide-content">
-            ## 1️⃣ 『何を』明確に<br/>✅ 「天気情報を API から取得して日本語で表示するツール」<br/>❌ 「天気ツール作ってください」<br/><br/>## 2️⃣ 『なぜ』背景を示す<br/>✅ 「ユーザーが複数都市を一度に確認したいのでキャッシング必要」<br/>❌ 「キャッシング機能を付けてくれ」<br/><br/>## 3️⃣ 『どうやって』技術を指定<br/>✅ 「React + Express + SQLite で実装してください」<br/>❌ 「Web アプリを作ってください」<br/><br/>## 4️⃣ テスト仕様を含める<br/>✅ 「正常系・異常系の 20 個のテストケースを含めてください」<br/><br/>## 5️⃣ ドキュメント・参考例を追加<br/>✅ README, setup.md, 実行例等<br/><br/>## 6️⃣ 段階的な指示<br/>✅ Mock → 実装 → テスト → リファクタリング
+            ## 1️⃣ 『何を』明確に<br/>✅ 「天気情報を API から取得して日本語で表示するツール」<br/>❌ 「天気ツール作ってください」<br/>## 2️⃣ 『なぜ』背景を示す<br/>✅ 「ユーザーが複数都市を一度に確認したいのでキャッシング必要」<br/>❌ 「キャッシング機能を付けてくれ」<br/>## 3️⃣ 『どうやって』技術を指定<br/>✅ 「React + Express + SQLite で実装してください」<br/>❌ 「Web アプリを作ってください」<br/>## 4️⃣ テスト仕様を含める<br/>✅ 「正常系・異常系の 20 個のテストケースを含めてください」<br/>## 5️⃣ ドキュメント・参考例を追加<br/>✅ README, setup.md, 実行例等<br/>## 6️⃣ 段階的な指示
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="C" data-source-slide="29" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="CS02_best_practices.wav" src="audio/C/CS02_best_practices.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 45秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>AI指示文の書き方 - ベストプラクティス (続き 1)</h2>
+          <div class="slide-content">
+            ✅ Mock → 実装 → テスト → リファクタリング
           </div>
           
           <!-- 音声埋め込み -->
@@ -632,7 +988,27 @@
         <section>
           <h2>よくある落とし穴 &amp; 解決方法</h2>
           <div class="slide-content">
-            ## 【落とし穴 1】指示文が曖昧<br/>❌ 「Web アプリ作ってくれ」<br/>💡 具体的な仕様を例示<br/><br/>## 【落とし穴 2】エラーハンドリング忘れ<br/>❌ 『API が成功する前提』でコード生成<br/>💡 「すべての例外を handle して」と指示<br/><br/>## 【落とし穴 3】AI出力の鵜呑み<br/>❌ 『AI が書いたから正しい』と検証せず使用<br/>💡 必ず code review をする<br/><br/>## 【落とし穴 4】環境依存<br/>❌ ローカルでは動くが Prod で動かない<br/>💡 Docker 化を最初から指示<br/><br/>## 【落とし穴 5】テンプレート設定忘れ<br/>❌ 「テスト 20 個」だけ言及<br/>💡 ディレクトリ構成・ファイル名まで指定
+            ## 【落とし穴 1】指示文が曖昧<br/>❌ 「Web アプリ作ってくれ」<br/>💡 具体的な仕様を例示<br/>## 【落とし穴 2】エラーハンドリング忘れ<br/>❌ 『API が成功する前提』でコード生成<br/>💡 「すべての例外を handle して」と指示<br/>## 【落とし穴 3】AI出力の鵜呑み<br/>❌ 『AI が書いたから正しい』と検証せず使用<br/>💡 必ず code review をする<br/>## 【落とし穴 4】環境依存<br/>❌ ローカルでは動くが Prod で動かない<br/>💡 Docker 化を最初から指示<br/>## 【落とし穴 5】テンプレート設定忘れ<br/>❌ 「テスト 20 個」だけ言及
+          </div>
+          
+          <!-- 音声埋め込み -->
+          
+          <div class="slide-audio" data-part="C" data-source-slide="30" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="CS03_pitfalls.wav" src="audio/C/CS03_pitfalls.wav"></audio>
+            
+          </div>
+          
+          
+          <p style="font-size: 12px; margin-top: 20px; color: #888;">
+            ⏱️ 40秒
+          </p>
+        </section>
+        
+        <section>
+          <h2>よくある落とし穴 &amp; 解決方法 (続き 1)</h2>
+          <div class="slide-content">
+            💡 ディレクトリ構成・ファイル名まで指定
           </div>
           
           <!-- 音声埋め込み -->
@@ -651,9 +1027,15 @@
           
           <!-- 音声埋め込み -->
           
+          <div class="slide-audio" data-part="C" data-source-slide="31" style="display: none;">
+            
+            <audio class="slide-audio-item" preload="metadata" data-file="CS04_evolution.wav" src="audio/C/CS04_evolution.wav"></audio>
+            
+          </div>
+          
           
           <p style="font-size: 12px; margin-top: 20px; color: #888;">
-            ⏱️ 0秒
+            ⏱️ 30秒
           </p>
         </section>
         
@@ -692,10 +1074,10 @@
     <script>
       Reveal.initialize({
         hash: true,
-        width: 960,
-        height: 700,
-        margin: 0.1,
-        minScale: 0.2,
+        width: 1600,
+        height: 900,
+        margin: 0.04,
+        minScale: 0.4,
         maxScale: 2.0,
         transition: 'slide',
         backgroundTransition: 'fade',
