@@ -4,6 +4,30 @@
 			"path": "."
 		},
 		{
+			"path": "examples/01-basic/weather-tool",
+			"name": "[Phase 3.1] 天気情報ツール"
+		},
+		{
+			"path": "examples/02-intermediate/web-accounting-app",
+			"name": "[Phase 3.2.A] Web家計簿アプリ"
+		},
+		{
+			"path": "examples/03-intermediate/iot-sensor-simulator",
+			"name": "[Phase 3.2.B] IoTセンサーシミュレーター"
+		},
+		{
+			"path": "examples/04-intermediate/chatbot-web-app",
+			"name": "[Phase 3.2.C] チャットボットWebアプリ"
+		},
+		{
+			"path": "examples/05-advanced/smart-home-iot-hub",
+			"name": "[Phase 3.3.A] スマートホームIoTハブ"
+		},
+		{
+			"path": "examples/06-advanced/smart-contract-dapp",
+			"name": "[Phase 3.3.B] スマートコントラクトDApp"
+		},
+		{
 			"path": "C:/AviUtlExEdit2"
 		},
 		{
