@@ -1,0 +1,252 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+
+    // =========================================================
+    // [01] 天気情報ツール (Python + OpenWeatherMap)
+    // アクセス: python main.py を実行
+    // =========================================================
+    {
+      "label": "[01] 天気ツール: インストール",
+      "type": "shell",
+      "command": "pip install -r requirements.txt",
+      "options": { "cwd": "${workspaceFolder}/examples/01-basic/weather-tool" },
+      "group": "build",
+      "presentation": { "group": "weather-tool", "panel": "shared" }
+    },
+    {
+      "label": "[01] 天気ツール: 実行",
+      "type": "shell",
+      "command": "python main.py",
+      "options": { "cwd": "${workspaceFolder}/examples/01-basic/weather-tool" },
+      "presentation": { "group": "weather-tool", "panel": "shared" }
+    },
+    {
+      "label": "[01] 天気ツール: テスト",
+      "type": "shell",
+      "command": "python -m pytest test_main.py -v",
+      "options": { "cwd": "${workspaceFolder}/examples/01-basic/weather-tool" },
+      "group": "test",
+      "presentation": { "group": "weather-tool", "panel": "shared" }
+    },
+
+    // =========================================================
+    // [02] Web家計簿アプリ (React + Express + Docker)
+    // アクセス: http://localhost:8080/accounting/
+    // =========================================================
+    {
+      "label": "[02] Web家計簿: Docker ビルド",
+      "type": "shell",
+      "command": "docker-compose build",
+      "options": { "cwd": "${workspaceFolder}/examples/02-intermediate/web-accounting-app" },
+      "group": "build",
+      "presentation": { "group": "accounting", "panel": "shared" }
+    },
+    {
+      "label": "[02] Web家計簿: Docker 起動",
+      "type": "shell",
+      "command": "docker-compose up -d && echo '✅ http://localhost:8080/accounting/ で起動中'",
+      "options": { "cwd": "${workspaceFolder}/examples/02-intermediate/web-accounting-app" },
+      "presentation": { "group": "accounting", "panel": "shared" }
+    },
+    {
+      "label": "[02] Web家計簿: Docker 停止",
+      "type": "shell",
+      "command": "docker-compose down",
+      "options": { "cwd": "${workspaceFolder}/examples/02-intermediate/web-accounting-app" },
+      "presentation": { "group": "accounting", "panel": "shared" }
+    },
+    {
+      "label": "[02] Web家計簿: E2E テスト",
+      "type": "shell",
+      "command": "npx playwright test --reporter=line",
+      "options": { "cwd": "${workspaceFolder}/examples/02-intermediate/web-accounting-app" },
+      "group": "test",
+      "presentation": { "group": "accounting", "panel": "shared" }
+    },
+
+    // =========================================================
+    // [03] IoTセンサーシミュレーター (Flask + MQTT + Docker)
+    // アクセス: http://localhost:8081/iot/
+    // =========================================================
+    {
+      "label": "[03] IoT: Docker ビルド",
+      "type": "shell",
+      "command": "docker-compose build",
+      "options": { "cwd": "${workspaceFolder}/examples/03-intermediate/iot-sensor-simulator" },
+      "group": "build",
+      "presentation": { "group": "iot", "panel": "shared" }
+    },
+    {
+      "label": "[03] IoT: Docker 起動",
+      "type": "shell",
+      "command": "docker-compose up -d && echo '✅ http://localhost:8081/iot/ で起動中'",
+      "options": { "cwd": "${workspaceFolder}/examples/03-intermediate/iot-sensor-simulator" },
+      "presentation": { "group": "iot", "panel": "shared" }
+    },
+    {
+      "label": "[03] IoT: Docker 停止",
+      "type": "shell",
+      "command": "docker-compose down",
+      "options": { "cwd": "${workspaceFolder}/examples/03-intermediate/iot-sensor-simulator" },
+      "presentation": { "group": "iot", "panel": "shared" }
+    },
+    {
+      "label": "[03] IoT: E2E テスト",
+      "type": "shell",
+      "command": "npx playwright test --reporter=line",
+      "options": { "cwd": "${workspaceFolder}/examples/03-intermediate/iot-sensor-simulator" },
+      "group": "test",
+      "presentation": { "group": "iot", "panel": "shared" }
+    },
+
+    // =========================================================
+    // [04] チャットボットWebアプリ (React + Flask + Docker)
+    // アクセス: http://localhost:8082/chatbot/
+    // =========================================================
+    {
+      "label": "[04] チャットボット: Docker 起動",
+      "type": "shell",
+      "command": "docker-compose up -d && echo '✅ http://localhost:8082/chatbot/ で起動中'",
+      "options": { "cwd": "${workspaceFolder}/examples/04-intermediate/chatbot-web-app" },
+      "presentation": { "group": "chatbot", "panel": "shared" }
+    },
+    {
+      "label": "[04] チャットボット: Docker 停止",
+      "type": "shell",
+      "command": "docker-compose down",
+      "options": { "cwd": "${workspaceFolder}/examples/04-intermediate/chatbot-web-app" },
+      "presentation": { "group": "chatbot", "panel": "shared" }
+    },
+    {
+      "label": "[04] チャットボット: E2E テスト",
+      "type": "shell",
+      "command": "npx playwright test --reporter=line",
+      "options": { "cwd": "${workspaceFolder}/examples/04-intermediate/chatbot-web-app" },
+      "group": "test",
+      "presentation": { "group": "chatbot", "panel": "shared" }
+    },
+
+    // =========================================================
+    // [05] スマートホームIoTハブ (MQTT + Express + React + Docker)
+    // アクセス: http://localhost:8083/smarthome/
+    // =========================================================
+    {
+      "label": "[05] スマートホーム: Docker ビルド",
+      "type": "shell",
+      "command": "docker-compose build",
+      "options": { "cwd": "${workspaceFolder}/examples/05-advanced/smart-home-iot-hub" },
+      "group": "build",
+      "presentation": { "group": "smarthome", "panel": "shared" }
+    },
+    {
+      "label": "[05] スマートホーム: Docker 起動",
+      "type": "shell",
+      "command": "docker-compose up -d && echo '✅ http://localhost:8083/smarthome/ で起動中'",
+      "options": { "cwd": "${workspaceFolder}/examples/05-advanced/smart-home-iot-hub" },
+      "presentation": { "group": "smarthome", "panel": "shared" }
+    },
+    {
+      "label": "[05] スマートホーム: Docker 停止",
+      "type": "shell",
+      "command": "docker-compose down",
+      "options": { "cwd": "${workspaceFolder}/examples/05-advanced/smart-home-iot-hub" },
+      "presentation": { "group": "smarthome", "panel": "shared" }
+    },
+    {
+      "label": "[05] スマートホーム: E2E テスト",
+      "type": "shell",
+      "command": "npx playwright test --reporter=line",
+      "options": { "cwd": "${workspaceFolder}/examples/05-advanced/smart-home-iot-hub" },
+      "group": "test",
+      "presentation": { "group": "smarthome", "panel": "shared" }
+    },
+
+    // =========================================================
+    // [06] スマートコントラクトDApp (Solidity + Hardhat + React)
+    // アクセス: http://localhost:3000/
+    // 起動順: Hardhat ノード → デプロイ → フロントエンド
+    // =========================================================
+    {
+      "label": "[06] DApp: コンパイル",
+      "type": "shell",
+      "command": "npx hardhat compile",
+      "options": { "cwd": "${workspaceFolder}/examples/06-advanced/smart-contract-dapp" },
+      "group": "build",
+      "presentation": { "group": "dapp", "panel": "shared" }
+    },
+    {
+      "label": "[06] DApp: コントラクトテスト",
+      "type": "shell",
+      "command": "npx hardhat test",
+      "options": { "cwd": "${workspaceFolder}/examples/06-advanced/smart-contract-dapp" },
+      "group": "test",
+      "presentation": { "group": "dapp", "panel": "shared" }
+    },
+    {
+      "label": "[06] DApp: Hardhat ノード起動",
+      "type": "shell",
+      "command": "npx hardhat node",
+      "options": { "cwd": "${workspaceFolder}/examples/06-advanced/smart-contract-dapp" },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": { "regexp": "." },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Starting Hardhat Network",
+          "endsPattern": "Started HTTP and WebSocket JSON-RPC server"
+        }
+      },
+      "presentation": { "group": "dapp", "panel": "dedicated", "reveal": "always" }
+    },
+    {
+      "label": "[06] DApp: コントラクトデプロイ (localhost)",
+      "type": "shell",
+      "command": "npx hardhat run scripts/deploy.ts --network localhost",
+      "options": { "cwd": "${workspaceFolder}/examples/06-advanced/smart-contract-dapp" },
+      "presentation": { "group": "dapp", "panel": "shared" }
+    },
+    {
+      "label": "[06] DApp: フロントエンド起動",
+      "type": "shell",
+      "command": "npm run frontend:dev",
+      "options": { "cwd": "${workspaceFolder}/examples/06-advanced/smart-contract-dapp" },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": { "regexp": "." },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "VITE",
+          "endsPattern": "ready in"
+        }
+      },
+      "presentation": { "group": "dapp", "panel": "dedicated", "reveal": "always" }
+    },
+
+    // =========================================================
+    // 全Docker アプリ一括起動 / 停止
+    // =========================================================
+    {
+      "label": "🚀 全アプリ: Docker 起動",
+      "dependsOn": [
+        "[02] Web家計簿: Docker 起動",
+        "[03] IoT: Docker 起動",
+        "[04] チャットボット: Docker 起動",
+        "[05] スマートホーム: Docker 起動"
+      ],
+      "dependsOrder": "parallel",
+      "presentation": { "panel": "shared", "reveal": "always" }
+    },
+    {
+      "label": "🛑 全アプリ: Docker 停止",
+      "dependsOn": [
+        "[02] Web家計簿: Docker 停止",
+        "[03] IoT: Docker 停止",
+        "[04] チャットボット: Docker 停止",
+        "[05] スマートホーム: Docker 停止"
+      ],
+      "dependsOrder": "parallel",
+      "presentation": { "panel": "shared", "reveal": "always" }
+    }
+  ]
+}
