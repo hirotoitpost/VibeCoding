@@ -59,8 +59,9 @@ PR タイトル:
 | 025 | フェーズ 5.4 / トランジション効果 Exo 統合（effect_config × selected_effect） | ✅完了 | PR #38 (c472fc1) | S25 | generate_exo.ps1 Phase 5.4拡張 (+238, -7行, Step 2.8エフェクト読込, トランジション変換関数), run_all.ps1拡張 (+31行, Phase 2.7統合チェック), SETUP_GUIDE.md (+270行, Step 9完全ガイド) |
 | 027 | フェーズ 5.1 / ドキュメント整理・SKILL体系確立 | ✅完了 | PR #41 (6b153b7) | S27 | .instructions.md (77行, Git規約SKILL), .instructions-doc.md (187行, ドキュメント管理SKILL), APP_CANDIDATES.md 703→172行 (66%削減), 新規9ファイル (743行), AGENTS_SIMPLIFIED.md, SESSION_PROGRESS_EXTENDED.md, GIT_COMMIT_CONVENTION.md, PULL_REQUEST_GUIDELINES.md, DOCUMENTATION_CREATION_CHECKLIST.md, APP_CANDIDATES_ADVANCED/OVERVIEW/SPECIAL/TEMPLATE.md, Tier体系確立 |
 | 029 | フェーズ 5.1 / VOICEVOX 音声生成・ナレッジシェア資料完成 | ✅完了 | PR #44 (97edccd + 5ae17ab) | S22 | 45個音声ファイル自動生成 (Part A/B1/B2/C), VOICEVOX_GENERATION_GUIDE.md (7000+ 行), voicevox_batch_generator.py自動化, KNOWLEDGE_SHARE_SLIDES.md (1127行, 33枚 Marp プレゼンテーション), 日本語ナレーション・対話形式 |
+| 030 | フェーズ 3 / VS Code 開発環境整備 + nginx パスルーティング + E2E テスト | ✅完了 | PR #48 (ea9f670) | S28-29 | nginx リバースプロキシ (apps 02-05, ポート 8080-8083), Playwright E2E テスト (apps 03-05), DApp ローカルセットアップ, .vscode/tasks.json (全6プロジェクト), .vscode/launch.json (debugpy + Chrome + Compound), chatbot frontend node_modules git管理除外 |
 
-**次に発行するID**: 030
+**次に発行するID**: 031
 
 ---
 
@@ -341,5 +342,5 @@ f1d13d0 feat(Phase 4 Prep): Add speaker and PSD environment variables for 2-spea
 
 ---
 
-**最終更新**: 2026年4月14日 (Session 27 完了 - ID 027 ドキュメント整理・SKILL体系確立 + PR #41 マージ完了)  
+**最終更新**: 2026年4月18日 (Session 28-29 完了 - ID 030 VS Code 開発環境整備 + PR #48 マージ完了)  
 **管理者**: VibeCoding Learning Project AI Agent
