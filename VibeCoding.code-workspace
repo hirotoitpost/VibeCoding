@@ -160,7 +160,8 @@
 			"xargs": false,
 			"eval": false,
 			"Invoke-Expression": false,
-			"iex": false
+			"iex": false,
+			"git add": true
 		},
 		"powershell.cwd": "VibeCoding"
 	}
