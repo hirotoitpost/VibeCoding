@@ -22,6 +22,7 @@
     "start:docker": "npm run docker:down & npm run docker:build && npm run docker:up"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "concurrently": "^8.2.0"
   },
   "keywords": [

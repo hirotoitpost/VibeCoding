@@ -59,8 +59,8 @@ services:
     container_name: web-accounting-client
     working_dir: /app/client
     environment:
-      # API Gateway 経由でアクセス（ローカルDNS使用）
-      - VITE_API_URL=http://web-accounting-app.local/api
+      # API Gateway 経由でアクセス（nginx port 80 経由）
+      - VITE_API_URL=http://localhost
     volumes:
       - ./client:/app/client
       - client_node_modules:/app/client/node_modules
