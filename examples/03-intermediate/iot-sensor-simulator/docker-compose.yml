@@ -61,8 +61,6 @@ services:
       context: .
       dockerfile: Dockerfile.webapp
     container_name: iot_webapp
-    ports:
-      - "5000:5000"
     environment:
       - FLASK_ENV=development
       - FLASK_DEBUG=true
@@ -78,10 +76,33 @@ services:
     volumes:
       - .:/app
       - /app/__pycache__
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/api/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - iot-network
     restart: unless-stopped
     command: ["python", "web/app.py"]
+
+  # ============================================================
+  # API Gateway（nginx）
+  # ポート 8081: http://localhost:8081/iot/
+  # ============================================================
+  gateway:
+    image: nginx:alpine
+    container_name: iot_gateway
+    ports:
+      - "8081:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      webapp:
+        condition: service_healthy
+    networks:
+      - iot-network
+    restart: unless-stopped
 
 networks:
   iot-network:
