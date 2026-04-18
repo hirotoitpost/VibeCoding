@@ -16,6 +16,10 @@
       "Bash(cat *)",
       "Bash(pwd)",
       "Bash(echo *)",
+      "Bash(curl *)",
+      "Bash(sleep *)",
+      "Bash(mkdir *)",
+      "Bash(find *)",
       "Read",
       "Edit",
       "Write"
