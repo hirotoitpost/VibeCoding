@@ -1,0 +1,167 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+
+    // =========================================================
+    // [01] 天気情報ツール (Python)
+    // =========================================================
+    {
+      "name": "[01] 天気ツール: Python デバッグ",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/01-basic/weather-tool/main.py",
+      "cwd": "${workspaceFolder}/examples/01-basic/weather-tool",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "[01] 天気ツール: pytest デバッグ",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "args": ["test_main.py", "-v"],
+      "cwd": "${workspaceFolder}/examples/01-basic/weather-tool",
+      "console": "integratedTerminal"
+    },
+
+    // =========================================================
+    // [02] Web家計簿アプリ — Chrome デバッグ
+    // 事前に「[02] Web家計簿: Docker 起動」タスクを実行すること
+    // =========================================================
+    {
+      "name": "[02] Web家計簿: Chrome デバッグ",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8080/accounting/",
+      "webRoot": "${workspaceFolder}/examples/02-intermediate/web-accounting-app/frontend/src",
+      "sourceMapPathOverrides": {
+        "webpack:///./src/*": "${webRoot}/*"
+      }
+    },
+
+    // =========================================================
+    // [03] IoTセンサーシミュレーター (Flask + Python)
+    // Docker なしでローカル直接実行する場合に使用
+    // =========================================================
+    {
+      "name": "[03] IoT Flask: Python デバッグ",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/03-intermediate/iot-sensor-simulator/web/app.py",
+      "cwd": "${workspaceFolder}/examples/03-intermediate/iot-sensor-simulator",
+      "console": "integratedTerminal",
+      "env": {
+        "FLASK_ENV": "development",
+        "FLASK_DEBUG": "1",
+        "DATABASE_PATH": "sensor_data.db"
+      }
+    },
+    {
+      "name": "[03] IoT: Chrome デバッグ",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8081/iot/",
+      "webRoot": "${workspaceFolder}/examples/03-intermediate/iot-sensor-simulator"
+    },
+
+    // =========================================================
+    // [04] チャットボットWebアプリ (Flask バックエンド + React)
+    // Docker なしでバックエンドのみデバッグする場合に使用
+    // =========================================================
+    {
+      "name": "[04] チャットボット Flask: Python デバッグ",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/04-intermediate/chatbot-web-app/backend/server.py",
+      "cwd": "${workspaceFolder}/examples/04-intermediate/chatbot-web-app/backend",
+      "console": "integratedTerminal",
+      "env": {
+        "FLASK_ENV": "development",
+        "FLASK_DEBUG": "1"
+      },
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "[04] チャットボット: pytest デバッグ",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "args": ["tests/", "-v"],
+      "cwd": "${workspaceFolder}/examples/04-intermediate/chatbot-web-app",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "[04] チャットボット: Chrome デバッグ",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8082/chatbot/",
+      "webRoot": "${workspaceFolder}/examples/04-intermediate/chatbot-web-app/frontend/src",
+      "sourceMapPathOverrides": {
+        "/@fs/*": "${workspaceFolder}/examples/04-intermediate/chatbot-web-app/frontend/src/*"
+      }
+    },
+
+    // =========================================================
+    // [05] スマートホームIoTハブ (Python シミュレーター + React)
+    // =========================================================
+    {
+      "name": "[05] スマートホーム シミュレーター: Python デバッグ",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/examples/05-advanced/smart-home-iot-hub/simulator/main.py",
+      "cwd": "${workspaceFolder}/examples/05-advanced/smart-home-iot-hub",
+      "console": "integratedTerminal",
+      "env": {
+        "MQTT_HOST": "localhost",
+        "MQTT_PORT": "1884"
+      }
+    },
+    {
+      "name": "[05] スマートホーム: Chrome デバッグ",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8083/smarthome/",
+      "webRoot": "${workspaceFolder}/examples/05-advanced/smart-home-iot-hub/frontend/src",
+      "sourceMapPathOverrides": {
+        "/@fs/*": "${workspaceFolder}/examples/05-advanced/smart-home-iot-hub/frontend/src/*"
+      }
+    },
+
+    // =========================================================
+    // [06] スマートコントラクトDApp (Hardhat + React)
+    // 起動順: タスク「[06] DApp: Hardhat ノード起動」→「デプロイ」→ このデバッグ設定
+    // =========================================================
+    {
+      "name": "[06] DApp: Chrome デバッグ (localhost:3000)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/examples/06-advanced/smart-contract-dapp/frontend/src",
+      "sourceMapPathOverrides": {
+        "/@fs/*": "${workspaceFolder}/examples/06-advanced/smart-contract-dapp/frontend/src/*"
+      }
+    }
+  ],
+
+  // =========================================================
+  // 複合起動設定 (Compound)
+  // =========================================================
+  "compounds": [
+    {
+      "name": "[04] チャットボット: バックエンド + Chrome",
+      "configurations": [
+        "[04] チャットボット Flask: Python デバッグ",
+        "[04] チャットボット: Chrome デバッグ"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "[05] スマートホーム: シミュレーター + Chrome",
+      "configurations": [
+        "[05] スマートホーム シミュレーター: Python デバッグ",
+        "[05] スマートホーム: Chrome デバッグ"
+      ],
+      "stopAll": true
+    }
+  ]
+}

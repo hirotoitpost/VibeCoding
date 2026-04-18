@@ -20,9 +20,16 @@ const PORT = process.env.SERVER_PORT || 5000;
 // ミドルウェア設定
 // ===========================
 
-// CORS: フロントエンド（localhost:5173）からのリクエストを許可
+// CORS: フロントエンドからのリクエストを許可
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://localhost',
+    'http://localhost:80',
+    'http://localhost:8080',
+    'http://web-accounting-app.local',
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type']

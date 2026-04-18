@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(gh *)",
+      "Bash(python *)",
+      "Bash(python3 *)",
+      "Bash(node *)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(docker-compose *)",
+      "Bash(docker *)",
+      "Bash(pip *)",
+      "Bash(pip3 *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(pwd)",
+      "Bash(echo *)",
+      "Bash(curl *)",
+      "Bash(sleep *)",
+      "Bash(mkdir *)",
+      "Bash(find *)",
+      "Read",
+      "Edit",
+      "Write"
+    ]
+  },
+  "language": "japanese",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import json; lines1=open('SESSION_PROGRESS.md',encoding='utf-8').readlines(); lines2=open('WORK_ID_REGISTRY.md',encoding='utf-8').readlines(); ctx='# VibeCoding Auto-Context\\n\\n## SESSION_PROGRESS.md\\n'+''.join(lines1[-60:])+'## WORK_ID_REGISTRY.md\\n'+''.join(lines2[-40:]); print(json.dumps({'hookSpecificOutput':{'hookEventName':'SessionStart','additionalContext':ctx}}))\"",
+            "statusMessage": "セッション進捗を読み込み中..."
+          }
+        ]
+      }
+    ]
+  }
+}
