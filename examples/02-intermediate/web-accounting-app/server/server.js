@@ -27,6 +27,7 @@ app.use(cors({
     'http://localhost:3000',
     'http://localhost',
     'http://localhost:80',
+    'http://localhost:8080',
     'http://web-accounting-app.local',
   ],
   credentials: true,

@@ -21,7 +21,7 @@ services:
     image: nginx:alpine
     container_name: web-accounting-gateway
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
@@ -59,8 +59,8 @@ services:
     container_name: web-accounting-client
     working_dir: /app/client
     environment:
-      # API Gateway 経由でアクセス（nginx port 80 経由）
-      - VITE_API_URL=http://localhost
+      # API Gateway 経由でアクセス（nginx port 8080 / /accounting パス経由）
+      - VITE_API_URL=http://localhost:8080/accounting
     volumes:
       - ./client:/app/client
       - client_node_modules:/app/client/node_modules
